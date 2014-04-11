@@ -9,5 +9,7 @@ No copyright can be found so I am making an assumption that there is NO copyrigh
 This is a work in progress, and is in no way intended to be distributed or used.  Doing so may cause crashes, explosions, viruses(Natural and/or computer based), loss of some form of life somewhere.....  etc.   I am not responsible for any actions beyond my own, the ball is in your court if you continue on.
 
 Current Working version: Unknown.
+
 Current Broken version avaliable for your use: See http://propertymanagement-software.org/.
+
 Current in development version: 0.00.01
