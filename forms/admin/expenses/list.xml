@@ -1,0 +1,54 @@
+<form>
+	
+	<subtitle>Property Expenses</subtitle>
+	<width>580</width>	
+	<fields>
+		<_count suffix="." header="No" width="30" align="center" />
+		<expense_name header="Name" align="left" />
+		<expense_date header="Date" type="date" width="100" params="m.d.Y" align="center" />
+		<expense_cost header="Cost" type="price" width="100" preffix="$" align="right" />
+	</fields>
+
+	<header>
+		<titles>true</titles>
+		<buttons>
+			<delete onclick="" button="addnew" >
+				<location>index.php?sub=expenses&action=add&expense_prop={PROP_ID}</location>
+			</delete>
+		</buttons>
+	</header>
+
+	<buttons>
+
+		<delete onclick="" button="delete" >
+			<location>javascript:if(confirm('Are you sure you want to delete this record ?')) window.location='index.php?sub=expenses&action=delete&expense_id={EXPENSE_ID}&returnURL={CURRENT_PAGE}'</location>
+		</delete>
+
+		<details onclick="" button="details" >
+			<location>index.php?sub=expenses&action=det&expense_id={EXPENSE_ID}&prop_id={EXPENSE_PROP}</location>
+		</details>
+
+	</buttons>
+
+	<SQL>
+		<vars>
+			<sql_page type="page"/>
+			<sql_items type="form" var="items" />
+			<sql_pro import="$_GET[prop_id]" type="eval" />
+			<sql_table import="$this->tables['expenses']" type="eval"/>
+			<sql_year import="$_GET[date_year]" type="eval"/>
+			<year import="($_GET[date_year] ? 'AND expense_date_year ={SQL_YEAR}' : '') "  type="eval" />
+			<sql_month import="$_GET[date_month]" type="eval"/>
+			<month import="($_GET[date_month] ? 'AND expense_date_month ={SQL_MONTH}' : '') "  type="eval" />
+			
+			<sql_condition import="WHERE expense_prop ='{SQL_PRO}' {YEAR} {MONTH}" type="var"/>
+	
+		</vars>
+		<query>SELECT * FROM `{SQL_TABLE}` {SQL_CONDITION} order by expense_date desc LIMIT {SQL_PAGE},{SQL_ITEMS} </query>
+		<count table="{SQL_TABLE}" condition="{SQL_CONDITION}" />
+	</SQL>
+
+
+	<items>20</items>
+
+</form>

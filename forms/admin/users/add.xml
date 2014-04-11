@@ -1,0 +1,59 @@
+<form>
+	<title>{ACTION_TITLE} Administrators</title>
+	<action>index.php?sub=users&action=store&type=add</action>
+	<name>edit</name>
+	<width>540</width>
+
+	<formtag>true</formtag>
+	<border>true</border>
+	
+	<buttons>		
+		<set>
+			<footer>true</footer>
+			<header>true</header>
+		</set>
+
+		<return onclick="" button="return" >
+			<location>index.php?sub=users{RETURNURL}</location>
+		</return>
+
+		<save onclick="" button="saveall">
+			<location>javascript:document.forms[0].submit();</location>
+		</save>
+
+	</buttons>
+
+	<redirect>index.php?sub=users</redirect>
+
+	<vars>	
+		<user import="$_GET[user_id] ? $_GET[user_id] : $_POST[user_id]" type="eval" />
+		<returnurl import="($_GET[user_id] || $_POST[user_id] )? '&action=details&user_id={USER}' : ''" type="eval" />
+		<action_title import="($_GET[user_id] || $_POST[user_id] )? 'Edit' : 'Add'" type="eval" />
+	</vars>
+
+	<fields>
+
+
+		<user_id type="hidden" hidden="true"/>
+
+		<user_name type="textbox" size="35" required="true" validate="A:2:200">			
+			<title>Administrator Name</title>			
+		</user_name>
+
+		<user_login type="textbox" size="20" unique="true" required="true" validate="A:2:200">			
+			<title>Login</title>			
+			<description>Enter the login name this administrator will use to login in the admin panel</description>
+		</user_login>
+
+		<user_password type="textbox" size="20" required="true" validate="A:2:200">			
+			<title>Password</title>			
+		</user_password>
+
+
+		<user_email type="textbox" size="15">			
+			<title>Email</title>			
+			<description>Enter the users email address.</description>
+		</user_number>
+
+	</fields>
+</form>

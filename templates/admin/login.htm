@@ -1,0 +1,61 @@
+
+<!--S:Login-->
+			<!-- BOX -->
+<script> draw_box("540",1,"Login");</script>
+			<form method=post action="index.php" onsubmit="" name=login>
+			<br><br>
+						<!-- LOGIN FORM -->
+						<table height="150" cellpadding=7 cellspacing=0 align=center>
+							<tr>
+								<td class="box_title">Login</td>
+							</tr>
+							<tr>
+								<td class="box_content" style="padding-left:20px;">									
+									Enter the username and password for site administrator.
+								</td>
+							</tr>
+							<tr>
+								<td align=center>
+									<table>
+										<tr>
+											<td class="box_content">USERNAME:</td>
+											<td class="box_content"><input class="login_input" name="user"></td>
+											<td><img width=20 height=1 src="images/dot.gif"></td>
+											<td class="box_content">
+												<script> draw_button("login","javascript:document.forms[0].submit();","");</script>
+											</td>											
+										</tr>
+										<tr>
+											<td class="box_content">PASSWORD:</td>
+											<td class="box_content"><input class="login_input" type="password" name="pass"></td>
+											<td><img width=20 height=1 src="images/dot.gif"></td>
+											<td class="box_content">
+												<script> draw_button("cancel","javascript:document.forms[0].reset()","");</script>
+											</td>											
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</table>
+						<!-- LOGIN FORM -->
+
+			</form>
+
+<script> draw_box("540",2,"Students Classes");</script>
+<!--E:Login-->
+
+<!--S:MenuAdmin-->
+								<table border="0" cellspacing="2">
+									<tr>
+										<td><img src="images/layout_link.gif"></td>
+										<td><a class="link_menu" href="index.php?sub=properties">Properties</a></td>
+									</tr>
+								</table>
+								<table border="0" cellspacing="2">
+									<tr>
+										<td><img src="images/layout_link.gif"></td>
+										<td><a class="link_menu" href="index.php?sub=users">Users Management</a></td>
+									</tr>
+								</table>
+
+<!--E:MenuAdmin-->

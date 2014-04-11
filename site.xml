@@ -1,0 +1,34 @@
+<config upload="./upload/" path="../" url="../">
+	
+	<formspath>./forms/</formspath>
+	<default_location>index.php</default_location>
+
+	<forms>
+		<adminpath>./forms/admin/</adminpath>
+		<userpath>./forms/user/</userpath>
+		<admintemplate>./templates/form.htm</admintemplate>
+		<sitepath>./forms/</sitepath>
+		<sitetemplate>./admin/templates/form.htm</sitetemplate>
+	</forms>
+
+	<database type="mysql">
+		<server>localhost</server>
+		<login>root</login>
+		<password>cats</password>
+		<default>property</default>
+	</database>
+
+	<tables>
+		<table name="properties">site_property</table>
+		<table name="expenses">site_expenses</table>
+		<table name="users">site_users</table>
+		<table name="vars">site_vars</table>
+	</tables>
+ 
+	<templates path="./templates/">
+		<admin path="./templates/admin/">
+			<template name="login">login.htm</template>
+			<template name="layout">layout.htm</template>
+		</admin>
+	</templates>
+</config>

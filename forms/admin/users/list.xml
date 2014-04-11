@@ -1,0 +1,42 @@
+<form>
+	
+	<title>Administrators List</title>
+	<width>540</width>
+	<border>true</border>
+	
+	<fields>
+		<_count header="No" suffix="." width="30" align="center" />
+		<user_name header="Name" align="left" />
+		<user_login header="Login" align="left" />
+	</fields>
+
+	<header>
+		<titles>true</titles>
+		<buttons>
+			<delete onclick="" button="addnew" >
+				<location>index.php?sub=users&action=add</location>
+			</delete>
+		</buttons>
+	</header>
+
+	<buttons>
+		<delete onclick="" button="delete" >
+			<location>index.php?sub=users&action=delete&user_id={USER_ID}&returnURL={CURRENT_PAGE}&rconfirm=true&title=Delete User?&description=Are you sure you want to delete this record?</location>
+		</delete>
+
+		<details onclick="" button="details" >
+			<location>index.php?sub=users&action=details&user_id={USER_ID}</location>
+		</details>
+
+	</buttons>
+
+	<sql>
+		<vars>
+			<table import="$this->tables[users]" type="eval" />
+		</vars>
+		<query>SELECT * FROM {TABLE} WHERE user_level=0</query>
+	</sql>
+
+	<items>200</items>
+
+</form>

@@ -1,0 +1,51 @@
+<form>
+	<title>Administrators Details</title>
+	<action>index.php?sub=users&action=store&type=add</action>
+	<name>edit</name>
+	<width>540</width>
+
+	<formtag>true</formtag>
+	<border>true</border>
+	
+	<buttons>		
+		<set>
+			<footer>true</footer>
+			<header>true</header>
+		</set>
+
+		<return onclick="" button="return" >
+			<location>index.php?sub=users</location>
+		</return>
+
+		<save onclick="" button="edit">
+			<location>index.php?sub=users&action=edit&user_id={USER_ID}</location>
+		</save>
+
+	</buttons>
+
+	<redirect>index.php?sub=users</redirect>
+
+	<fields>
+
+
+		<user_id type="hidden" hidden="true"/>
+
+		<user_name type="text">			
+			<title>Teacher Name</title>			
+		</user_name>
+
+		<user_login type="text">			
+			<title>Login</title>			
+		</user_login>
+
+		<user_password type="text">			
+			<title>Password</title>			
+		</user_password>
+
+
+		<user_email type="text">			
+			<title>Email</title>			
+		</user_number>
+
+	</fields>
+</form>

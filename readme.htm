@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+	<title>property management readme.htm</title> 
+<style>
+p {width: 610px;
+} 
+</style>	
+</head>
+
+<body style="font-family: Arial, Helvetica, sans-serif;">
+
+<p>
+<strong>license:</strong>
+<br>
+this software (<a href="http://propertymanagement-software.org">propertymanagement-software.org</a>) is 100% free and may be used free of charge. you may not redistribute or sell this software.
+</p>
+
+<p>
+<strong>installation:</strong>
+<br>
+-copy all files to your web host<br>
+-use phpmyadmin or your mysql interface to run site.sql against your database.<br>
+-open site.xml and edit the database section with your database details.<br>
+-go to index.php and login with <strong>username of admin with a password of test</strong>.<br>
+-be sure to change the passwords for the admin and regular user.<br>
+</p>
+
+<p>Setup the site.xml file with your database settings as follows.</p>
+<p>
+	&#60;database type="mysql"><br>
+	&nbsp;&nbsp;&nbsp;&#60;server>database server address&#60;/server><br>
+	&nbsp;&nbsp;&nbsp;&#60;login>database login&#60;/login><br>
+	&nbsp;&nbsp;&nbsp;&#60;password>database password&#60;/password><br>
+	&nbsp;&nbsp;&nbsp;&#60;default>mysql database name&#60;/default><br>
+	&#60;/database><br>
+</p>
+
+<p><strong>Add this to your htaccess file to prevent viewing of the xml config file:</strong></p>
+
+<textarea cols="30" rows="6" style="background-color: Yellow;">
+<Files ~ ".xml">
+   Order allow,deny
+   Deny from all
+   Satisfy All
+</Files>
+</textarea>
+
+<p><strong>To use a different currency:</strong><br>
+change [preffix="$"] in<br>
+forms\admin\expenses\add.xml (line 48 and 61)<br>
+forms\admin\expenses\details.xml (line 9 and 57)<br>
+</p>
+
+<p>
+<strong>To edit the year ranges edit line:</strong><br>
+forms\admin\expenses\add.xml (line 58)<br>
+<year from="2004" to="2010" default="now"/></p>
+
+</body>
+</html>

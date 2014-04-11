@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+		<title>Properties Expenses</title>
+		<link href="templates/admin/admin.css" type="text/css" rel="stylesheet">
+<style>
+
+body {
+	background-color: #EDEDED;
+	margin-top: 0px;
+	margin-bottom:0;
+}
+
+.body {
+	background-color: #FFFFFF;
+	border: #B9B9B9;
+	border-style: solid;
+	border-width: 0px 1px 1px 1px;
+}
+
+.topmenu {
+	font-family: arial;
+	font-size: 9pt;
+	font-weight: bold;
+	color: #EFEFEF;
+}
+
+td.layouttop {
+	height:23;
+	padding:0;
+	background-image: url(images/layout_header.gif);
+}
+
+
+
+td.layoutcaption {
+	font-family:verdana;
+	font-size:11px;
+	vertical-align: middle;
+	text-align:left;
+}
+
+
+a.link_menu {
+	font-family:verdana;
+	font-size: 11px;
+	color: black;
+	text-decoration:none;
+}
+
+a.link_menu:HOVER {
+	font-family:verdana;
+	font-size: 11px;
+	color: black;
+	text-decoration:underline;
+}
+
+td.layoutmenu{
+	width: 183;
+	vertical-align: top;
+	background-image: url(images/layout_left.gif); 
+}
+
+td.caption {
+	font-family: arial;
+	font-size: 12px;
+	font-weight: bold;
+	color: #000000;
+	background-color: #DDDDDD ;
+	height: 25;
+}
+
+</style>
+	</head>
+	<body>
+		<script src="templates/admin/admin.js"></script>
+		<table border="0" cellspacing="0" cellpadding="0" height="100%" align="center">
+			<tr>
+				<td class="body">
+
+					<table width="780" border="0" cellspacing="0" cellpadding="0" width="100%" height="100%">
+						<tr>
+							<td colspan="2" class="layouttop">
+								<table width="100%" cellspacing="0" cellpadding="0">
+									<tr>
+										<td align="center" width="30"><img src="images/layout_icon.gif"></td>
+										<td class="layoutcaption">Properties Expenses - Administration Area</td>
+										<td align="right"><a href="index.php?sub=logout"><img border="0" src="images/layout_logout.gif"></a></td>										
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td height="9" background="images/layout_middle_right.gif"></td>
+							<td background="images/layout_middle_left.gif"></td>
+						</tr>
+						<tr>
+							<td class="layoutmenu" >
+								{MENU}
+							</td>
+							<td valign="top" align="center"><img src="images/dot.gif">
+								<table width="100%" height="100%">
+									<tr>
+										<td valign="top" align=center>
+											<br>{PB_EVENTS}
+										</td>
+									</tr>
+									<tr>
+										<td height="20" align="right" style="font-size:9px;">&copy <a target="_blank" href="http://propertymanagement-software.org">property management software</a></td>
+									</tr>
+								</table>	
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>

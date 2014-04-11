@@ -1,0 +1,47 @@
+<form>
+	<title>Class Details</title>
+	<action>index.php?sub=classes&action=store</action>
+	<name>edit</name>
+	<width>580</width>
+
+	<formtag>true</formtag>
+	<border>true</border>
+	
+	<buttons>		
+		<set>
+			<footer>true</footer>
+			<header>true</header>
+		</set>
+
+		<return onclick="" button="return" >
+			<location>index.php?sub=properties&action=details&prop_id={EXPENSE_PROP}</location>
+		</return>
+
+		<save onclick="" button="edit">
+			<location>index.php?sub=expenses&action=edit&expense_prop={EXPENSE_PROP}&expense_id={EXPENSE_ID}</location>
+		</save>
+
+	</buttons>
+
+	<redirect>index.php?sub=classes&action=details&class_id={CLASS_ID}</redirect>
+
+	<fields>
+
+		<expense_name type="text">
+			<title>Name</title>
+		</expense_name>
+
+		<expense_description type="text">
+			<title>Description</title>
+		</expense_description>
+
+		<expense_cost type="text">
+			<title>Cost</title>
+		</expense_cost>
+
+		<expense_date type="text"  action="date" params="m.d.Y">
+				<title>Start Date</title>
+		</expense_date>
+
+	</fields>
+</form>

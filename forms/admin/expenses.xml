@@ -1,0 +1,28 @@
+<form>
+
+	<forms>
+		<add>expenses/add.xml</add>
+		<details>expenses/details.xml</details>
+		<edit>expenses/add.xml</edit>
+		<list>expenses/list.xml</list>
+	</forms>
+
+	<table>expenses</table>
+	<table_uid>expense_id</table_uid>
+
+
+	<URIdata>
+		<action>action</action>
+
+		<add>add</add>
+		<details>det</details>
+		<delete>delete</delete>
+		<edit>edit</edit>
+		<list>details</list>
+		<search>search</search>
+
+		<store>store</store>
+	</URIdata>
+
+
+</form>

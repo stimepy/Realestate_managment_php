@@ -1,0 +1,116 @@
+<form>
+	<title>Class Details</title>
+	<action>index.php?sub=classes&action=store</action>
+	<name>edit</name>
+	<width>580</width>
+	<method>get</method>
+
+	<formtag>true</formtag>
+	<border>true</border>
+	
+	<buttons>		
+		<set>
+			<footer>true</footer>
+			<header>true</header>
+		</set>
+
+		<return onclick="" button="return" >
+			<location>index.php?sub=properties</location>
+		</return>
+
+		<save onclick="" button="edit">
+			<location>index.php?sub=properties&action=edit&prop_id={PROP_ID}</location>
+		</save>
+
+	</buttons>
+
+	<redirect>index.php?sub=classes&action=details&class_id={CLASS_ID}</redirect>
+
+	<fields>
+
+		<prop_id type="hidden" />
+		<sub type="hidden" forcevalue="properties"/>
+		<action type="hidden" forcevalue="details"/>
+
+		<prop_address type="text" >
+			<title>Address</title>
+		</prop_address>
+
+		<prop_city type="text" >
+			<title>City</title>
+		</prop_city>
+
+		<prop_state type="text">
+			<title>State</title>
+		</prop_state>
+
+		<prop_zip type="text">
+			<title>Zip</title>
+		</prop_zip>
+
+		<prop_description type="text">
+			<title>Description</title>
+		</prop_description>
+
+		<subtitle type="subtitle" title="Leasing Details" />
+
+		<prop_leased_amount type="text" action="price" preffix="$">
+			<title>Leased Amount</title>
+		</prop_leased_amount>
+
+		<leased_date_start type="text" action="date" params="m.d.Y">
+				<title>Start Date</title>
+		</leased_date_start>
+
+		<leased_date_end type="text" action="date" params="m.d.Y">
+				<title>End Date</title>
+		</leased_date_end>
+
+		<leased_to_name type="text" size="40:200" >
+			<title>Name</title>
+		</leased_to_name>
+
+		<leased_to_address type="text" size="40:200">
+			<title>Address</title>
+		</leased_to_address>
+
+		<leased_to_city type="text" size="20:200">
+			<title>City</title>
+		</leased_to_city>
+
+		<leased_to_state type="text">
+			<title>State</title>
+		</leased_to_state>
+
+		<leased_to_zip type="text" size="15">
+			<title>Zip</title>
+		</leased_to_zip>
+
+		<leased_to_phone type="text" size="15">
+			<title>Phone</title>
+		</leased_to_phone>
+
+		<leased_to_email type="text" size="25">
+			<title>Email</title>
+		</leased_to_email>
+
+		<subtitle2 type="subtitle" title="Search Expenses" />
+
+		<date type="date" now="true">
+				<title>Select Month</title>
+
+				<fields>
+					<month format="int" empty="true" />
+					<year from="2004" to="2010" empty="true"/>
+				</fields>
+		</date>
+
+		<button type="button" button="search" location="javascript:document.forms[0].submit();">
+
+		</button>
+
+		<subtitle3 type="subtitle" title="Financial Status" />
+
+
+	</fields>
+</form>

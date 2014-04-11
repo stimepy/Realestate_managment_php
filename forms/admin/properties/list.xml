@@ -1,0 +1,35 @@
+<form>
+	
+	<title>Properties</title>
+	<width>580</width>
+	<border>true</border>
+	
+	<fields>
+		<_count header="No" width="30" align="center" />
+		<prop_address header="Address" align="left" />
+	</fields>
+
+	<header>
+		<titles>true</titles>
+		<buttons>
+			<delete onclick="" button="addnew" >
+				<location>index.php?sub=properties&action=add</location>
+			</delete>
+		</buttons>
+	</header>
+
+	<buttons>
+
+		<delete onclick="" button="delete" >
+			<location>javascript:if(confirm('Are you sure you want to delete this record ?')) window.location='index.php?sub=properties&action=delete&prop_id={PROP_ID}&returnURL={CURRENT_PAGE}'</location>
+		</delete>
+
+		<details onclick="" button="details" >
+			<location>index.php?sub=properties&action=details&prop_id={PROP_ID}</location>
+		</details>
+
+	</buttons>
+
+	<items>20</items>
+
+</form>

@@ -1,0 +1,116 @@
+<form>
+	<title>{ACTION_TITLE} Property</title>
+	<subtitle>Property Details</subtitle>
+	<action>index.php?sub=properties&action=store</action>
+	<name>edit</name>
+	<width>580</width>
+
+	<formtag>true</formtag>
+	<border>true</border>
+	
+	<buttons>		
+		<set>
+			<footer>true</footer>
+			<header>true</header>
+		</set>
+
+		<return onclick="" button="return" >
+			<location>index.php?sub=properties&action=details&prop_id={PROP_ID}</location>
+		</return>
+
+		<save onclick="" button="saveall">
+			<location>javascript:document.forms[0].submit();</location>
+		</save>
+
+	</buttons>
+
+	<redirect>index.php?sub=properties&action=details&prop_id={PROP_ID}</redirect>
+
+	<vars>	
+		<prop import="$_GET[prop_id] ? $_GET[prop_id] : $_POST[prop_id]" type="eval" />
+		<returnurl import="($_GET[prop_id] || $_POST[prop_id] )? '&action=details&prop_id={PROP}' : ''" type="eval" />
+		<action_title import="($_GET[prop_id] || $_POST[prop_id] )? 'Edit' : 'Add'" type="eval" />
+	</vars>
+
+	<fields>
+
+		<prop_id type="hidden" hidden="true"/>
+
+		<prop_address type="textbox" size="40:200" required="true" validate="A:1:200">
+			<title>Address</title>
+		</prop_address>
+
+		<prop_city type="textbox" size="20:200" required="true" validate="A:1:200">
+			<title>City</title>
+		</prop_city>
+
+		<prop_state type="USstates">
+			<title>State</title>
+		</prop_state>
+
+		<prop_zip type="textbox" size="20:200" required="true" validate="A:1:200">
+			<title>Zip</title>
+		</prop_zip>
+
+		<prop_description type="textarea" size="45:5">
+			<title>Description</title>
+		</prop_description>
+
+		<subtitle type="subtitle" title="Leasing Details" />
+
+		<prop_leased_amount type="textbox" size="10:200" preffix="$">
+			<title>Leased Amount</title>
+		</prop_leased_amount>
+
+		<leased_date_start type="date" now="true">
+				<title>Start Date</title>
+
+				<fields>
+					<month format="int" default="now" />
+					<day format="int" default="now" />
+					<year from="2004" to="2010" default="now"/>
+				</fields>
+		</leased_date_start>
+
+		<leased_date_end type="date" now="true">
+				<title>End Date</title>
+
+				<fields>
+					<month format="int" default="now" />
+					<day format="int" default="now" />
+					<year from="2004" to="2010" default="now"/>
+				</fields>
+		</leased_date_end>
+
+
+		<leased_to_name type="textbox" size="40:200" >
+			<title>Name</title>
+		</leased_to_name>
+
+		<leased_to_address type="textbox" size="40:200">
+			<title>Address</title>
+		</leased_to_address>
+
+		<leased_to_city type="textbox" size="20:200">
+			<title>City</title>
+		</leased_to_city>
+
+		<leased_to_state type="USstates" empty="true">
+			<title>State</title>
+		</leased_to_state>
+
+		<leased_to_zip type="textbox" size="15">
+			<title>Zip</title>
+		</leased_to_zip>
+
+		<leased_to_phone type="textbox" size="15">
+			<title>Phone</title>
+		</leased_to_phone>
+
+		<leased_to_email type="textbox" size="25">
+			<title>Email</title>
+		</leased_to_email>
+
+
+	</fields>
+</form>

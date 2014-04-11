@@ -1,0 +1,62 @@
+<form>
+	<title>{ACTION_TITLE} Expense</title>
+	<action>index.php?sub=expenses&action=store</action>
+	<name>edit</name>
+	<width>580</width>
+
+	<formtag>true</formtag>
+	<border>true</border>
+	
+	<buttons>		
+		<set>
+			<footer>true</footer>
+			<header>true</header>
+		</set>
+
+		<return onclick="" button="return" >
+			<location>index.php?sub=properties&action=details&prop_id={EXPENSE_PROP}</location>
+		</return>
+
+		<save onclick="" button="saveall">
+			<location>javascript:document.forms[0].submit();</location>
+		</save>
+
+	</buttons>
+
+	<redirect>index.php?sub=properties&action=details&prop_id={EXPENSE_PROP}</redirect>
+
+	<vars>	
+		<prop import="$_GET[expense_id] ? $_GET[expense_id] : $_POST[expense_id]" type="eval" />
+		<expense_prop import="$_GET[expense_prop] ? $_GET[expense_prop] : $_POST[expense_prop]" type="eval" />
+		<returnurl import="($_GET[expense_id] || $_POST[expense_id] )? '&action=details&expense_id={PROP}' : ''" type="eval" />
+		<action_title import="($_GET[expense_id] || $_POST[expense_id] )? 'Edit' : 'Add'" type="eval" />
+	</vars>
+
+	<fields>
+
+		<expense_id type="hidden" hidden="true"/>
+		<expense_prop type="hidden" hidden="true" default="$_GET[expense_prop]" action="eval"/>
+
+		<expense_name type="textbox" size="40:200" required="true" validate="A:1:200">
+			<title>Name</title>
+		</expense_name>
+
+		<expense_description type="textarea" size="45:5">
+			<title>Description</title>
+		</expense_description>
+
+		<expense_cost type="textbox" size="10:200" preffix="$">
+			<title>Cost</title>
+		</expense_cost>
+
+		<expense_date type="date" now="true">
+				<title>Start Date</title>
+
+				<fields>
+					<month format="int" default="now" />
+					<day format="int" default="now" />
+					<year from="2004" to="2010" default="now"/>
+				</fields>
+		</expense_date>
+	</fields>
+</form>
