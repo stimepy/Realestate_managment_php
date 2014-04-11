@@ -46,7 +46,7 @@ class CConfig {
 	public function __construct($file_name = "") {
         $this->parser = new CXMLParser('config');
 		if ($file_name != ""){
-			return $this->Load($file_name);
+			$this->Load($file_name);
         }
 
 	}
@@ -66,7 +66,7 @@ class CConfig {
         //$this->Parse(str_replace("&","[amp]",GetFileContents($file_name)));
         $this->file_names=$file_name;
 
-        return $this->vars;
+        //return $this->vars;
 
 
 	}

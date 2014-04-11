@@ -172,19 +172,34 @@ class CXMLParser {
 
         // build code
         $node = implode("][",$code);
-        //$code = "foreach (\$attr as \$key => \$val) if (\$key != \"NAME\") \$this->vars[$node][strtolower(\$key)] = \"\$val\"; else \$this->vars[\$attr[\"NAME\"]][strtolower(\"\$key\")] = \"\$val\";";
-
+        $code = "foreach (\$attr as \$key => \$val) if (\$key != \"NAME\") \$this->vars[$node][strtolower(\$key)] = \"\$val\"; else \$this->vars[\$attr[\"NAME\"]][strtolower(\"\$key\")] = \"\$val\";";
+         echo $code;
+        echo "<br />";
+        echo $node;
+        echo "<br />";
         // and finally execute
         //eval($code);
-        foreach ($attr as $key => $val){
+        /*foreach ($attr as $key => $val){
+            if ($key != "NAME"){
+                $this->vars[$node][strtolower($key)] = $val;
+            }
+            else{
+                $this->vars[$attr["NAME"]][strtolower("$key")] = $val;
+            }
+        }*/
+
+        foreach ($attr as $key => $val)
             if ($key != "NAME"){
                 $this->vars[$node][strtolower($key)] = "$val";
             }
-            else{
+            else {
                 $this->vars[$attr["NAME"]][strtolower("$key")] = "$val";
             }
-        }
+
+
     }
+
+
 
     /**
      * @desctiption
@@ -246,15 +261,16 @@ class CXMLParser {
             //echo "<br>" . $cdata;
 
             // prepare dynamic code
-            foreach ($this->tagsc as $key => $val)
+            foreach ($this->tagsc as $key => $val){
                 $code[] = "\"" . strtolower($val) . "\"";
+            }
 
             // build code
-            //$code = "\$this->vars[" . implode("][",$code) . "] = \"" . $cdata . "\";";
-
+            $code = implode("][",$code);
+            $this->vars[$code] =  $cdata;
             // and finally execute
             //eval($code);
-            $this->vars[implode("][",$code)] = "$cdata";
+            //$this->vars[implode("][",$code)] = $cdata;
         }
     }
 

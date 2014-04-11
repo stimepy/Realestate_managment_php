@@ -40,12 +40,12 @@ class CLibrary {
         if(is_array($filename)){
             for($i=0; $i<sizeof($filename); $i++){
                 $this->myFileIncludes($filepath,$filename[$i],$required);
-                $this->name[] = $filename;
+                $this->file_names[] = $filename;
             }
         }
         else{
             $this->myFileIncludes($filepath,$filename,$required);
-            $this->name[] = $filename;
+            $this->file_name[] = $filename;
         }
         return true;
     }
@@ -80,7 +80,7 @@ class CLibrary {
        //global ;
         $vars = $parser->Parse(str_replace("&","[amp]",GetFileContents($file_name)),$return_type = true, $type = 'config');
         $parser->freeParser();
-        $this->$library_name=$file_name;
+        $this->library_name=$file_name;
 
         return  ArrayReplace("[amp]" , "&" , $vars );
     }
