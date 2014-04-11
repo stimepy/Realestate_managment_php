@@ -14,8 +14,8 @@
 	<database type="mysql">
 		<server>localhost</server>
 		<login>root</login>
-		<password>cats</password>
-		<default>property</default>
+		<password></password>
+		<default>pm</default>
 	</database>
 
 	<tables>

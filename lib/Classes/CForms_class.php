@@ -1,9 +1,24 @@
 <?php
+/**
+ * File description: Class file
+ * Class: CXMLParser
+ * Modified by Kris Sherrerd
+ * Last updated: 4/9/2014
+ * Changes Copyright 2014 by Kris Sherrerd
+ */
+
+if(!defined('PMC_INIT')){
+    die('Your not suppose to be in here! - Ibid');
+}
+
 define ("_MSG_FORMS_UNCOMPLETE" , "Please fill in all required fields");
 define ("_MSG_FORMS_UNIQUE" , " already exists.");
 define ("_MSG_FORMS_FILEEXISTS" , " doesn't exists.");
+
+/* todo redo months*/
 $form_months = array (1 => "January" , "February" , "March" , "April" , "May" , "June" , "July" , "August" , "September" , "October" , "November" , "December");
 
+/* todo: redo us states */
 $form_US_states = array (
 							"AL" => "Alabama",
 							"AK" => "Alaska",
@@ -58,7 +73,7 @@ $form_US_states = array (
 							"WI" => "Wisconsin",
 							"WY" => "Wyoming"
 						);
-
+/*todo: make countries a different standard*/
 $form_countries = array(
 							"AF" => "Afghanistan",
 							"AL" => "Albania",
@@ -307,83 +322,72 @@ $form_countries = array(
 							"ZW" => "Zimbabwe"
 						);
 
-class CForm extends CLibrary{
+/**
+ * Class CForm
+ */
+class CForm{
 
 	/**
 	* description
-	*
 	* @var type
-	*
 	* @access type
 	*/
-	var $db;
+	private $db;
 
 	/**
 	* description array with all functions to be executed in various posittions in cform
-	*
 	* @var type
-	*
 	* @access type
 	*/
 	var $functions;
 	
 
 	/**
-	* description
-	*
+	* description constructor
 	* @param
-	*
 	* @return
-	*
 	* @access
 	*/
-	function CForm($template , $db , $tables , $form = "") {
-		parent::CLibrary("CForm");
-
-		//adding extra check if the file is a template or is a string		
+	function __constructor($template , $db , $tables , $form = "") {
+		//adding extra check if the file is a template or is a string
 		if (!is_object($template)) {			
 			$template = new CTemplate($template);
 		}
-
 		//optionaly added $form
 		$this->form = $this->Process($form);
 
 		$this->templates = $template;
 		$this->db = $db;
 		$this->tables = $tables;
-
 	}
 
 	/**
 	* description checking if the input is an array or an xml file 
-	*
 	* @param
-	*
 	* @return
-	*
 	* @access
 	*/
 	function Process($input) {
 		if (is_array($input)) {
 			return $input;
-		} else {
+		}
+        else {
 			if (file_exists($input)) {
 				$xml = new CConfig($input);				
 				$xml->vars["form"]["xmlfile"] = $input ;
 
 				return $xml->vars["form"];
-			} else
-				return null;			
+			}
+            else{
+				return null;
+            }
 		}		
 	}
 	
 	/**
 	* description
-	*
 	* @param
-	*
 	* @return
-	*
 	* @access
 	*/
 	function ProcessLinks($link) {
@@ -392,42 +396,36 @@ class CForm extends CLibrary{
 	
 	/**
 	* description
-	*
 	* @param
-	*
 	* @return
-	*
 	* @access
 	*/
 	function Validate($form  , $input) {
-
 		$form = $this->Process($form);
 
-
 		if (is_array($form)) {
-
 			foreach ($form["fields"] as $key => $val)
-	
-				if ($val["validate"] && $val["required"] && !$val["hidden"])
+				if ($val["validate"] && $val["required"] && !$val["hidden"]){
 					$_valid_temp[] = strtoupper($val["name"] ? $val["name"] : $key) . ":" . $val["validate"];
+                }
 
 			$validate = @implode("," , $_valid_temp);
 			
 		}				
-		
 		//validate the input fields
 		$result = ValidateVars($input ,$validate);
 		$vars = array();
 
 		if (is_array($result)) {
-		
-			foreach ($result as $key => $val)
+			foreach ($result as $key => $val){
 				$fields["errors"][strtolower($val)] = 1;
+            }
 
 			$fields["error"] = _MSG_FORMS_UNCOMPLETE;
 			$fields["values"] = $input;
 
-		} else {
+		}
+        else {
 
 			//proceed to complex validation for unique fields 
 			if (is_array($form)) {
@@ -438,11 +436,13 @@ class CForm extends CLibrary{
 
 						//check if this is an adding processor or editing one
 						if ($input[$form["table_uid"]]) {
-							$old_record = $this->db->QFetchArray("SELECT * FROM `" . $this->tables[$form["table"]] . "` WHERE `" . $form["table_uid"] . "`='" . $input[$form["table_uid"]] . "'" );
+                            $old_record = $this->db->QuerySelectLimit($this->tables[$form["table"]], '*', "`{$form["table_uid"]}` = '{$input[$form["table_uid"]]}'");
+							//$old_record = $this->db->QFetchArray("SELECT * FROM `" . $this->tables[$form["table"]] . "` WHERE `" . $form["table_uid"] . "`='" . $input[$form["table_uid"]] . "'" );
 						}
 
 						$name = $val["name"] ? $val["name"] : $key ;
-						$data = $this->db->QFetchArray("SELECT `$name` FROM `" . $this->tables[$form["table"]] . "` WHERE `" . $name . "` = '" . $input[$name] . "'");
+                        $data = $this->db->QuerySelectLimit($this->tables[$form["table"]], $name, "`{$name}` = '{$input[$name]}'");
+						//$data = $this->db->QFetchArray("SELECT `$name` FROM `" . $this->tables[$form["table"]] . "` WHERE `" . $name . "` = '" . $input[$name] . "'");
 
 						if (((is_array($data) && is_array($old_record)) && ($data[$name] != $old_record[$name])) || (is_array($data) && !is_array($old_record))) {
 
@@ -488,32 +488,30 @@ class CForm extends CLibrary{
 		}
 
 		return is_array($fields) ? $fields : true;
-
 	}
 
 	/**
 	* description
-	*
 	* @param
-	*
 	* @return
-	*
 	* @access
 	*/
 	function SimpleList($form , $items = "", $count = "", $extra = null , $search = false) {
 		global $_CONF;
+        $titles = $data = $append ='';
+        $header = Array();
+        $append = '';
 
 		//if i got no elements from preloader functions, then i load it manualy
 		if (!is_array($items)) {
-
 			//cheking if is a normal browse or a search method
 			if ($search) {
-
 				$items = $this->db->QuerySelectLimit($this->tables[$form["table"]],"*", "`" . $_GET["what"] . "` " . ( $_GET["type"] == "int" ? "='" . $_GET["search"] . "'" : "LIKE '%" . $_GET["search"] . "%'"),(int) $_GET["page"],$form["items"]);
 				$count = $this->db->RowCount($this->tables[$form["table"]] , " WHERE `" . $_GET["what"] . "` " . ( $_GET["type"] == "int" ? "='" . $_GET["search"] . "'" : "LIKE '%" . $_GET["search"] . "%'"));
 
-			} else {
-
+			}
+            else {
+                // nothing
 			}
 		}
 
@@ -579,7 +577,8 @@ class CForm extends CLibrary{
 
 				//do a precheck for [] elements to be replaced with <>
 				$sql = str_replace("]" , ">" , str_replace("[" , "<" , $sql));
-				$items = $this->db->QFetchRowArray($sql);
+
+				$items = $this->db->Queryworkaround($sql);
 				//$items = $this->Query						
 
 				//processing the counting query
@@ -599,7 +598,8 @@ class CForm extends CLibrary{
 			}
 
 			
-		} else {				
+		}
+        else {
 			if (!is_array($items)) {	
 				$items = $this->db->QuerySelectLimit($this->tables[$form["table"]],"*","",(int) $_GET["page"],$form["items"]);
 				$count = $this->db->RowCount($this->tables[$form["table"]]);
@@ -699,13 +699,10 @@ class CForm extends CLibrary{
 				//reading all varibals from $_GET excepting the $_GET["page"], and transform them in hidden fields
 				if (is_array($_GET)) {
 					$temp = $_GET;
-
 					//force the action variable
 					$temp[$this->forms["uridata"]["action"]] = $this->forms["uridata"]["search"];
-
 					foreach ($temp as $key => $val) {
 						if (!in_array($key , array( "page" , "what" , "search")))  {
-							
 							$search["fields"] .= $template->blocks["SearchField"]->Replace(array("name" => $key , "value" => $val));
 						}						
 					}					
@@ -721,7 +718,6 @@ class CForm extends CLibrary{
 
 		//checking if header exists, then add the template
 		if (is_array($header) || $form["subtitle"] || $form["header"]["titles"]) {
-
 			//cleanup the variables
 			$header["buttons"] = $header["buttons"] ? $header["buttons"] : "";
 			$header["search"] = $header["search"] ? $header["search"] : "";
@@ -741,7 +737,8 @@ class CForm extends CLibrary{
 														"PRE" => $extra["pre"],
 														"AFTER" => $extra["after"]
 													));
-		} else {
+		}
+        else {
 			//cleanup the vars
 			$form["_HEADER"] = "";
 			$form["_TITLES"] = "";
@@ -757,8 +754,9 @@ class CForm extends CLibrary{
 
 		if (is_array($_GET)) {
 			foreach ($_GET as $key => $val) {
-				if ($key != "page")
-				$url[] = "$key=$val";
+				if ($key != "page"){
+				    $url[] = "$key=$val";
+                }
 			}
 			
 			$url = $_SERVER["SCRIPT_NAME"] . "?" . @implode("&" , $url) . "&";
@@ -772,21 +770,20 @@ class CForm extends CLibrary{
 		if (is_array($items)) {
 			foreach ($items as $key => $val) {
 				if (is_array($form["fields"])) {
-
 					foreach ($form["fields"] as $k => $v) {
 						switch ($v["type"]) {
-
 							case "date":
-
 								if (isset($val[$k . "_day" ]) && isset($val[$k . "_month" ]) && isset($val[$k . "_year" ]))  {
 
 									$items[$key][$k] = 
 														( $val[$k . "_month" ] ? sprintf("%02d" ,$val[$k . "_month" ])  : "--" ). "." . 
 														( $val[$k . "_day" ] ? sprintf("%02d" ,$val[$k . "_day" ]) : "--" ) . "." .  
 														( $val[$k . "_year" ] ? $val[$k . "_year" ] : "----" ) ;
-								} else						
+								}
+                                else{
 									//$field["value"] = $field["value"] > 0 ? @date($field["params"] , $field["value"]) : "not available";
 									$items[$key][$k] = $items[$key][$k] > 0 ? @date($v["params"] , ($v["now"] == "true" ? time() : $items[$key][$k])) : "N/A";
+                                }
 
 //								$items[$key][$k] = $items[$key][$k] > 0 ? @date($v["params"] , ($v["now"] == "true" ? time() : $items[$key][$k])) : "N/A";
 							break;
@@ -805,7 +802,8 @@ class CForm extends CLibrary{
 																"src" => $_CONF["url"] . $_CONF["upload"] . $v["path"] . $v["file"]["default"] . $items[$key][$v["file"]["field"]] . $v["file"]["ext"]
 															)
 														);
-								} else {
+								}
+                                else {
 									//else check if the default image exists
 									if ($v["default"]) {
 										$items[$key][$k] = $template->blocks["imageshownolink"]->Replace(
@@ -815,9 +813,11 @@ class CForm extends CLibrary{
 																	"src" => $_CONF["url"] . $_CONF["upload"] . $v["path"] . $v["default"]
 																)
 															);
-									} else 
+									}
+                                    else{
 										//if not simply return a space
 										$items[$key][$k] = "&nbsp;";
+                                    }
 								}
 							break;
 
@@ -831,9 +831,9 @@ class CForm extends CLibrary{
 								if (is_array($v["relation"])) {
 									//reading from database
 
-									$sql =	"SELECT * FROM `" . $this->tables[$v["relation"]["table"]] . "` WHERE `" . $v["relation"]["id"] . "`='" . $items[$key][$k] . "'";
-
-									$record =$this->db->QFetchArray( $sql );
+									//$sql =	"SELECT * FROM `" . $this->tables[$v["relation"]["table"]] . "` WHERE `" . $v["relation"]["id"] . "`='" . $items[$key][$k] . "'";
+                                    $record = $this->db->QuerySelectLimit($this->tables[$v["relation"]["table"]],'*',"`{$v["relation"]["id"]}`= '{$items[$key][$k]}'");
+									//$record =$this->db->QFetchArray( $sql );
 									$items[$key][$k] = $record[$v["relation"]["text"]];
 
 									//build the label for multiple fields 
@@ -845,9 +845,11 @@ class CForm extends CLibrary{
 											$_tmp_text[] = $record[$vval];
 										
 										$items[$key][$k] = implode($v["relation"]["separator"] ? $v["relation"]["separator"] : " " , $_tmp_text);
-									} else
+									}
+                                    else{
 										//else return the single field
 										$items[$key][$k] = $record[$v["relation"]["text"]];
+                                    }
 
 								}														
 								
@@ -881,7 +883,8 @@ class CForm extends CLibrary{
 									($form["buttons"]["set"]["buttonsvert"] == "true" ? "</tr>" : "" );
 						}
 					}				
-				} else {
+				}
+                else {
 					$items[$key]["buttons"] = "";
 				}
 
@@ -890,14 +893,16 @@ class CForm extends CLibrary{
 		
 		if ($form["items"]) {
 			$return = $html->Table( $template , "List" , $items , true , $count , $form["items"] , $_GET["page"] , $template );
-		} else {
+		}
+        else {
 			$return = $html->Table( $template , "List" , $items);
 		}
 
 		//crap, append some extra elements to this form, in case, , i dont know how to handle if there will be 2 pagging functions.
 
-		if (is_array($this->functions["list"]["after"]))
-			call_user_func($this->functions["list"]["after"],&$append);
+		if (is_array($this->functions["list"]["after"])){
+			call_user_func($this->functions["list"]["after"], $append);
+        }
 
 		//clearing the extra value
 		if (!$append) {
@@ -929,16 +934,12 @@ class CForm extends CLibrary{
 
 	/**
 	* description
-	*
 	* @param
-	*
 	* @return
-	*
 	* @access
 	*/
 	function InsertField( $params ) {
 		//for the momment it dont support complex fields like referers, and multiple
-
 		//preparing the input vars
 		$form["fields"]["temp"] = $params;
 		$values["values"][$params["name"]] = $params["value"] ;
@@ -949,21 +950,15 @@ class CForm extends CLibrary{
 	
 	/**
 	* description
-	*
 	* @param
-	*
 	* @return
-	*
 	* @access
 	*/
 	function privateDrawTree($field , $cats , $values , $parent = 0 , $level = 0, $sep = '') {
-
-		
 		$return = "";
 		//if i found categories then return the list of it
 		if (is_array($cats)) {
-
-			$sep = preg_replace( 
+			$sep = preg_replace(
 							array( '(\[)' , '(\])' ),
 							array( "<" , ">" ),
 							$field["tree"]["separator"]
@@ -981,8 +976,7 @@ class CForm extends CLibrary{
 			}
 
 			foreach ($cats as $key => $val) {
-
-				if ($val[$field["tree"]["parent"]] == $parent) {			
+				if ($val[$field["tree"]["parent"]] == $parent) {
 
 					$return .= $this->templates->blocks["SelectTree" . ($field["editable"] == "false" ? "Disabled" : "" )]->Replace( 
 										array (
@@ -1001,7 +995,8 @@ class CForm extends CLibrary{
 			}			
 
 			return $return;
-		} else {
+		}
+        else {
 			return "";
 		}
 
@@ -1010,15 +1005,11 @@ class CForm extends CLibrary{
 
 	/**
 	* description
-	*
 	* @param
-	*
 	* @return
-	*
 	* @access
 	*/
 	function DrawElement( $form , $_field , $values , $draw_referer = 0 ) {
-
 		global $_CONF,$form_US_states,$form_countries;
 
 		//some default settings
@@ -1057,7 +1048,8 @@ class CForm extends CLibrary{
 					$field["value"]	= $field["default"];
 				break;
 			}
-		} else {
+		}
+        else {
 			
 			$field["value"] = $values["values"][$field["name"]];
 		}
@@ -1076,8 +1068,9 @@ class CForm extends CLibrary{
 //		$field["value"] = stripslashes($field["value"]);
 			
 		//checking if this file is a referer, and if i have to show the referers at this point
-		if (! $draw_referer && (($field["referer"] == "true") || ($field["multiple"] == "true")))
+		if (! $draw_referer && (($field["referer"] == "true") || ($field["multiple"] == "true"))){
 			return "";
+        }
 
 		//drawing the form elements
 		switch ($field["type"]) {
@@ -1088,7 +1081,8 @@ class CForm extends CLibrary{
 					//size from xml
 					$field["_cols"] = $temp["0"];
 					$field["_rows"] = $temp["1"];
-				} else {
+				}
+                else {
 					//preset size
 					$field["_cols"] = $_textareaCols;
 					$field["_rows"] = $_textareaRows;
@@ -1097,9 +1091,9 @@ class CForm extends CLibrary{
 				//uhm ... this is a crappy part becouse i have to integrate the html editor here so ...
 				if ($field["html"] == "true") {
 					//checking if the editor.js was loaded until now
-					if ($_GLOBALS["cform_editor_loaded"] != true) {
+					if ($GLOBALS["cform_editor_loaded"] != true) {
 						$current_field = $this->templates->blocks["htmlareainit"]->output;
-						$_GLOBALS["cform_editor_loaded"] = true;
+						$GLOBALS["cform_editor_loaded"] = true;
 					}
 
 					//checking if the buttons exists, else add the buttons from default
@@ -1121,11 +1115,14 @@ class CForm extends CLibrary{
 													)
 												);
 						}
-					} else
+					}
+                    else{
 						$field["buttons"] = "";
+                    }
 
 					$current_field .= $this->templates->blocks["htmlarea"]->Replace($field);
-				} else {				
+				}
+                else {
 					$field["value"] = stripslashes(htmlentities($field["value"]));
 					$current_field = $this->templates->blocks["textarea"]->Replace($field);
 					//$current_field = $this->templates->blocks["textarea"]->EmptyVars();
@@ -1156,14 +1153,16 @@ class CForm extends CLibrary{
 						$field["_size"] = $temp["0"];
 						$field["_maxlength"] = $temp["1"];
 
-					} else {
+					}
+                    else {
 
 						//else the size field is the size of textbox
 						$field["_size"] = $field["size"];
 						$field["_maxlength"] = $_textboxMaxLength;
 					}
 
-				} else {
+				}
+                else {
 					//get the default values
 
 					$field["_size"] = $_textboxSize;
@@ -1185,13 +1184,15 @@ class CForm extends CLibrary{
 
 				switch ($field["action"]) {
 					case "date":
-						if (isset($values["values"][$field["name"] . "_day" ]) && isset($values["values"][$field["name"] . "_month" ]) && isset($values["values"][$field["name"] . "_year" ])) 
+						if (isset($values["values"][$field["name"] . "_day" ]) && isset($values["values"][$field["name"] . "_month" ]) && isset($values["values"][$field["name"] . "_year" ])){
 							$field["value"] = 
 												( $values["values"][$field["name"] . "_month" ] ? sprintf("%02d" ,$values["values"][$field["name"] . "_month" ])  : "--" ). "." . 
 												( $values["values"][$field["name"] . "_day" ] ? sprintf("%02d" ,$values["values"][$field["name"] . "_day" ]) : "--" ) . "." .  
 												( $values["values"][$field["name"] . "_year" ] ? $values["values"][$field["name"] . "_year" ] : "----" ) ;
-						else						
+                }
+						else{
 							$field["value"] = $field["value"] > 0 ? @date($field["params"] , $field["value"]) : "not available";
+                        }
 					break;
 
 					case "price":
@@ -1306,13 +1307,15 @@ class CForm extends CLibrary{
 								}							
 							}						
 
-						} else {					
+						}
+                        else {
 
 							//checking if is a complex option or a simple one
 							if (is_array($val)) {
 								$label = $val["value"];
 								$disabled = $val["disabled"] == "true" ? " disabled " : "";
-							} else {
+							}
+                            else {
 								$label = $val;
 								$disabled = "";
 							}
@@ -1327,7 +1330,8 @@ class CForm extends CLibrary{
 											  );
 						}
 					}														
-				} else
+				}
+                else{
 					if (is_array($field["relation"])) {
 						//reading from database
 						
@@ -1342,7 +1346,7 @@ class CForm extends CLibrary{
 								($field["relation"]["order"] ? " ORDER BY `" . $field["relation"]["order"] . "` " . 
 								($field["relation"]["ordermode"] ? $field["relation"]["ordermode"] : "") : "" );
 
-						$records =$this->db->QFetchRowArray( $sql );
+						$records =$this->db->Queryworkaround( $sql );
 
 						//ckech and replace the label field with multi fields array
 						if (is_array($tmp_fields = @explode($field["tree"]["db_separator"] , $values["values"][$field["name"]]))) {
@@ -1356,8 +1360,9 @@ class CForm extends CLibrary{
 							if ($field["subtype"] == "multiple") {
 											
 								foreach ($records as $_k => $_v) {
-									if ($_tmp_fields[$_v[$field["tree"]["id"]]] == $_v[$field["tree"]["id"]])
+									if ($_tmp_fields[$_v[$field["tree"]["id"]]] == $_v[$field["tree"]["id"]]){
 										$values["values"][$field["name"]."_option_" . $_v[$field["tree"]["id"]]] = true;
+                                    }
 								}
 
 								$temp_options = $this->privateDrawTree($field, $records , $values);
@@ -1373,7 +1378,8 @@ class CForm extends CLibrary{
 								
 								
 								
-							} else {
+							}
+                            else {
 
 								//add the enpty option
 								if ($field["empty"] == "true") {
@@ -1402,9 +1408,11 @@ class CForm extends CLibrary{
 											$_tmp_text[] = $val[$vval];
 										
 										$send["label"] = implode($field["relation"]["separator"] ? $field["relation"]["separator"] : " " , $_tmp_text);
-									} else
+									}
+                                    else{
 										//else return the single field
 										$send["label"] = $val[$field["relation"]["text"]];
+                                    }
 
 									// if the type is relation of editable false, then search for the selected element.
 									if (($val[$field["relation"]["id"]] == $field["value"]) && ($field["editable"] == "false")) {
@@ -1423,13 +1431,15 @@ class CForm extends CLibrary{
 							}
 						}
 					}
+                }
 				if ($field["editable"] != "false") {
 					if ($temp_options != "") {
 							if ($field["subtype"] == "multiple") {
 
 								$current_field = $temp_options;
 
-							} else {
+							}
+                            else {
 								//if there are options, build the select
 								$current_field = $this->templates->blocks["Select"]->Replace(array(
 														"name" => $field["name"] , 
@@ -1438,10 +1448,13 @@ class CForm extends CLibrary{
 														"onchange" => $field["onchange"]
 													));
 							}
-					} else 
+					}
+                    else{
 						//else return a message, customizable from xml
 						$current_field = $field["empty"] ? $field["empty"] : $this->templates->blocks["selectempty"]->output;
-				} else {
+                    }
+				}
+                else {
 					if ($temp_options != "") {
 							if ($field["subtype"] == "multiple") {
 
@@ -1482,7 +1495,8 @@ class CForm extends CLibrary{
 												)
 											);
 
-					} else {
+					}
+                    else {
 						$file_name = $_CONF["path"] . $_CONF["upload"] . ($field["path"] ? $field["path"] : $field["file"]["path"]) . $field["file"]["default"] . $values["values"][$field["file"]["field"]] . $field["file"]["ext"];
 						$file_url = $_CONF["url"] . $_CONF["upload"] . ($field["path"] ? $field["path"] : $field["file"]["path"]) . $field["file"]["default"] . $values["values"][$field["file"]["field"]] . $field["file"]["ext"];
 
@@ -1493,14 +1507,15 @@ class CForm extends CLibrary{
 														"src" => $file_url
 													)
 												);
-						} else 
+						}
+                        else{
 							$image["preview"] = $field["error"] ? $field["error"] : "No file uploaded.";
+                        }
 					}
 
-				} else {
-				
+				}
+                else {
 					if (is_file($_CONF["path"] . $_CONF["upload"] . "tmp/" . $values["values"][$field["name"] . "_temp"])) {
-
 						//show the ing image
 						$image["preview"] = $this->templates->blocks["imageshow"]->Replace(
 												array(
@@ -1510,7 +1525,8 @@ class CForm extends CLibrary{
 												)
 											);
 
-					} else {
+					}
+                    else {
 
 						//hm ... making a small trick to keep the image even if that was an failed adding,
 						//this sux becouse if the add process is not completed then i get crap in the temp folder.					
@@ -1523,7 +1539,8 @@ class CForm extends CLibrary{
 													)
 												);
 
-						} else {
+						}
+                        else {
 
 							//checking if there exists a default image
 							if ($field["default"]) {
@@ -1534,9 +1551,11 @@ class CForm extends CLibrary{
 															"src" => $_CONF["url"] . $_CONF["upload"] . $field["path"] . $field["default"]
 														)
 													);
-							} else
+							}
+                            else{
 								//return an error from xml
 								$image["preview"] = $field["error"] ? $field["error"] : "No image curently available.";
+                            }
 						}
 					}
 				}
@@ -1553,9 +1572,9 @@ class CForm extends CLibrary{
 			case "comment":
 				if ($field["subtype"] == "extern") {
 					$field["description"] = GetFileContents(dirname($form["xmlfile"]) . "/" . $field["file"]);
-				} else {
-				
-					$field["description"] = preg_replace( 
+				}
+                else {
+					$field["description"] = preg_replace(
 									array( '(\[)' , '(\])' ),
 									array( "<" , ">" ),
 									$field["description"]
@@ -1581,7 +1600,7 @@ class CForm extends CLibrary{
 			break;
 
 			case "date":
-
+                $current_field = '';
 				if (is_array($field["fields"])) {
 
 //					echo "<pre style=\"background-color:white\">";
@@ -1591,12 +1610,15 @@ class CForm extends CLibrary{
 					$html = new CHtml;
 
 					//do some variables cleaning
-					if (is_array($years))
+					if (isset($years)){
 						unset($years);
-					if (is_array($days))
+                    }
+					if (isset($days)){
 						unset($days);
-					if (is_array($months))
+                    }
+					if (isset($months)){
 						unset($months);
+                    }
 
 					
 
@@ -1614,7 +1636,8 @@ class CForm extends CLibrary{
 						$minute_selected = isset($values["values"][$field["name"] ."_minute"]) ? $values["values"][$field["name"] ."_minute"] : @date("i" , $date_vals );
 						$second_selected = isset($values["values"][$field["name"] ."_second"]) ? $values["values"][$field["name"] ."_second"] : @date("s" , $date_vals );
 						
-					} else {
+					}
+                    else {
 
 						$fld = $field["fields"];
 
@@ -1636,8 +1659,9 @@ class CForm extends CLibrary{
 									$years[0] = "--" ;
 								}
 								
-								for ($i = $field["fields"]["year"]["from"] ; $i <= $field["fields"]["year"]["to"] ; $i++ )
-									$years[$i] = $i;									
+								for ($i = $field["fields"]["year"]["from"] ; $i <= $field["fields"]["year"]["to"] ; $i++ ){
+									$years[$i] = $i;
+                                }
 
 								$current_field .= $html->FormSelect(
 																		$field["name"]."_year" , 
@@ -1657,8 +1681,9 @@ class CForm extends CLibrary{
 									$days[0] = "--" ;
 								}
 
-								for ($i = 1 ; $i <= 31 ; $i++ )
+								for ($i = 1 ; $i <= 31 ; $i++ ){
 									$days[$i] = sprintf("%02d",$i);
+                                }
 
 								$current_field .= $html->FormSelect(
 																		$field["name"]."_day" , 
@@ -1680,10 +1705,12 @@ class CForm extends CLibrary{
 								//importing the months from global
 								global $form_months;
 
-								if (is_array($months))
+								if (is_array($months)){
 									$formmonths = array_merge($months, $form_months);
-								else
+                                }
+								else{
 									$formmonths = $form_months;
+                                }
 
 								//ehcking if the dates must apear like strings or numbers
 								$current_field .= $html->FormSelect(
@@ -1700,8 +1727,9 @@ class CForm extends CLibrary{
 							break;
 
 							case "hour":
-								for ($i = 0; $i <= 23; $i++ )
-									$hours[$i] = sprintf("%02d",$i);;									
+								for ($i = 0; $i <= 23; $i++ ){
+									$hours[$i] = sprintf("%02d",$i);;
+                                }
 
 								$current_field .= $html->FormSelect(
 																		$field["name"]."_hour" , 
@@ -1717,8 +1745,9 @@ class CForm extends CLibrary{
 							break;
 
 							case "minute":
-								for ($i = 0; $i <= 59; $i++ )
-									$minutes[$i] = sprintf("%02d",$i);;									
+								for ($i = 0; $i <= 59; $i++ ){
+									$minutes[$i] = sprintf("%02d",$i);;
+                                }
 
 								$current_field .= $html->FormSelect(
 																		$field["name"]."_minute" , 
@@ -1734,8 +1763,9 @@ class CForm extends CLibrary{
 							break;
 
 							case "second":
-								for ($i = 0; $i <= 59; $i++ )
-									$seconds[$i] = sprintf("%02d",$i);;									
+								for ($i = 0; $i <= 59; $i++ ){
+									$seconds[$i] = sprintf("%02d",$i);;
+                                }
 
 								$current_field .= $html->FormSelect(
 																		$field["name"]."_second" , 
@@ -1760,6 +1790,7 @@ class CForm extends CLibrary{
 			break;
 
 			case "multiple":
+                $current_field = '';
 				//cheking for multiple ellements
 				
 				if (is_array($field["multiple"])) {
@@ -1822,8 +1853,10 @@ class CForm extends CLibrary{
 
 						$this->templates->blocks["Temp"]->input = $this->templates->blocks["ElementMultiple"]->Replace($element);
 						return $this->templates->blocks["Temp"]->Replace($vars);
-					} else					
+					}
+                    else{
 						return $this->templates->blocks["ElementMultiple"]->Replace($element);
+                    }
 				}
 				
 
@@ -1836,7 +1869,8 @@ class CForm extends CLibrary{
 
 						$this->templates->blocks["Temp"]->input = $this->templates->blocks["Element"]->Replace($element);
 						return $this->templates->blocks["Temp"]->Replace($vars);
-					} else {
+					}
+                    else {
 
 
 						switch ($field["type"]) {
@@ -1854,15 +1888,16 @@ class CForm extends CLibrary{
 						}
 					}
 				}
-				else
+				else{
 					return $this->templates->blocks["ExtendElement"]->Replace($element);
-			} else {
-	
+                }
+			}
+            else {
 				//if the element is only a referer return only the form
 				return $draw_referer ? $current_field : "";
 			}
-
-		} else {
+		}
+        else {
 			return $current_field;
 		}
 
@@ -1871,18 +1906,14 @@ class CForm extends CLibrary{
 		
 	/**
 	* description
-	*
 	* @param
-	*
 	* @return
-	*
 	* @access
 	*/
 	function Show($form , $values = array()  , $extra = array()) {
 		global $_CONF;
-
+        $buttons = '';
 		$form = $this->Process($form);
-
 		//values structure
 		/*
 			<values>
@@ -1921,8 +1952,9 @@ class CForm extends CLibrary{
 			foreach ($form["fields"] as $key => $field) {
 
 				//checking for <code> field
-				if (!$field["name"])
+				if (!$field["name"]){
 					$form["fields"][$key]["name"] = $key;
+                }
 		
 				//empty some variable for each field
 				$element = array();
@@ -1941,7 +1973,7 @@ class CForm extends CLibrary{
 
 		//adding the ing buttons
 		if (is_array($form["buttons"])) {
-			foreach ($form["buttons"] as $key => $val)
+			foreach ($form["buttons"] as $key => $val){
 				//checking not to be a setting group
 				if ($key != "set") {
 
@@ -1955,22 +1987,26 @@ class CForm extends CLibrary{
 					$val["location"] = CryptLink($val["location"]);
 					$buttons .= $this->templates->blocks["Button"]->Replace($val);
 				}
+            }
 
 			$form["_header_buttons"] = $form["buttons"]["set"]["header"] == "true" ? $this->templates->blocks["HeaderButtons"]->Replace(array(
 																																				"SUBTITLE" => ($form["subtitle"] ? $form["subtitle"] : "&nbsp;") , 
 																																				"BUTTONS" => $buttons)) : "";
 
 			$form["_footer_buttons"] = $form["buttons"]["set"]["footer"] == "true" ? $this->templates->blocks["FooterButtons"]->Replace(array("BUTTONS" => $buttons)) : "";
-		} else {
+		}
+        else {
 			//return empty variable
 			$form["_header_buttons"] = $form["_footer_buttons"] = "";
 		}
 
 		//check and add the error message
-		if ($values["error"])
-			$form["_error"] = $this->templates->blocks["Error"]->Replace(array("error" => $values["error"] ));		
-		else
+		if ($values["error"]){
+			$form["_error"] = $this->templates->blocks["Error"]->Replace(array("error" => $values["error"] ));
+        }
+		else{
 			$form["_error"] = "";
+        }
 
 		//adduing the javascript to form
 		$form["_pre_javascript"] = $form["javascript"]["pre"] ? "<script language=\"Javascript\">" . $form["javascript"]["pre"] . "</script>" : "";
@@ -2002,8 +2038,9 @@ class CForm extends CLibrary{
 		}
 
 		//adding the border
-		if ($form["border"] == "true")
+		if ($form["border"] == "true"){
 			$form["_template_data"] = $this->templates->blocks["Border"]->Replace( $form );
+        }
 
 		if (is_array($form["vars"])) {
 			//doing a double replace, in case there are unreplaced variable sfom "vars" type

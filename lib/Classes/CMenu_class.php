@@ -1,8 +1,22 @@
 <?php
+/**
+ * File description: Class file
+ * Class: CXMLParser
+ * Modified by Kris Sherrerd
+ * Last updated: 4/10/2014
+ * Changes Copyright 2014 by Kris Sherrerd
+ */
 
+if(!defined('PMC_INIT')){
+    die('Your not suppose to be in here! - Ibid');
+}
 // dependencies
-require_once _LIBPATH . "template.php";
+//require_once _LIBPATH . "CTemplate_class.php";
 
+/**
+ * Class CMenu
+ * Extends CXMParser
+ */
 class CMenu extends CXMLParser {
 	var $data;
 	var $src;

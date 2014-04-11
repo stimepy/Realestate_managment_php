@@ -1,45 +1,41 @@
 <?php
+/**
+ * File description: Class file
+ * Class: CXMLParser
+ * Modified by Kris Sherrerd
+ * Last updated: 4/10/2014
+ * Changes Copyright 2014 by Kris Sherrerd
+ */
 
-class CSQLAdmin extends CLibrary {
+if(!defined('PMC_INIT')){
+    die('Your not suppose to be in here! - Ibid');
+}
 
-	/**
-	* description
-	*
-	* @var type
-	*
-	* @access type
-	*/
-	var $form;
 
-	/**
-	* description
-	*
-	* @var type
-	*
-	* @access type
-	*/
-	var $functions;
-	
+/**
+ * Class CSQLAdmin
+ */
+class CSQLAdmin {
 
-	/**
-	* description functions list which will be executed in variouse points of sqladmin
-	*
-	* @var type
-	*
-	* @access type
-	*/
-	var $functions;
-	
+	public $form;
+	public $functions;
+    private $name;
 
-	function CSQLAdmin($section , $templates , $db , $tables , $extra = "") {
+    /**
+     * @description Basic constructor
+     * @param $section
+     * @param $templates
+     * @param $db
+     * @param $tables
+     * @param string $extra
+     */
+    function __constructor($section , $templates , $db , $tables , $extra = "") {
 		global $_CONF;
 
-		if (!$_GET["page"])
+		if (!$_GET["page"]){
 			$_GET["page"] = 1;		
+        }
 
-
-		parent::CLibrary("SQLAdmin");
-		
 		//checking if the templates are orblects or path to a template file
 		if (!is_array($templates))					
 			//if path the load the tempmate form that file
@@ -61,8 +57,9 @@ class CSQLAdmin extends CLibrary {
 		}
 		
 		//debuging part 
-		if (defined("PB_DEBUG") && (PB_DEBUG == "1"))
+		if (defined("PB_DEBUG") && (PB_DEBUG == "1")){
 			echo "<br>FILE:SQLADMIN:MAIN:{$path}{$section}.xml";
+        }
 
 		$conf = new CConfig( $path . $section . ".xml");
 
@@ -87,21 +84,18 @@ class CSQLAdmin extends CLibrary {
 			}			
 		}
 
-		$this->form = new CForm($this->templates["generic_form"], &$db , &$tables);
+		$this->form = new CForm($this->templates["generic_form"], $db , $tables);
 	}
 
 	/**
 	* description
-	*
 	* @param
-	*
 	* @return
-	*
 	* @access
 	*/
 	function FormList($items = "") {
 		global $base;
-
+        $items_count = '';
 		//checking if hte values weren't inputed ion the main object
 		if (is_array($this->items)) {
 			$items = $this->items;
@@ -109,8 +103,9 @@ class CSQLAdmin extends CLibrary {
 
 		//crap, preexecute a function, which is suposed in some times to preload the items too
 
-		if (is_array($this->functions["list"]["pre"]))
-			call_user_func($this->functions["list"]["pre"], &$items , &$items_count);
+		if (is_array($this->functions["list"]["pre"])){
+			call_user_func($this->functions["list"]["pre"], $items , $items_count);
+        }
 
 		//if i got no elements from preloader functions, then i load it manualy
 		if (!is_array($items)) {
@@ -121,7 +116,8 @@ class CSQLAdmin extends CLibrary {
 				$items = $this->db->QuerySelectLimit($this->tables[$this->forms["forms"]["list"]["table"]],"*", "`" . $_GET["what"] . "` " . ( $_GET["type"] == "int" ? "='" . $_GET["search"] . "'" : "LIKE '%" . $_GET["search"] . "%'"),(int) $_GET["page"],$this->forms["forms"]["list"]["items"]);
 				$count = $this->db->RowCount($this->tables[$this->forms["forms"]["list"]["table"]] , " WHERE `" . $_GET["what"] . "` " . ( $_GET["type"] == "int" ? "='" . $_GET["search"] . "'" : "LIKE '%" . $_GET["search"] . "%'"));
 
-			} else {
+			}
+            else {
 			
 				$items = $this->db->QuerySelectLimit($this->tables[$this->forms["forms"]["list"]["table"]],"*","",(int) $_GET["page"],$this->forms["forms"]["list"]["items"]);
 				$count = $this->db->RowCount($this->tables[$this->forms["forms"]["list"]["table"]]);
@@ -145,11 +141,8 @@ class CSQLAdmin extends CLibrary {
 
 	/**
 	* description
-	*
 	* @param
-	*
 	* @return
-	*
 	* @access
 	*/
 	function SetFunction( $form , $event , $function) {
@@ -159,11 +152,8 @@ class CSQLAdmin extends CLibrary {
 
 	/**
 	* description
-	*
 	* @param
-	*
 	* @return
-	*
 	* @access
 	*/
 	function ListProcess($pre = "" , $after = "" ) {
@@ -174,11 +164,8 @@ class CSQLAdmin extends CLibrary {
 
 	/**
 	* description
-	*
 	* @param
-	*
 	* @return
-	*
 	* @access
 	*/
 	function StoreRecord($redirect = true) {
@@ -190,10 +177,12 @@ class CSQLAdmin extends CLibrary {
 			//doing a autodetect for storing type , edit or add
 			//if $_GET["type"]	is set is simple, else detecting after the id form
 			if (!isset($_GET["type"])) {
-				if ($_POST[$this->forms["table_uid"]])
+				if ($_POST[$this->forms["table_uid"]]){
 					$_GET["type"] = "edit";
-				else
+                }
+				else{
 					$_GET["type"] = "add";
+                }
 			}	
 
 			//if validation succeeds then i move the files from /tmp to their directory, else i will proceed to add
@@ -223,7 +212,8 @@ class CSQLAdmin extends CLibrary {
 									//ok, now build the result
 									if (is_array($option)) {
 										$_POST[$key] = implode($val["tree"]["db_separator"],$option);
-									} else {
+									}
+                                    else {
 										$_POST[$key] = "";
 									}
 								} else {
@@ -345,10 +335,12 @@ class CSQLAdmin extends CLibrary {
 			}
 
 			//force for no validation sometimes
-			if ($_GET["FORMvalidate"] == "false")
+			if ($_GET["FORMvalidate"] == "false"){
 				$fields = "";
-			else
+            }
+			else{
 				$fields = $this->form->Validate($this->forms["forms"][$_GET["type"]] , $_POST);
+            }
 			
 			if (!is_array($fields)) {
 				//adding to database
@@ -358,7 +350,9 @@ class CSQLAdmin extends CLibrary {
 					$id = $this->db->QueryInsert($this->tables[$this->forms["forms"]["add"]["table"]] , $_POST);
 					$_POST[$this->forms["forms"]["add"]["table_uid"]] = $id;
 				
-				} else {
+				}
+                else {
+                                                                //table                            fields    where
 					$this->db->QueryUpdate($this->tables[$this->forms["forms"]["edit"]["table"]] , $_POST , "`" . $this->forms["forms"]["edit"]["table_uid"] . "`='" . $_POST[$this->forms["forms"]["edit"]["table_uid"]] . "'" );
 
 					$id = $_POST[$this->forms["forms"]["edit"]["table_uid"]];
@@ -403,8 +397,9 @@ class CSQLAdmin extends CLibrary {
 							break;
 
 							default:
-								if (is_array($val["file"]))
+								if (is_array($val["file"])){
 									SaveFileContents($_CONF["path"] . $_CONF["upload"] . $val["file"]["path"] . $val["file"]["default"] . $_POST[$val["file"]["field"]] . $val["file"]["ext"] , $_POST[$key] );
+                                }
 							break;
 
 						}
@@ -428,12 +423,14 @@ class CSQLAdmin extends CLibrary {
 				if ($redirect == true) {
 					header("Location: " . CryptLink($this->templates["generic_form"]->blocks["Temp"]->Replace(array_merge($_GET,$_POST))));
 					exit;
-				} else {
+				}
+                else {
 					return true;
 				}
 			}
 								
-		} else {
+		}
+        else {
 			die("ARGH!!!");
 			//redirecting to list page
 			header("Location:" . str_replace("&action=store" , "" , $_SERVER["REQUEST_URI"]));
@@ -441,19 +438,17 @@ class CSQLAdmin extends CLibrary {
 		}				
 
 
-		if (is_array($_fields["values"]))
+		if (is_array($_fields["values"])){
 			$fields["values"] = array_merge($fields["values"], $_fields["values"]);
+        }
 		
 		return $this->form->Show($this->forms["forms"][$_GET["type"]] , $fields);				
 	}
 	
 	/**
 	* description
-	*
 	* @param
-	*
 	* @return
-	*
 	* @access
 	*/
 	function RestoreURI($section) {
@@ -466,7 +461,6 @@ class CSQLAdmin extends CLibrary {
 			unset($out[$this->forms["table_uid"]]);
 
 			return CryptLink($_SERVER["SCRIPT_NAME"] . "?" . implode("&" , $out));
-
 			//return $_
 		}		
 	}
@@ -474,11 +468,8 @@ class CSQLAdmin extends CLibrary {
 
 	/**
 	* description
-	*
 	* @param
-	*
 	* @return
-	*
 	* @access
 	*/
 	function DoEvents($section = ""  , $extra = "" , $values = "") {
@@ -505,17 +496,19 @@ class CSQLAdmin extends CLibrary {
 
 				
 				//searching for element
-				$data = $this->db->QFetchArray("SELECT * FROM `" . $this->tables[$this->forms["forms"]["edit"]["table"]] . "` WHERE `" . $this->forms["forms"]["edit"]["table_uid"] . "`='" . $_GET[$this->forms["forms"]["edit"]["table_uid"]] . "'" );
+                $data = $this->db->QuerySelectLimit($this->tables[$this->forms["forms"]["edit"]["table"]],"*",  "`{$this->forms["forms"]["edit"]["table_uid"]}` = '{$_GET[$this->forms["forms"]["edit"]["table_uid"]]}'");
+				//$data = $this->db->QFetchArray("SELECT * FROM `" . $this->tables[$this->forms["forms"]["edit"]["table"]] . "` WHERE `" . $this->forms["forms"]["edit"]["table_uid"] . "`='" . $_GET[$this->forms["forms"]["edit"]["table_uid"]] . "'" );
 
 				//checking if this is a valid data
 				if (is_array($data)) {
-					$this->db->Query("DELETE FROM `" . $this->tables[$this->forms["forms"]["edit"]["table"]] . "` WHERE `" . $this->forms["forms"]["edit"]["table_uid"] . "`='" . $_GET[$this->forms["forms"]["edit"]["table_uid"]] . "'" );
+					$this->db->deleteQuery($this->tables[$this->forms["forms"]["edit"]["table"]] , $this->forms["forms"]["edit"]["table_uid"] . "`='" . $_GET[$this->forms["forms"]["edit"]["table_uid"]] . "'" );
 				}
 			
 				if ($_GET["returnURL"]) {
 					header("Location: " . CryptLink(urldecode($_GET["returnURL"])));
 					exit;
-				} else {
+				}
+                else {
 					header("Location:" . $_SERVER["HTTP_REFERER"]/*$this->RestoreURI("list")*/);
 					exit;
 				}
@@ -533,7 +526,8 @@ class CSQLAdmin extends CLibrary {
 
 			case $this->forms["uridata"]["edit"]:
 				//searching for element
-				$data = $values["edit"] ? $values["edit"] : $this->db->QFetchArray("SELECT * FROM `" . $this->tables[$this->forms["forms"]["edit"]["table"]] . "` WHERE `" . $this->forms["forms"]["edit"]["table_uid"] . "`='" . $_GET[$this->forms["forms"]["edit"]["table_uid"]] . "'" );
+				$data = $values["edit"] ? $values["edit"] : $this->db->QuerySelectLimit($this->tables[$this->forms["forms"]["edit"]["table"]],"*", "`{$this->forms["forms"]["edit"]["table_uid"]}` = '{$_GET[$this->forms["forms"]["edit"]["table_uid"]]}'");
+                    //$this->db->QFetchArray("SELECT * FROM `" . $this->tables[$this->forms["forms"]["edit"]["table"]] . "` WHERE `" . $this->forms["forms"]["edit"]["table_uid"] . "`='" . $_GET[$this->forms["forms"]["edit"]["table_uid"]] . "'" );
 
 				//checking if this is a valid data
 				if (is_array($data)) {
@@ -548,7 +542,8 @@ class CSQLAdmin extends CLibrary {
 
 			case $this->forms["uridata"]["details"]:
 				//searching for element
-				$data = $this->db->QFetchArray("SELECT * FROM `" . $this->tables[$this->forms["forms"]["edit"]["table"]] . "` WHERE `" . $this->forms["forms"]["edit"]["table_uid"] . "`='" . $_GET[$this->forms["forms"]["edit"]["table_uid"]] . "'" );
+                $data = $this->db->QuerySelectLimit($this->tables[$this->forms["forms"]["edit"]["table"]],'*', "`{$this->forms["forms"]["edit"]["table_uid"]}` = '{$_GET[$this->forms["forms"]["edit"]["table_uid"]]}'");
+				//$data = $this->db->QFetchArray("SELECT * FROM `" . $this->tables[$this->forms["forms"]["edit"]["table"]] . "` WHERE `" . $this->forms["forms"]["edit"]["table_uid"] . "`='" . $_GET[$this->forms["forms"]["edit"]["table_uid"]] . "'" );
 
 				//checking if this is a valid data
 				if (is_array($data)) {

@@ -1,5 +1,19 @@
 <?php
+/**
+ * File description: Class file
+ * Class: CVars
+ * Modified by Kris Sherrerd
+ * Last updated: 4/10/2014
+ * Changes Copyright 2014 by Kris Sherrerd
+ */
 
+if(!defined('PMC_INIT')){
+    die('Your not suppose to be in here! - Ibid');
+}
+
+/**
+ * Class CVars
+ */
 class CVars {
 	var $database;
 	var $table;
@@ -8,24 +22,24 @@ class CVars {
 
 	function CVars($database,$table) {
 		//$this->database = (is_object($database)) ? &$database : new CDatabase($database);
-		if (is_object($database))
+		if (is_object($database)){
 			$this->database = &$database;
-		else
+        }
+		else{
 			$this->database = new CDatabase($database);
-
+        }
 		$this->table = $table;
 
 		return $this->Load();
 	}
 
 	function Load() {
-		$vars = $this->database->QFetchRowArray("SELECT * FROM `$this->table`");
+        $vars = $this->database->QuerySelectLimit($this->table,'*');
 
 		if (is_array($vars))
-			foreach ($vars as $var)
+			foreach ($vars as $var){
 				$this->data[$var["name"]] = $var["value"];
-
-		
+            }
 	}
 
 	function SetAll($var) {
@@ -37,10 +51,9 @@ class CVars {
 	function Set($name,$value,$force = FALSE) {
 		$value = addslashes($value);
 		 if ($force == TRUE) {
-				 $this->database->Query("UPDATE `$this->table` SET `value` = '$value' WHERE (`name` = '$name')");
-			 
+				 $this->database->QueryUpdate($this->table, array('value' => $value), "`name` = '$name'");
 			 if ($this->database->AffectedRows() == 0) {
-				 $this->database->Query("INSERT INTO `$this->table` (`name`,`value`) VALUES ('$name','$value')");
+				 $this->database->QueryInsert($this->table, array('name'=>$name,'value' =>$value));
 			 }
 		 }
 
@@ -61,13 +74,9 @@ class CVars {
 				$values[] = "('$name','$val')";
 			}
 
-			// build names and values
-			$values = implode(", ",$values);
-
 			// do the nasty things
-			$this->database->Query("DELETE FROM `$this->table`");
-			$this->database->Query("INSERT INTO `$this->table` (`name`,`value`) VALUES $values");
-			
+			$this->database->deleteQuery($this->table);
+            $this->database->QueryInsert($this->table, $values);
 		}
 	}
 }

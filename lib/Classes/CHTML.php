@@ -1,20 +1,48 @@
 <?php
+/**
+ * File description: Class file
+ * Class: CHTML
+ * Modified by Kris Sherrerd
+ * Last updated: 4/9/2014
+ * Changes Copyright 2014
+ */
+
+if(!defined('PMC_INIT')){
+    die('Your not suppose to be in here! - Ibid');
+}
+
+/**
+ * Class CBase
+ */
+class CBase {
+    var $html;
+    var $vars;
+}
+/**
+ * Class CHTML
+ */
 class CHTML {
+
+
+    /**
+     * @description basic constructor
+     */
+    public function __constructor(){
+
+    }
 	/**
-	* generates paging from user data
-	*
+	* @description generates paging from user data
+
 	* @param mixed $template	template file or object to work w/
 	* @param int $ic			total number of items
 	* @param int $ipp			items per page
 	* @param int $cp			current page
 	* @param array $vars		template vars [if any]
 	* @param bool $pn			also include prev/next controls? [defaults to TRUE]
-	*
 	* @return string html page code
-	*
 	* @access public
 	*/
-	function Paging($template,$ic,$ipp,$cp,$vars,$pn = TRUE) {
+    public function Paging($template,$ic,$ipp,$cp,$vars,$pn = TRUE) {
 		if ($ipp == 0) 
 			return "";
 
@@ -93,23 +121,19 @@ class CHTML {
 	}
 
 	/**
-	* dinamically generates a select form element w/ the provided data
-	*
+	* @description dynamically generates a select form element w/ the provided data
 	* @param string $name		tag name attribute
 	* @param array $vars		array of option values in the form of "VAL" => "NAME"
 	* @param object $template	template object to use for generation
 	* @param string $block		name of template block which contains the select body
 	* @param string $selected	selected item if any [defaults to void]
 	* @param array	$extra_vars	extra variables to be replaced in each option [keys must be
-	*							the same of $vars to work properly]
 	* @param array	$global_vars extra variables to be replaced in select
-	*
 	* @return string generated html code
-	*
 	* @access public
 	*/
-	function FormSelect($name,$vars,$template,$block,$selected = "",$extra_vars = array(), $global_vars = array()) {
-
+    public function FormSelect($name,$vars,$template,$block,$selected = "",$extra_vars = array(), $global_vars = array()) {
+        $options = '';
 		if (is_array($vars))
 			foreach ($vars as $key => $val) {
 				$replace = array(
@@ -118,14 +142,16 @@ class CHTML {
 					"SELECTED" => (($key == $selected) ? " selected=\"selected\"" : "")
 				);
 				
-				if (is_array($extra_vars))
+				if (is_array($extra_vars)){
 					$replace = array_merge($replace,$extra_vars[$key]);
+                }
 
 				$options .= $template->blocks["{$block}Option"]->Replace($replace);
 			}
 
-		if (count($global_vars) != 0)
+		if (count($global_vars) != 0){
 			$select = $global_vars;
+        }
 		$select["NAME"] = $name;
 		$select["OPTIONS"] = $options;
 
@@ -133,18 +159,15 @@ class CHTML {
 	}
 
 	/**
-	* description generating a custom seeting page from a template
-	*
+	* @description generating a custom seeting page from a template
 	* @param string $rights		a string contaign all rights
 	* @param object $template	template object to use for generation
 	* @param array $vars		variable with data :]
-	*
 	* @return string generated html code
-	*
 	* @access public
 	*/
-	function SettingsPage($template,$rights,$vars) {
-
+    public function SettingsPage($template,$rights,$vars) {
+        $return = '';
 		if (!$rights)
 			return null;		
 
@@ -177,17 +200,22 @@ class CHTML {
 		return $template->blocks["Main"]->Replace(array("SECTIONS_CONTENT" => $return));
 	}
 
-	/**
-	* description
-	*
-	* @param
-	*
-	* @return
-	*
-	* @access
-	*/
-	function Table($template,$template_block,$data,$has_paging = FALSE,$element_count = 0,$elements_per_page = 0,$page = 0,$paging_template = NULL,$paging_vars = array()) {
-
+    /**
+     * @description
+     * @param $template
+     * @param $template_block
+     * @param $data
+     * @param bool $has_paging
+     * @param int $element_count
+     * @param int $elements_per_page
+     * @param int $page
+     * @param null $paging_template
+     * @param array $paging_vars
+     * @return mixed
+     * @access public
+     */
+    public function Table($template,$template_block,$data,$has_paging = FALSE,$element_count = 0,$elements_per_page = 0,$page = 0,$paging_template = NULL,$paging_vars = array()) {
+        $return = "";
 		if (is_array($data))
 			foreach ($data as $element) {
 				$element["date"] = @date("F j, Y, g:i a",$element["date"]);
@@ -203,22 +231,27 @@ class CHTML {
 		return $template->blocks[$template_block . "Group"]->Replace(array("DATA" => $return, "PAGING" => $paging));
 	}
 
-	/**
-	* description
-	*
-	* @param
-	*
-	* @return
-	*
-	* @access
-	*/
-	function TableSimple($template,$block,$items,$vars = array(),$filler_func = NULL,$paging = NULL,$page = 0,$tic = 0,$paging_vars = array()) {
+    /**
+     * @description
+     * @param $template
+     * @param $block
+     * @param $items
+     * @param array $vars
+     * @param null $filler_func
+     * @param null $paging
+     * @param int $page
+     * @param int $tic
+     * @param array $paging_vars
+     * @return mixed
+     * @access public
+     */
+    public function TableSimple($template,$block,$items,$vars = array(),$filler_func = NULL,$paging = NULL,$page = 0,$tic = 0,$paging_vars = array()) {
 		$item_count = count($items);
-
+        $rows = '';
 		if (is_array($items)) {
 			foreach ($items as $item) {
 				if (is_array($filler_func) && is_array($item))
-					call_user_func($filler_func,&$item);
+					call_user_func($filler_func,$item);
 				$rows .= $template->blocks["{$block}Row"]->Replace($item);
 			}
 		} else
@@ -232,18 +265,16 @@ class CHTML {
 	}
 
 	/**
-	* uses the specified data array to build a very simple table
-	*
+	* @description uses the specified data array to build a very simple table
 	* @param object	$template	template to use
 	* @param string	$block		template block to use
 	* @param array	$data		data array to be processed
-	*
 	* @return mixed the table or void if empty data
-	*
 	* @access public
 	*/
-	function TableLight($template,$block,$data) {
-		if ($data == "")
+    public function TableLight($template,$block,$data) {
+		$rows = '';
+        if ($data == "")
 			return "";
 		else {
 			foreach ($data as $item)
@@ -254,8 +285,7 @@ class CHTML {
 	}
 
 	/**
-	* builds and displays a multi row/col html table
-	*
+	* @description builds and displays a multi row/col html table
 	* @param mixed $template	template file name or object
 	* @param string $block		template block which contains the table body
 	* @param array $items		array w/ the table items
@@ -267,12 +297,10 @@ class CHTML {
 	* @param int $page			current `page'
 	* @param int $tic			total item count [used for paging]
 	* @param array $paging_vars	array of vars to be replaced in the paging templates
-	*
 	* @return string html code of the built table
-	*
 	* @access public
 	*/
-	function TableComplex($template,$block,$items,$rc,$cc,$vars = array(),$filler_func = NULL,$paging = NULL,$page = 0,$tic = 0,$paging_vars = array()) {
+    public function TableComplex($template,$block,$items,$rc,$cc,$vars = array(),$filler_func = NULL,$paging = NULL,$page = 0,$tic = 0,$paging_vars = array()) {
 		// compute item count ?
 		$item_count = count($items);
 
@@ -298,7 +326,7 @@ class CHTML {
 
 					// then feed it to the filler func if needed
 					if (is_array($filler_func) && is_array($item))
-						call_user_func($filler_func,&$item);
+						call_user_func($filler_func,$item);
 
 					// populate column data + check if the cell is empty
 					$columns .= (is_array($item)) ? $template->blocks["Column"]->Replace($item) : $template->blocks["ColumnEmpty"]->output;
@@ -321,16 +349,14 @@ class CHTML {
 		return $template->blocks[$block]->Replace(array_merge(array("ROWS" => $rows, "PAGING" => $_paging),$vars));
 	}
 
-	/**
-	* description
-	*
-	* @param
-	*
-	* @return
-	*
-	* @access
-	*/
-	function error($template,$id) {
+    /**
+     * @description
+     * @param $template
+     * @param $id
+     * @return mixed
+     * @access public
+     */
+    public function error($template,$id) {
 		return $template->blocks[$id]->output;
 	}
 
