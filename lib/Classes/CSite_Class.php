@@ -4,7 +4,9 @@
  * last Modified: 4/8/14
  * Version: 1.0
  */
-
+if(!defined('PMC_INIT')){
+    die('Your not suppose to be in here! - Ibid');
+}
 /**
  * Class CSite
  *
@@ -13,7 +15,6 @@ class CSite {
     var $admin;
     var $html;
     var $templates;
-    var $db;
     var $vars;
     var $table;
 
@@ -24,15 +25,16 @@ class CSite {
      * @access public
      */
     public function __construct($xml , $admin = false) { //CSite
-        global $gx_CONF;
+        global $gx_CONF, $gx_config;
 
         //loading the config
-        $config = new CConfig($xml);
-        print_r($config->vars["config"]);
-        die("I'm on this");
-        $gx_CONF = $config->vars["config"];
-        $this->loadDatabase();
+        $gx_config = new CConfig($xml);
 
+        //todo remove
+        $gx_CONF = $gx_config->vars["config"];
+
+        $this->loadDatabase();
+        die("I'm on this");
         $this->admin = true; // todo automate this so admin is determined by a database query //$admin;
         $this->loadTemplates();
 
@@ -42,12 +44,12 @@ class CSite {
      *
      */
     private function loadTemplates(){
-        global $gx_CONF, $base;
+        global $gx_CONF, $base, $db;
         if ($this->admin) {
             if(isset($gx_CONF["templates"]["admin"])){
                 foreach ($gx_CONF["templates"]["admin"] as $key => $val) {
                     if ($key != "path"){
-                        $this->templates[$key] = new CTemplate($gx_CONF["templates"]["admin"]["path"] . $_CONF["templates"]["admin"][$key]);
+                        $this->templates[$key] = new CTemplate($gx_CONF["templates"]["admin"]["path"] . $gx_CONF["templates"]["admin"][$key]);
                     }
                 }
             }
@@ -71,24 +73,25 @@ class CSite {
         $base = new CBase();
         $base->html = new CHtml();
         $this->html = $base->html;
+
+        //vars only if needed
+        if ($gx_CONF["tables"]["vars"]) {
+            $this->vars = new CVars($db , $gx_CONF["tables"]["vars"]);
+            $base->vars = &$this->vars;
+        }
     }
 
     /**
      *
      */
     private function loadDatabase(){
-        global $gx_CONF, $db, $base, $gx_tables;
+        global $gx_config, $db;
         //make a connection to db
-        if (isset($gx_CONF["database"])) {
-            $db = new CDatabase($gx_CONF["database"]);
-            //vars only if needed
-            if ($gx_CONF["tables"]["vars"]) {
-                $this->vars = new CVars($this->db , $gx_CONF["tables"]["vars"]);
-                $base->vars = &$this->vars;
-            }
+        if (isset($gx_config->config["database"])) {
+            $db = new CDatabase($gx_config->config["database"]);
 
-            $this->tables = $gx_CONF["tables"]; // todo get rid of local tables variable.
-            $gx_tables = $this->tables;
+            //todo remove;
+            $this->tables = $$gx_config->config["tables"];
         }
         else{
             //error

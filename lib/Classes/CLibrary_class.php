@@ -76,9 +76,9 @@ class CLibrary {
      * @param $vars
      * @return mixed
      */
-    function loadXMLFile($file_name, $vars, $parser){
+    function loadXMLFile($file_name, $vars, $parser, $type = null){
        //global ;
-        $vars = $parser->Parse(str_replace("&","[amp]",GetFileContents($file_name)),$return_type = true, $type = 'config');
+        $vars = $parser->Parse(str_replace("&","[amp]",GetFileContents($file_name)),$return_type = true, $type);
         $parser->freeParser();
         $this->library_name=$file_name;
 

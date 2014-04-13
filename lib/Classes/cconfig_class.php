@@ -15,7 +15,9 @@ if(!defined('PMC_INIT')){
  * Class CConfig
  */
 class CConfig {
-	/**
+    public $info_config;
+    public $config;
+    /**
 	* current depth in xml tree
 	* @var int
 	* @access private
@@ -44,10 +46,19 @@ class CConfig {
      * @access public
      */
 	public function __construct($file_name = "") {
+        global $gx_library;
+        //todo, remove old config system.
         $this->parser = new CXMLParser('config');
 		if ($file_name != ""){
 			$this->Load($file_name);
         }
+        $gx_library->loadLibraryFile('','site_config.php', true);
+        global $info_config, $config;
+        $this->info_config = $info_config;
+        $this-> config = $config;
+        unset($info_config);
+        unset($config);
+
 
 	}
 
@@ -61,7 +72,7 @@ class CConfig {
 	*/
 	public function Load($file_name) {
         global $gx_library;
-        $this->vars = $gx_library->loadXMLFile($file_name, $this->vars, $this->parser);
+        $this->vars = $gx_library->loadXMLFile($file_name, $this->vars, $this->parser, 'config');
 
         //$this->Parse(str_replace("&","[amp]",GetFileContents($file_name)));
         $this->file_names=$file_name;
