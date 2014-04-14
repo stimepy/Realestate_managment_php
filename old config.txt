@@ -1,0 +1,58 @@
+CConfig Object ( [depth] => 0 
+
+[tags] => Array ( ) 
+
+[vars] => Array ( 
+	[config] => Array ( [upload] => ./upload/ [path] => ../ [url] => ../ 
+		[database] => Array ( [type] => mysql ) 
+		[templates] => Array ( [path] => ./templates/ 
+			[admin] => Array ( [path] => ./templates/admin/ ) 
+		) 
+	) 
+	
+	["config"]["formspath"] => ./forms/ 
+	["config"]["default_location"] => index.php 
+	["config"]["forms"]["adminpath"] => ./forms/admin/ 
+	["config"]["forms"]["userpath"] => ./forms/user/ 
+	["config"]["forms"]["admintemplate"] => ./templates/form.htm 
+	["config"]["forms"]["sitepath"] => ./forms/ 
+	["config"]["forms"]["sitetemplate"] => ./admin/templates/form.htm 
+	
+	["config"]["database"]["server"] => localhost 
+	["config"]["database"]["login"] => root 
+	["config"]["database"]["password"] => root 
+	["config"]["database"]["default"] => pm 
+	
+	["config"]["tables"]["properties"] => site_property 
+	["config"]["tables"]["expenses"] => site_expenses 
+	["config"]["tables"]["users"] => site_users 
+	["config"]["tables"]["vars"] => site_vars 
+	["config"]["templates"]["admin"]["login"] => login.htm 
+	["config"]["templates"]["admin"]["layout"] => layout.htm 
+	[properties] => Array ( [name] => properties ) 
+	
+	
+	
+	[expenses] => Array ( [name] => expenses ) 
+	
+	
+	
+	[users] => Array ( [name] => users ) 
+	
+	
+	
+	[vars] => Array ( [name] => vars )
+
+	
+	
+	[login] => Array ( [name] => login ) 
+	
+	
+	
+	[layout] => Array ( [name] => layout ) 
+	
+	
+) 
+
+
+parser:CConfig:private] => CXMLParser Object ( [parser] => Resource id #19 [namespace] => [attr_namespace] => [tag] => TEMPLATE [attr] => Array ( [NAME] => layout ) [depth] => 0 [vars] => Array ( [config] => Array ( [upload] => ./upload/ [path] => ../ [url] => ../ [database] => Array ( [type] => mysql ) [templates] => Array ( [path] => ./templates/ [admin] => Array ( [path] => ./templates/admin/ ) ) ) ["config"]["formspath"] => ./forms/ ["config"]["default_location"] => index.php ["config"]["forms"]["adminpath"] => ./forms/admin/ ["config"]["forms"]["userpath"] => ./forms/user/ ["config"]["forms"]["admintemplate"] => ./templates/form.htm ["config"]["forms"]["sitepath"] => ./forms/ ["config"]["forms"]["sitetemplate"] => ./admin/templates/form.htm ["config"]["database"]["server"] => localhost ["config"]["database"]["login"] => root ["config"]["database"]["default"] => pm [properties] => Array ( [name] => properties ) ["config"]["tables"]["properties"] => site_property [expenses] => Array ( [name] => expenses ) ["config"]["tables"]["expenses"] => site_expenses [users] => Array ( [name] => users ) ["config"]["tables"]["users"] => site_users [vars] => Array ( [name] => vars ) ["config"]["tables"]["vars"] => site_vars [login] => Array ( [name] => login ) ["config"]["templates"]["admin"]["login"] => login.htm [layout] => Array ( [name] => layout ) ["config"]["templates"]["admin"]["layout"] => layout.htm ) [tagsc] => Array ( [0] => CONFIG ) ) [file_names] => ./site.xml )

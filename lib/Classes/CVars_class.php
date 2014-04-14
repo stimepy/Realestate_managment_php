@@ -21,20 +21,14 @@ class CVars {
 	var $modif = FALSE;
 
 	function CVars($database,$table) {
-		//$this->database = (is_object($database)) ? &$database : new CDatabase($database);
-		if (is_object($database)){
-			$this->database = &$database;
-        }
-		else{
-			$this->database = new CDatabase($database);
-        }
-		$this->table = $table;
+        $this->table = $table;
 
 		return $this->Load();
 	}
 
 	function Load() {
-        $vars = $this->database->QuerySelectLimit($this->table,'*');
+        global $gx_db;
+        $vars = $gx_db->QuerySelectLimit($this->table,'*');
 
 		if (is_array($vars))
 			foreach ($vars as $var){

@@ -24,7 +24,7 @@ class CLibrary {
 	* @return void
 	* @acces public
 	*/
-	function __constructor() {
+	function _construct() {
 	}
 
     /**
@@ -45,7 +45,7 @@ class CLibrary {
         }
         else{
             $this->myFileIncludes($filepath,$filename,$required);
-            $this->file_name[] = $filename;
+            $this->file_names[] = $filename;
         }
         return true;
     }
@@ -80,9 +80,20 @@ class CLibrary {
        //global ;
         $vars = $parser->Parse(str_replace("&","[amp]",GetFileContents($file_name)),$return_type = true, $type);
         $parser->freeParser();
-        $this->library_name=$file_name;
+        $this->library_name[]=$file_name;
 
         return  ArrayReplace("[amp]" , "&" , $vars );
+    }
+
+    function loadHtmFile($source){
+        if(file_exists($source)){
+            $this->library_name[]=$source;
+            return GetFileContents($source);
+        }
+        else{
+            //error
+        }
+
     }
 }
 ?>

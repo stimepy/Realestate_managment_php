@@ -29,7 +29,7 @@ class CSQLAdmin {
      * @param $tables
      * @param string $extra
      */
-    function __constructor($section , $templates , $db , $tables , $extra = "") {
+    public function __constructor($section , $templates , $db , $tables , $extra = "") {
 		global $_CONF;
 
 		if (!$_GET["page"]){
@@ -37,9 +37,10 @@ class CSQLAdmin {
         }
 
 		//checking if the templates are orblects or path to a template file
-		if (!is_array($templates))					
+		if (!is_array($templates)){
 			//if path the load the tempmate form that file
 			$this->templates = array("generic_form" => new CTemplate($templates));
+        }
 		else
 			$this->templates = $templates;
 		

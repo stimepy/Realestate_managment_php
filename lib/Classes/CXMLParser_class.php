@@ -247,11 +247,9 @@ class CXMLParser {
             }
 
             // build code
-            $code = implode("][",$code);
-            $this->vars[$code] =  $cdata;
-            // and finally execute
-            //eval($code);
-            //$this->vars[implode("][",$code)] = $cdata;
+            $code = "\$this->vars[" . implode("][",$code) . "] = \"" . $cdata . "\";";
+  		    // and finally execute
+            eval($code);
         }
     }
 

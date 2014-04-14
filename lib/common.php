@@ -939,4 +939,87 @@ function e107_filter($input,$key,$type,$base64=FALSE)
 }
 
 
+
+/**
+ *
+ * @param $var
+ * @param null $default
+ * @return array|null
+ *
+ * Original code from phpbb 3.0.10  Get the post/get variable.
+ */
+function GetVar($var, $default='', $mode1=1,$mode2=1){
+    if ((!isset($_GET[$var]) && !isset($_POST[$var])) && (empty($_GET[$var]) && empty($_POST[$var]))){
+        return (is_array($default)) ? array() : $default;
+    }
+    $_REQUEST[$var] = isset($_POST[$var]) ? $_POST[$var] : $_GET[$var];
+
+    $super_global = '_REQUEST';
+    if (!isset($GLOBALS[$super_global][$var]) && empty($GLOBALS[$super_global][$var])){//|| !is_array($GLOBALS[$super_global][$var])== is_array($default))
+        return (is_array($default)) ? array() : $default;
+    }
+    $var = X1Clean($GLOBALS[$super_global][$var],$mode1,$mode2);
+    $type = gettype($default);
+    return $var;
+
+}
+
+
+
+
+/**
+ * @description makes 100% sure that post/get information is clean
+ * @param $var
+ * @param $type
+ * @param int $mode
+ * @param int $mode2
+ * @return string
+ */
+function X1Clean($var, $mode=1, $mode2=1){
+
+    switch($mode){
+        case 3://converts (,),' to html tags, should get rid of php code.
+            $var = utf8_decode($var);
+            $var = strtr($var, array('(' => '&#40;', ')' => '&#41;'));
+            $var = htmlspecialchars($var, ENT_QUOTES, "UTF-8");
+            $var = strip_tags($var);
+            break;
+
+        case 4:// no html tags, no quotes, just text
+            $var = utf8_decode($var);
+            $var = strip_tags($var);
+            $var = strtr($var, array('(' => '&#40;', ')' => '&#41;', '\'' =>'&#39;'));
+            $var = htmlspecialchars($var);
+            $var = rtrim($var);
+            break;
+
+        case 5: //Array cleaning
+            if(is_array($var)){
+                $keys=array_keys($var);
+                $count = 0;
+                foreach($var as $item){
+                    $newvar[$keys[$count]]=DispFunc::X1Clean($item);
+                    $count++;
+                }
+                $var=$newvar;
+            }
+            else{//really should be an error;
+                $var=X1Clean($var, $mode2);
+            }
+            break;
+
+        default://remove all php and html tags and make (,),' into hmtl chartext equvalent
+            $var = utf8_decode($var);//makes sure it's utf8 decoded.
+            $var = trim(htmlspecialchars(str_replace(array("\r\n", "\r", "\0"), array("\n", "\n", ''), $var), ENT_COMPAT, 'UTF-8'));
+            $var = strip_tags($var); //strips out all HTML and PHP tags
+            $var = stripslashes($var);
+            //$var = strtr($var, array('(' => '&#40;', ')' => '&#41;')); //translates () into html equivalent
+            //$var = htmlspecialchars($var, ENT_QUOTES | ENT_HTML5);//takes that equvalent and makes it text
+            break;
+    }
+    return $var;
+}
+
+
+
 ?>

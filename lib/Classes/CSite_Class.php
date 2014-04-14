@@ -25,7 +25,7 @@ class CSite {
      * @access public
      */
     public function __construct($xml , $admin = false) { //CSite
-        global $gx_CONF, $gx_config;
+        global $gx_CONF, $gx_config, $gx_session, $gx_db;
 
         //loading the config
         $gx_config = new CConfig($xml);
@@ -34,50 +34,41 @@ class CSite {
         $gx_CONF = $gx_config->vars["config"];
 
         $this->loadDatabase();
-        die("I'm on this");
+
         $this->admin = true; // todo automate this so admin is determined by a database query //$admin;
-        $this->loadTemplates();
-
-    }
-
-    /**
-     *
-     */
-    private function loadTemplates(){
-        global $gx_CONF, $base, $db;
-        if ($this->admin) {
-            if(isset($gx_CONF["templates"]["admin"])){
-                foreach ($gx_CONF["templates"]["admin"] as $key => $val) {
-                    if ($key != "path"){
-                        $this->templates[$key] = new CTemplate($gx_CONF["templates"]["admin"]["path"] . $gx_CONF["templates"]["admin"][$key]);
-                    }
-                }
-            }
-            else{
-                //todo error
-            }
-        }
-        else {
-            if (isset($gx_CONF["templates"])) {
-                foreach ($gx_CONF["templates"] as $key => $val) {
-                    if (($key != "path" ) && ($key != "admin")){
-                        $this->templates[$key] = new CTemplate($gx_CONF["templates"]["path"] . $gx_CONF["templates"][$key]);
-                    }
-                }//foreach
-            }//fi
-            else{
-                //todo error
-            }
-        }//esle
-
+        //determine login status....
+        $gx_session = new CSession();
+        //for the eventual loading of template
         $base = new CBase();
         $base->html = new CHtml();
         $this->html = $base->html;
 
-        //vars only if needed
-        if ($gx_CONF["tables"]["vars"]) {
-            $this->vars = new CVars($db , $gx_CONF["tables"]["vars"]);
-            $base->vars = &$this->vars;
+        $this->vars = new CVars($gx_db , $gx_CONF["tables"]["vars"]);
+
+        $base->vars = &$this->vars;
+    }
+
+    /**
+     * @param $template string or array of strings
+     */
+    private function loadTemplates($template, $path){
+        global $gx_config;
+       if(isset($gx_config->config["templates"])){
+           if(is_array($template)){
+               for($i = 0; $i<sizeof($template); $i++){
+                   if(is_array($path)){
+                       //something
+                   }
+                   //echo $gx_config->global_config["templates"][$path] . $gx_config->config["templates"][$template[$i]];
+                   $this->templates[$template[$i]] = new CTemplate($gx_config->global_config["templates"][$path] . $gx_config->config["templates"][$template[$i]]);
+               }
+           }
+           else{
+            $this->templates[$template] = new CTemplate($gx_config->global_config["templates"][$path] . $gx_config["templates"][$template]);
+           }
+        }
+        else{
+            //error
         }
     }
 
@@ -85,16 +76,16 @@ class CSite {
      *
      */
     private function loadDatabase(){
-        global $gx_config, $db;
+        global $gx_config, $gx_db;
         //make a connection to db
         if (isset($gx_config->config["database"])) {
-            $db = new CDatabase($gx_config->config["database"]);
+            $gx_db = new CDatabase($gx_config->config["database"]);
 
             //todo remove;
-            $this->tables = $$gx_config->config["tables"];
+            $this->tables = $gx_config->config["tables"];
         }
         else{
-            //error
+            echo "error";
         }
     }
 
@@ -111,62 +102,49 @@ class CSite {
      * @description Configuration is done, run the site.
      */
     function Run() {
-        global $_TSM, $gx_library;
+        global $gx_session, $gx_TSM;
+        $gx_TSM = [];
+        $gx_TSM["TITLE"] = "In devlopment";
 
-        $gx_library->loadLibraryFile(_LIBPATH,"pb_events.php");
-        $_TSM["PB_EVENTS"] = @DoEvents($this);
-        if (is_object($this->templates["layout"])) {
-            echo $this->templates["layout"]->Replace($_TSM);
+        if($gx_session->getLoginStatus()){
+            $this->DoEvents();
+        }
+        else{
+            $this->loadTemplates(array('admin_login', 'admin_layout'), 'admin_path');
+            $gx_TSM["AREA"]= "Login";
+            $gx_TSM["MENU"] = $this->templates["admin_login"]->blocks["MenuAdmin"]->output;
+            $gx_TSM["CONTENT"] = $this->templates["admin_login"]->blocks["Login"]->output;
+
+        }
+        //$gx_library->loadLibraryFile(_LIBPATH,"pb_events.php");
+        //
+        if (is_object($this->templates["admin_layout"])) {
+            echo $this->templates["admin_layout"]->Replace($gx_TSM);
         }
     }
 
-    private function DoEvents($event) {
-        global $_CONF , $_TSM, $db;
+    private function DoEvents() {
+        global $_CONF, $gx_config , $gx_TSM, $gx_db, $gx_session;
+       //load the layout.
+        $this->loadTemplates('admin_layout', 'admin_path');
 
-        $_TSM["MENU"] = "";
-
-        //checking if user is logged in
-        if (!$_SESSION["minibase"]["user"]) {
-
-            if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-                //autentificate
-                $user = $event->db->QuerySelectLimit($event->tables[users],'*',"`user_login` = '{$_POST[user]}' AND `user_password` = '{$_POST[pass]}'");
-                //$user = $event->db->QFetchArray("select * from {} where );
-
-                if (is_array($user)) {
-                    $_SESSION["minibase"]["user"] = 1;
-                    $_SESSION["minibase"]["raw"] = $user;
-
-                    //redirecing to viuw sites
-                    header("Location: $_CONF[default_location]");
-                    exit;
-                }
-                else{
-                    return $event->templates["login"]->blocks["Login"]->output;
-                }
-
-            } else{
-                //   echo is_object($event->templates);
-                return $event->templates["login"]->blocks["Login"]->output;
-            }
+        //set the menu as appropraite
+        if ($gx_session->user_info["user_level"] == 0) {
+            $this->loadTemplates('admin_login', 'admin_path');
+            $gx_TSM["MENU"] = $this->templates["admin_login"]->blocks["MenuAdmin"]->output;
         }
-        if ($_SESSION["minibase"]["raw"]["user_level"] == 0) {
-            $_TSM["MENU"] = $event->templates["login"]->blocks["MenuAdmin"]->output;
-        } else {
-            $_TSM["MENU"] = $event->templates["login"]->blocks["MenuUser"]->output;
+        $task_user=GetVar("task_user", "");
+        if (!$task_user){
+            $task_user = $gx_session["user"];
         }
 
-        if (!$_POST["task_user"])
-            $_POST["task_user"] = $_SESSION["minibase"]["user"];
+        //if($gx_session->user_info["user_level"] == 1) {
+            //$_CONF["forms"]["adminpath"] = $_CONF["forms"]["userpath"];
+        //}
 
-        if($_SESSION["minibase"]["raw"]["user_level"] == 1) {
-            $_CONF["forms"]["adminpath"] = $_CONF["forms"]["userpath"];
-        }
-
-        switch ($_GET["sub"]) {
+        switch (GetVar("sub", "")){
             case "logout":
-                unset($_SESSION["minibase"]["user"]);
+                unset($_SESSION["minibase"]);
                 header("Location: index.php");
 
                 return $event->templates["login"]->EmptyVars();

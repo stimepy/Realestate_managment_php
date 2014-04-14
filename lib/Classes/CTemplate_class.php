@@ -52,10 +52,11 @@ class CTemplate {
 	* @acces public
 	*/
 	public function Load($source,$source_type = "file") {
+        global $gx_library;
 		switch ($source_type) {
 			case "file":
 				// get the data from the file
-				$data = GetFileContents($source);
+				$data = $gx_library->loadHtmFile($source);
 				//$data = str_Replace('$','\$',$data);
 			break;
 			case "rsl":
@@ -68,7 +69,7 @@ class CTemplate {
 		preg_match_all("'<!--S\:.*?-->.*?<!--E\:.*?-->'si",$data,$matches);
 
 		// any blocks found?
-		if (count($matches[0]) != 0)
+		if (count($matches[0]) != 0){
 			// iterate thru `em
 			foreach ($matches[0] as $block) {
 				// extract block name
@@ -80,6 +81,7 @@ class CTemplate {
 				// insert into blocks array
 				$this->blocks["$name"] = new CTemplate($block,"string");
 			}
+        }
 
 		// cleanup block delimiters and set the input/output
 		$this->input = $this->output = preg_replace(array("'<!--S\:.*?-->(\r\n|\n|\n\r)'si","'<!--E\:.*?-->(\r\n|\n|\n\r)'si"),"",$data);
@@ -105,7 +107,7 @@ class CTemplate {
 		$replacements = array();
 
 		// build patterns and replacements
-		if (is_array($vars))
+		if (is_array($vars)){
 			// just a small check		
 			foreach ($vars as $key => $val) {
 				$patterns[] = "/\{" . strtoupper($key) . "\}/";
@@ -113,6 +115,7 @@ class CTemplate {
 				//the $ bug
 				$replacements[] = str_replace('$','\$',$val);
 			}
+        }
 		// do regex
 		$result = $this->output = preg_replace($patterns,$replacements,$this->input);
 		// do we clear?

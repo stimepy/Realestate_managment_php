@@ -148,13 +148,13 @@ class CDatabase{
               break;
         };
         if($type){
-            $this->$results = $this->conn_id->mysqli_query($query,$this->conn_id,$type);
+            $this->results = $this->conn_id->query($query,$type);
         }
         else{
-            $this->$results = $this->conn_id->mysqli_query($query,$this->conn_id);
+            $this->results = $this->conn_id->query($query);
         }
         //error of some sort, kill it
-        if(!$this ->conn_id->errno){
+        if($this->conn_id->errno){
             die('Sql error: '.$this->conn_id->error);
         }
         if ($modify == true){

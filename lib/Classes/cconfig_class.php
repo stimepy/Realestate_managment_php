@@ -15,7 +15,7 @@ if(!defined('PMC_INIT')){
  * Class CConfig
  */
 class CConfig {
-    public $info_config;
+    public $global_config;
     public $config;
     /**
 	* current depth in xml tree
@@ -53,13 +53,11 @@ class CConfig {
 			$this->Load($file_name);
         }
         $gx_library->loadLibraryFile('','site_config.php', true);
-        global $info_config, $config;
-        $this->info_config = $info_config;
+        global $global_config, $config;
+        $this->global_config = $global_config;
         $this-> config = $config;
-        unset($info_config);
+        unset($global_config);
         unset($config);
-
-
 	}
 
 

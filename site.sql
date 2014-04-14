@@ -22,7 +22,7 @@ CREATE TABLE `site_expenses` (
   `expense_date_month` int(2) NOT NULL default '0',
   `expense_date_year` int(4) NOT NULL default '0',
   PRIMARY KEY  (`expense_id`)
-) TYPE=MyISAM AUTO_INCREMENT=4 ;
+) ENGINE=MyISAM AUTO_INCREMENT=4 ;
 
 -- 
 -- Dumping data for table `site_expenses`
@@ -56,7 +56,7 @@ CREATE TABLE `site_property` (
   `lease_to_phone` varchar(30) NOT NULL default '',
   `leased_to_email` varchar(200) NOT NULL default '',
   PRIMARY KEY  (`prop_id`)
-) TYPE=MyISAM AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM AUTO_INCREMENT=3 ;
 
 -- 
 -- Dumping data for table `site_property`
@@ -81,7 +81,7 @@ CREATE TABLE `site_users` (
   `user_number` varchar(100) NOT NULL default '',
   `student_class` int(11) NOT NULL default '0',
   PRIMARY KEY  (`user_id`)
-) TYPE=MyISAM AUTO_INCREMENT=9 ;
+) ENGINE=MyISAM AUTO_INCREMENT=9 ;
 
 -- 
 -- Dumping data for table `site_users`
@@ -101,7 +101,7 @@ CREATE TABLE `site_vars` (
   `name` varchar(200) NOT NULL default '',
   `value` text NOT NULL,
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 -- 
 -- Dumping data for table `site_vars`

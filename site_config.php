@@ -9,9 +9,9 @@
 if(!defined('PMC_INIT')){
     die('Your not suppose to be in here! - Ibid');
 }
-global $info_config, $config;
+global $global_config, $config;
 
-$info_config = Array (
+$global_config = Array (
     "upload" => "./upload/",
     "path" => "../",
     "url" => "../",
