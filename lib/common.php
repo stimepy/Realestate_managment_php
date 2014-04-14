@@ -19,6 +19,18 @@ define("RX_ALPHA","[^a-z0-9_]");
 define("RX_ZIP","[0-9\-]");
 define("RX_PHONE","[0-9\-\+\(\)]");
 
+
+/**
+ * @param $var
+ * @param $value
+ */
+function IniSet($var, $value){
+    if (function_exists('ini_set'))
+    {
+        return ini_set($var, $value);
+    }
+}
+
 /**
 * description returns an array with filename base name and the extension
 * @param filemane format

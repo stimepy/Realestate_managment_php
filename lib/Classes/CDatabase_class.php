@@ -11,7 +11,12 @@
 if(!defined('PMC_INIT')){
     die('Your not suppose to be in here! - Ibid');
 }
-
+DEFINE('DBSELECT', "select");
+DEFINE('DBCREATE', "create");
+DEFINE('DBINSERT', "insert");
+DEFINE('DBUPDATE', "update");
+DEFINE('DBDELETE', "delete");
+//DEFINE('DBSELECT', "other");
 /**
  * Class CDatabase
  */
@@ -346,6 +351,27 @@ class CDatabase{
         return $results;
     }
 
+    public function UndefQuery($table, $options, $type){
+       if(!isset($type)){
+           return false;
+       }
+        switch($type){
+            case "update":
+                $query = "UPDATE {$table} set {$options}";
+                break;
+            case "insert":
+                if(is_array($options)){
+                    $query = "INSERT INTO (". explode($options[0], ',') .") VALUES(". explode($options[1], ',') .")";
+                }
+                else{
+                    $query = "INSERT INTO  VALUES(". explode($options, ',') .")";
+                }
+        }
+
+        $this->callQuery($query);
+
+    }
+
      /**
      * @description builds and performes a SQL INSERT query based on the user data
      * @param string $table table in which to perform insert
@@ -412,7 +438,7 @@ class CDatabase{
         else{
 
         }
-        $this->Query("UPDATE `$table` SET " . $new_values . " WHERE($where_clause)");
+        $this->Query("UPDATE `$table` SET " . $new_values . " WHERE($where_clause)", '', false, true);
         return true;
     }
 
