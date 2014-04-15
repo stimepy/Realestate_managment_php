@@ -1,0 +1,129 @@
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+		<title>{TITLE}</title>
+		<link href="templates/admin/admin.css" type="text/css" rel="stylesheet">
+        <script src="templates/admin/admin.js"></script>
+<style>
+body {
+    background-color: #EDEDED;
+    margin-top: 0px;
+    margin-bottom:0;
+}
+
+.body {
+    background-color: #FFFFFF;
+    border: #B9B9B9;
+    border-style: solid;
+    border-width: 0px 1px 1px 1px;
+}
+
+.topmenu {
+    font-family: arial;
+    font-size: 9pt;
+    font-weight: bold;
+    color: #EFEFEF;
+}
+
+td.layouttop {
+    height:23;
+    padding:0;
+    background-image: url(images/layout_header.gif);
+}
+
+
+
+td.layoutcaption {
+    font-family:verdana;
+    font-size:11px;
+    vertical-align: middle;
+    text-align:left;
+}
+
+
+a.link_menu {
+    font-family:verdana;
+    font-size: 11px;
+    color: black;
+    text-decoration:none;
+}
+
+a.link_menu:HOVER {
+    font-family:verdana;
+    font-size: 11px;
+    color: black;
+    text-decoration:underline;
+}
+
+td.layoutmenu{
+    width: 183;
+    vertical-align: top;
+    background-image: url(images/layout_left.gif);
+}
+
+td.caption {
+    font-family: arial;
+    font-size: 12px;
+    font-weight: bold;
+    color: #000000;
+    background-color: #DDDDDD ;
+    height: 25;
+}</style>
+	</head>
+	<body>
+
+		<table style="border:0;height:100%;text-align:center;" cellspacing="0" cellpadding="0" >
+			<tr>
+				<td class="body">
+					<table style="width:780px;border:0;height:100%;" cellspacing="0" cellpadding="0">
+						<tr>
+							<td colspan="2" class="layouttop">
+								<table style="width:100%;" cellspacing="0" cellpadding="0">
+									<tr>
+										<td style="text-align:center;width:30px;">
+										    <img src="images/layout_icon.gif">
+                                        </td>
+										<td class="layoutcaption">
+                                            {AREA}
+                                        </td>
+										<td style="text-align:right;">
+                                            <a href="index.php?sub=logout">
+                                                <img border="0" src="images/layout_logout.gif">
+                                            </a>
+                                        </td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td style="height:9px;background-image:url('images/layout_middle_right.gif');">
+							</td>
+							<td style="background-image:url('images/layout_middle_left.gif');">
+							</td>
+						</tr>
+						<tr>
+							<td class="layoutmenu" >
+								{MENU}
+							</td>
+							<td style="vertical-align:top;text-align:center;">
+                                <img src="images/dot.gif">
+								<table width="100%" height="100%">
+									<tr>
+										<td style="vertical-align:top;text-align:center;">
+											{CONTENT}
+										</td>
+									</tr>
+									<tr>
+										<td height="20" align="right" style="font-size:9px;">
+                                            &copy <a target="_blank" href="http://www.aodhome.com">AODHOME Development</a>
+                                        </td>
+									</tr>
+								</table>	
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>

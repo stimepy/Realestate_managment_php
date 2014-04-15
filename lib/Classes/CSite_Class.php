@@ -80,9 +80,6 @@ class CSite {
         //make a connection to db
         if (isset($gx_config->config["database"])) {
             $gx_db = new CDatabase($gx_config->config["database"]);
-
-            //todo remove;
-            $this->tables = $gx_config->config["tables"];
         }
         else{
             echo "error";
@@ -144,16 +141,18 @@ class CSite {
 
         switch (GetVar("sub", "")){
             case "logout":
-                unset($_SESSION["minibase"]);
+                $gx_session->killsession();
                 header("Location: index.php");
-
-                return $event->templates["login"]->EmptyVars();
+                return $gx_TSM["CONTENT"] = $this->templates["admin_login"]->EmptyVars();
                 break;
 
-            case "properties":
+
             case "expenses":
+                //todo make more appropriate expenses
+            case "properties":
 
                 if (($_GET["sub"] == "properties") && ($_GET["action"] == "details")) {
+                    die("i'm on it");
                     $task = new CSQLAdmin("expenses", $_CONF["forms"]["admintemplate"],$event->db,$event->tables , $extra);
                     $extra["details"]["fields"]["button"] = $task->DoEvents();
                 }
@@ -201,21 +200,6 @@ class CSite {
                 }
 
                 return $data->DoEvents("","",$_POST);
-                break;
-
-            case "users":
-
-                if ((!$_GET["action"])&&($_SESSION["minibase"]["raw"]["user_level"] != 0 )) {
-                    $_GET["action"] = "details";
-                }
-
-                if ($_SESSION["minibase"]["raw"]["user_level"] == 1) {
-                    $_GET["user_id"] = $_SESSION["minibase"]["raw"]["user_id"];
-                    $_POST["user_id"] = $_SESSION["minibase"]["raw"]["user_id"];
-                }
-
-                $data = new CSQLAdmin($_GET["sub"], $_CONF["forms"]["admintemplate"],$event->db,$event->tables);
-                return $data->DoEvents();
                 break;
 
             default:

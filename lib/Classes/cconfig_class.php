@@ -17,6 +17,7 @@ if(!defined('PMC_INIT')){
 class CConfig {
     public $global_config;
     public $config;
+    public $language;
     /**
 	* current depth in xml tree
 	* @var int
@@ -47,17 +48,32 @@ class CConfig {
      */
 	public function __construct($file_name = "") {
         global $gx_library;
+
         //todo, remove old config system.
+        $lang = "English/";
         $this->parser = new CXMLParser('config');
 		if ($file_name != ""){
 			$this->Load($file_name);
         }
+
+        /**
+         * New config
+         */
         $gx_library->loadLibraryFile('','site_config.php', true);
+
         global $global_config, $config;
         $this->global_config = $global_config;
         $this-> config = $config;
         unset($global_config);
         unset($config);
+
+        global $language;
+        $this->Findloadablefiles($fileArray, "./Files/" );
+        $this->Findloadablefiles($fileArray, "./Language/".$lang );
+        $this->LoadFiles($fileArray);
+
+        $this->language = $language;
+        unset($language);
 	}
 
 
@@ -75,9 +91,45 @@ class CConfig {
         //$this->Parse(str_replace("&","[amp]",GetFileContents($file_name)));
         $this->file_names=$file_name;
 
-        //return $this->vars;
-
-
 	}
+
+    private function Findloadablefiles(&$fileArray, $path, $depth=0){
+        global $language, $gx_library;
+
+         if(is_dir($path)){
+            //List out all language files
+            $dir = @opendir($path);
+            while(false !== ($file = readdir($dir))){
+                if($file != '.' && $file != '..'){
+                    if(is_dir($path.$file)){
+                        $this->Findloadablefiles($fileArray, $path.$file."/", ++$depth);
+                        $depth--;
+                    }
+                    else{
+                        $filename_end=strrchr($file,".");
+                        if ($filename_end==".php"){
+                            $fileArray[] = $path.$file;
+                        }
+                    }
+                }
+             }
+                closedir($dir);
+         }
+    }
+
+    private function LoadFiles($fileArray){
+        global $language, $gx_library;
+        $gx_library->LoadLibraryFileArray($fileArray, true);
+    }
+
+    /**
+     * @param $path
+     */
+    public function loadLanguage($path){
+
+    }
+
+
+
 }
 ?>

@@ -157,7 +157,6 @@ class CTemplate {
 	* @acces public
 	*/
 	public function EmptyVars() {
-		global $_TSM;
 		return $this->output = preg_replace("'{[A-Z_\-0-9]*?}'si","",$this->output);
 	}
 

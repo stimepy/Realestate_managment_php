@@ -50,6 +50,19 @@ class CLibrary {
         return true;
     }
 
+    public function LoadLibraryFileArray($files, $required = false){
+
+        if(!is_array($files)){
+            //return error
+        }
+        for($i=0; $i<sizeof($files); $i++){
+           $temp_lngth = strrpos($files[$i], '/');
+
+           $this->myFileIncludes(substr ( $files[$i] ,0 , $temp_lngth),substr ( $files[$i] ,$temp_lngth , strlen($files[$i])- $temp_lngth ),$required);
+
+        }
+        return true;
+    }
     /**
      * @param $filepath
      * @param $filename

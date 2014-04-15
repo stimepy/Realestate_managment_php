@@ -160,7 +160,7 @@ class CDatabase{
         }
         //error of some sort, kill it
         if($this->conn_id->errno){
-            die('Sql error: '.$this->conn_id->error);
+            die('Sql error: '.$query . ' :: '.$this->conn_id->error);
         }
         if ($modify == true){
             $this->modif = TRUE;
@@ -302,6 +302,7 @@ class CDatabase{
      */
      public function selectRow($table, $fields = "*", $where='') {
       // build query
+        $where =( $where != '')? "where {$where}": "" ;
         $query = "SELECT $fields FROM `$table` $where";
         $this->callQuery($query);
         $data = $this->fetch('row');
@@ -338,17 +339,21 @@ class CDatabase{
         // setup order clause
         $order_clause = ($order_by != "") ? "ORDER BY $order_by " . (in_array($order_dir,array("ASC","DESC")) ? "$order_dir " : "") : "";
         // setup where clause
-        $where_clause = ($where_clause != "") ? "WHERE $where_clause " : "";
+        $where_clause = ($where_clause != "") ? "WHERE {$where_clause} " : "";
 
         // build query
         $query = "SELECT $fields FROM `$table` {$where_clause}{$order_clause}{$limit_clause}";
-
+        //Run query
         $this->callQuery($query);
+        // fetch rows
         $results = $this->fetch('array');
+        //clear results;
         $this->clearResults();
 
-        // fetch rows
-        return $results;
+        if($results != NULL){
+            return $results;
+        }
+        return false;
     }
 
     public function UndefQuery($table, $options, $type){
@@ -449,12 +454,7 @@ class CDatabase{
      * @return bool
      */
     function deleteQuery($table, $where = ''){
-        if($where != ''){
-            $where = "where {$where}";
-        }
-        else{
-            $where = "";
-        }
+        $where = ($where != '')? "where {$where}": "";
         $query = "DELETE FROM `{$table}` {$where}";
         return $this->callQuery($query);
     }

@@ -33,20 +33,21 @@ class CSession{
         global $gx_db;
         IniSet("session.save_handler", "user" );
 
-        session_set_save_handler("sess_open", "sess_close", "sess_read", "sess_write", "sess_destroy", "sess_gc");
+        session_set_save_handler(array(&$this, "sess_open"), array(&$this, "sess_close"), array(&$this, "sess_read"), array(&$this, "sess_write"), array(&$this, "sess_destroy"), array(&$this, "sess_gc"));
         session_name("CPMSSESSIONID");
         session_set_cookie_params($this->session_cookie_lifetime, $this->session_cookie_path, $this->session_cookie_domain, $this->session_cookie_secure);
-        e107_ini_set ("session.use_only_cookies", $this->session_use_only_cookies );
+        Iniset("session.use_only_cookies", $this->session_use_only_cookies );
         session_cache_expire ($this->session_cache_expire);
         IniSet("session.url_rewriter.tags", 'a=href,area=href,frame=src,input=src,form=fakeentry');
+        register_shutdown_function('session_write_close');
 
-        if ($row =$gx_db->selectRow("session", "session_id", "session_ip='".$this->getIp())) {
+        if ($row =$gx_db->selectRow("session", "session_id", "session_ip='".$this->getIp()."'")) {
             session_id($row['session_id']);
        }
 
         session_start();
         //checking if user is logged in
-        $item = getSessionItem('user');
+        $item = $this->getSessionItem('user');
        if (!$item){
             $this->getloggedin();
         }
@@ -75,15 +76,17 @@ class CSession{
             //todo encerypt password.
             $password = GetVar('pass', '');
             //authentication
-            $user = $gx_db->QuerySelectLimit($gx_config->config[tables][users],'*',"`user_login` = '{$login_name}' AND `user_password` = '{$password}'");
+            $user = $gx_db->QuerySelectLimit($gx_config->config['tables']['users'],'*',"`user_login` = '{$login_name}' AND `user_password` = '{$password}'");
 
-            if (isset($user)) {
+            if (isset($user) && $user != false) {
                 $this->getSessionItem("user", 1);
                 $this->getSessionItem("raw", $user);
                 $this->user_info = $user;
                 $this->loggedin = true;
                 //redirecing to viuw sites
-                header("Location: $gx_config->config[default_location]");
+                print_r($user);
+                die();
+                header("Location: ". $gx_config->config['default_location']);
                 exit;
             }
             else{
@@ -93,6 +96,13 @@ class CSession{
         else{
             $this->loggedin = false;
         }
+    }
+
+
+    public function killsession(){
+        sess_destroy(session_id());
+        sess_close();
+        unset($_SESSION);
     }
 
     /**
@@ -137,7 +147,7 @@ class CSession{
      * @return bool]
      */
     function sess_close() {
-        $this->local_db_conn->close();
+        $this->local_db_conn->Dbclose();
         return true;
     }
 
@@ -147,7 +157,7 @@ class CSession{
      * @return bool
      */
     function sess_read($session_id) {
-        if ($session_read = $this->local_db_conn->selectRow("session", "*", "WHERE session_id = '{$session_id}' AND session_expire > " . time())) {
+        if ($session_read = $this->local_db_conn->selectRow("session", "*", " session_id = '{$session_id}' AND session_expire > " . time())) {
             return $session_read['session_data'];
         }
         else {

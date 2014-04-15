@@ -46,15 +46,6 @@ $config = Array(
         "default" => "pm",
    ),
 
-    /**
-     * Database tables
-     */
-    "tables" => Array(
-        "properties" => "site_property",
-	    "expenses" => "site_expenses",
-	    "users" => "site_users",
-	    "vars" => "site_vars",
-    ),
 
     /**
      * Templates
@@ -65,5 +56,7 @@ $config = Array(
     ),
 
 );
+
+define("SqlPre", "PM_");
 
 ?>
