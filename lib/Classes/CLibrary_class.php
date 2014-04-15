@@ -108,5 +108,39 @@ class CLibrary {
         }
 
     }
+
+    /**
+     * @description goes into a directory and returns all files in an array.
+     * @param array(strings) &$fileArray
+     * @param string $path
+     * @param int $max=-1
+     * @param int $depth =0
+     *
+     */
+    public function Findloadablefiles(&$fileArray, $path, $max=-1, $depth=0){
+        if(($depth == $max)){
+            return;
+        }
+        if(is_dir($path)){
+            //List out all language files
+            $dir = @opendir($path);
+            while(false !== ($file = readdir($dir))){
+                if($file != '.' && $file != '..'){
+                    if(is_dir($path.$file)){
+                        $this->Findloadablefiles($fileArray, $path.$file."/", $max, ++$depth);
+                        $depth--;
+                    }
+                    else{
+                        $filename_end=strrchr($file,".");
+                        if ($filename_end==".php"){
+                            $fileArray[] = $path.$file;
+                        }
+                    }
+                }
+            }
+            closedir($dir);
+        }
+    }
+
 }
 ?>

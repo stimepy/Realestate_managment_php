@@ -4,9 +4,9 @@
  *
  * File: CSessions_class.php
  * Author: Kris Sherrerd
- * Copyright: 2014
- * Version 0.1
- * Modified: 4/13/2014
+ * Copyright: 2014 by Kris Sherrerd
+ * Version 0.2
+ * Modified: 4/15/2014
  */
 
 if(!defined('PMC_INIT')){
@@ -30,7 +30,7 @@ class CSession{
     private $session_read;
 
     public function __construct(){
-        global $gx_db;
+        global $gx_db, $gx_config;
         IniSet("session.save_handler", "user" );
 
         session_set_save_handler(array(&$this, "sess_open"), array(&$this, "sess_close"), array(&$this, "sess_read"), array(&$this, "sess_write"), array(&$this, "sess_destroy"), array(&$this, "sess_gc"));
@@ -41,12 +41,13 @@ class CSession{
         IniSet("session.url_rewriter.tags", 'a=href,area=href,frame=src,input=src,form=fakeentry');
         register_shutdown_function('session_write_close');
 
-        if ($row =$gx_db->selectRow("session", "session_id", "session_ip='".$this->getIp()."'")) {
+        if ($row =$gx_db->selectRow($gx_config->language['tables']['session'], "session_id", "session_ip='".$this->getIp()."'")) {
             session_id($row['session_id']);
        }
 
         session_start();
         //checking if user is logged in
+        print_r($_SESSION);
         $item = $this->getSessionItem('user');
        if (!$item){
             $this->getloggedin();
@@ -76,7 +77,7 @@ class CSession{
             //todo encerypt password.
             $password = GetVar('pass', '');
             //authentication
-            $user = $gx_db->QuerySelectLimit($gx_config->config['tables']['users'],'*',"`user_login` = '{$login_name}' AND `user_password` = '{$password}'");
+            $user = $gx_db->QuerySelectLimit($gx_config->language['tables']['users'],'*',"`user_login` = '{$login_name}' AND `user_password` = '{$password}'");
 
             if (isset($user) && $user != false) {
                 $this->getSessionItem("user", 1);
@@ -84,9 +85,8 @@ class CSession{
                 $this->user_info = $user;
                 $this->loggedin = true;
                 //redirecing to viuw sites
-                print_r($user);
-                die();
-                header("Location: ". $gx_config->config['default_location']);
+                die('here');
+                header("Location: ". $gx_config->global_config['default_location']);
                 exit;
             }
             else{
@@ -133,6 +133,7 @@ class CSession{
      * @param $save_path
      * @param $session_name
      * @return bool
+     * The open callback works like a constructor in classes and is executed when the session is being opened. It is the first callback function executed when the session is started automatically or manually with session_start(). Return value is TRUE for success, FALSE for failure.
      */
     function sess_open($save_path, $session_name) {
         global $gx_config;
@@ -145,6 +146,7 @@ class CSession{
     /**
      * @description part of session_set_save_handler
      * @return bool]
+     * The close callback works like a destructor in classes and is executed after the session write callback has been called. It is also invoked when session_write_close() is called. Return value should be TRUE for success, FALSE for failure.
      */
     function sess_close() {
         $this->local_db_conn->Dbclose();
@@ -157,7 +159,8 @@ class CSession{
      * @return bool
      */
     function sess_read($session_id) {
-        if ($session_read = $this->local_db_conn->selectRow("session", "*", " session_id = '{$session_id}' AND session_expire > " . time())) {
+        global $gx_config;
+        if ($session_read = $this->local_db_conn->selectRow($gx_config->language['tables']['session'], "*", " session_id = '{$session_id}' AND session_expire > " . time())) {
             return $session_read['session_data'];
         }
         else {
@@ -172,21 +175,22 @@ class CSession{
      * @return bool
      */
     function sess_write($session_id, $session_data){
+        global $gx_config;
         if (!$session_data) {
             return FALSE;
         }
         $expiry = time() + $this->session_lifetime;
-        if ($this->session_read && $this->session_read['session_ip'] != gethostbyaddr($_SERVER['REMOTE_ADDR']) ){
+        if ($this->session_read && $this->session_read['session_ip'] !=  $this->getIp() ){
             session_destroy();
             die("Invalid session ID");
         }
         $_session_data = mysql_real_escape_string($session_data);
         if ($this->session_read) {
-            $this->local_db_conn->UndefQuery("session", "session_expire = {$expiry}, session_data = '{$_session_data}' WHERE session_id = '{$session_id}' AND session_expire > ". time(), DBUPDATE);
+            $this->local_db_conn->UndefQuery($gx_config->language['tables']['session'], "session_expire = {$expiry}, session_data = '{$_session_data}' WHERE session_id = '{$session_id}' AND session_expire > ". time(), DBUPDATE);
         }
         else {
             $options = array($session_id, $expiry, time(), $this->getIp() , $_session_data);
-            $this->local_db_conn->UndefQuery("session", $options, DBINSERT);
+            $this->local_db_conn->UndefQuery($gx_config->language['tables']['session'], $options, DBINSERT);
         }
         return TRUE;
     }
@@ -197,7 +201,8 @@ class CSession{
      * @return bool
      */
     function sess_destroy($session_id) {
-        $this->local_db_conn->deleteQuery("session", "session_id = '$session_id'");
+        global $gx_config;
+        $this->local_db_conn->deleteQuery($gx_config->language['tables']['session'], "session_id = '$session_id'");
         return TRUE;
     }
 
@@ -207,7 +212,8 @@ class CSession{
      * @return mixed
      */
     function sess_gc($session_lifetime) {
-        $this->local_db_conn->deleteQuery("session", "session_expire < " . time());
+        global $gx_config;
+        $this->local_db_conn->deleteQuery($gx_config->language['tables']['session'], "session_expire < " . time());
         return $this->local_db_conn->AffectedRows();
     }
 

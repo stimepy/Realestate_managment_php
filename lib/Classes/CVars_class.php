@@ -15,20 +15,16 @@ if(!defined('PMC_INIT')){
  * Class CVars
  */
 class CVars {
-	var $database;
-	var $table;
 	var $data = array();
 	var $modif = FALSE;
 
 	function CVars($database,$table) {
-        $this->table = $table;
-
 		return $this->Load();
 	}
 
 	function Load() {
-        global $gx_db;
-        $vars = $gx_db->QuerySelectLimit($this->table,'*');
+        global $gx_db, $gx_config;
+        $vars = $gx_db->QuerySelectLimit($gx_config->language['tables']['vars'],'*');
 
 		if (is_array($vars))
 			foreach ($vars as $var){

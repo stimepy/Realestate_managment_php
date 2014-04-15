@@ -48,9 +48,7 @@ class CConfig {
      */
 	public function __construct($file_name = "") {
         global $gx_library;
-
         //todo, remove old config system.
-        $lang = "English/";
         $this->parser = new CXMLParser('config');
 		if ($file_name != ""){
 			$this->Load($file_name);
@@ -59,19 +57,16 @@ class CConfig {
         /**
          * New config
          */
-        $gx_library->loadLibraryFile('','site_config.php', true);
 
-        global $global_config, $config;
+        //load configuration files etc.
+        $this->LoadConfigFiles("./Files/");
+        global $global_config, $config, $language;
         $this->global_config = $global_config;
         $this-> config = $config;
         unset($global_config);
         unset($config);
-
-        global $language;
-        $this->Findloadablefiles($fileArray, "./Files/" );
-        $this->Findloadablefiles($fileArray, "./Language/".$lang );
-        $this->LoadFiles($fileArray);
-
+        //Load languages
+        $this->LoadConfigFiles("./Language/".$this->global_config['language']."/");
         $this->language = $language;
         unset($language);
 	}
@@ -93,40 +88,26 @@ class CConfig {
 
 	}
 
-    private function Findloadablefiles(&$fileArray, $path, $depth=0){
-        global $language, $gx_library;
 
-         if(is_dir($path)){
-            //List out all language files
-            $dir = @opendir($path);
-            while(false !== ($file = readdir($dir))){
-                if($file != '.' && $file != '..'){
-                    if(is_dir($path.$file)){
-                        $this->Findloadablefiles($fileArray, $path.$file."/", ++$depth);
-                        $depth--;
-                    }
-                    else{
-                        $filename_end=strrchr($file,".");
-                        if ($filename_end==".php"){
-                            $fileArray[] = $path.$file;
-                        }
-                    }
-                }
-             }
-                closedir($dir);
-         }
-    }
 
-    private function LoadFiles($fileArray){
-        global $language, $gx_library;
+    private function LoadConfigFiles($path, $maxdepth=-1){
+        global $gx_library;
+        $gx_library->Findloadablefiles($fileArray, $path, $maxdepth);
         $gx_library->LoadLibraryFileArray($fileArray, true);
     }
 
     /**
+     * @description allows modules that have seperate language to load their language to $gx_config->language
      * @param $path
+     * @param $maxdepth
+     * @return bool
      */
-    public function loadLanguage($path){
-
+    public function LoadMoreLanguage($path, $maxdepth=-1){
+        global $language;
+        $this->loadConfigFiles($path, $maxdepth);
+        $this->language = array_merge($language, $this->language);
+        unset($language);
+        return true;
     }
 
 

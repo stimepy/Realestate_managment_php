@@ -9,11 +9,11 @@ error_reporting(E_ALL);
 
 
 define("_LIBPATH","./lib/");
-define("_CLASSPATH", _LIBPATH . "Classes/");
+//define("_CLASSPATH", "./lib/Classes/");
 /* load most common functions first*/
-require_once(_CLASSPATH . "CLibrary_class.php");
+require_once("./lib/Classes/CLibrary_class.php");
 $gx_library = new CLibrary();
-$gx_library->loadLibraryFile(_LIBPATH,"common.php");
+$gx_library->loadLibraryFile("./lib/","common.php");
 
 
 // Block common bad agents / queries / php issues.
@@ -65,10 +65,10 @@ $files = array("CXMLParser_class.php", "CTemplate_class.php", "Clayout_class.php
 
 
 /* load the rest of the files that are needed. */
-$gx_library->loadLibraryFile(_CLASSPATH,$files,$required = true);
+$gx_library->loadLibraryFile("./lib/Classes/",$files,$required = true);
 
-$gx_library->loadLibraryFile(_LIBPATH,"mail.php",$required = false);
+$gx_library->loadLibraryFile("./lib/","mail.php",$required = false);
 
-$site = new CSite("./site.xml",true);
+
 
 ?>

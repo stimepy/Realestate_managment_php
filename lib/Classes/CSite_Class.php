@@ -1,9 +1,14 @@
 <?php
 /**
-  * Filename: CSite_Class.php
- * last Modified: 4/8/14
- * Version: 1.0
+ * Capital Property Management System
+ *
+ * File: CSite_class.php
+ * Author: Kris Sherrerd
+ * Copyright: 2014 by Kris Sherrerd
+ * Version 0.2
+ * Modified: 4/15/2014
  */
+
 if(!defined('PMC_INIT')){
     die('Your not suppose to be in here! - Ibid');
 }
@@ -19,12 +24,12 @@ class CSite {
     var $table;
 
     /**
-     * @description
+     * @description set up the website configurations, settings, etc.
      * @param $xml
      * @param bool $admin
      * @access public
      */
-    public function __construct($xml , $admin = false) { //CSite
+    public function __construct($xml , $admin = false) {
         global $gx_CONF, $gx_config, $gx_session, $gx_db;
 
         //loading the config
@@ -35,7 +40,6 @@ class CSite {
 
         $this->loadDatabase();
 
-        $this->admin = true; // todo automate this so admin is determined by a database query //$admin;
         //determine login status....
         $gx_session = new CSession();
         //for the eventual loading of template
@@ -49,22 +53,22 @@ class CSite {
     }
 
     /**
+     * @description Loads templates
      * @param $template string or array of strings
      */
-    private function loadTemplates($template, $path){
+    public function loadTemplates($template, $path){
         global $gx_config;
-       if(isset($gx_config->config["templates"])){
+       if(isset($gx_config->config["paths"])){
+           $my_path = ( isset($gx_config->config["paths"][$path]) )? $gx_config->config["paths"][$path] : "" ;
+           /* if there are multiple files we load them all */
            if(is_array($template)){
                for($i = 0; $i<sizeof($template); $i++){
-                   if(is_array($path)){
-                       //something
-                   }
-                   //echo $gx_config->global_config["templates"][$path] . $gx_config->config["templates"][$template[$i]];
-                   $this->templates[$template[$i]] = new CTemplate($gx_config->global_config["templates"][$path] . $gx_config->config["templates"][$template[$i]]);
+                 /*debug*///echo $gx_config->config["paths"]["templatepath"]. $my_path . $gx_config->config["forms"][$template[$i]];
+                   $this->templates[$template[$i]] = new CTemplate($gx_config->config["paths"]["templatepath"]. $my_path . $gx_config->config["forms"][$template[$i]]);
                }
            }
            else{
-            $this->templates[$template] = new CTemplate($gx_config->global_config["templates"][$path] . $gx_config["templates"][$template]);
+                $this->templates[$template] = new CTemplate($gx_config->config["paths"]["templatepath"]. $my_path . $gx_config["forms"][$template]);
            }
         }
         else{
@@ -82,7 +86,7 @@ class CSite {
             $gx_db = new CDatabase($gx_config->config["database"]);
         }
         else{
-            echo "error";
+           //Error
         }
     }
 
@@ -107,28 +111,29 @@ class CSite {
             $this->DoEvents();
         }
         else{
-            $this->loadTemplates(array('admin_login', 'admin_layout'), 'admin_path');
+            $this->loadTemplates(array('login', 'layout'), 'admin');
             $gx_TSM["AREA"]= "Login";
-            $gx_TSM["MENU"] = $this->templates["admin_login"]->blocks["MenuAdmin"]->output;
-            $gx_TSM["CONTENT"] = $this->templates["admin_login"]->blocks["Login"]->output;
+            $gx_TSM["MENU"] = $this->templates["login"]->blocks["MenuAdmin"]->output;
+            $gx_TSM["CONTENT"] = $this->templates["login"]->blocks["Login"]->output;
 
         }
         //$gx_library->loadLibraryFile(_LIBPATH,"pb_events.php");
         //
-        if (is_object($this->templates["admin_layout"])) {
-            echo $this->templates["admin_layout"]->Replace($gx_TSM);
+        if (is_object($this->templates["layout"])) {
+            echo $this->templates["layout"]->Replace($gx_TSM);
         }
     }
 
     private function DoEvents() {
         global $_CONF, $gx_config , $gx_TSM, $gx_db, $gx_session;
        //load the layout.
-        $this->loadTemplates('admin_layout', 'admin_path');
+        $this->loadTemplates('layout', 'admin');
+        $event->$this;
 
         //set the menu as appropraite
         if ($gx_session->user_info["user_level"] == 0) {
-            $this->loadTemplates('admin_login', 'admin_path');
-            $gx_TSM["MENU"] = $this->templates["admin_login"]->blocks["MenuAdmin"]->output;
+            $this->loadTemplates('login', 'admin');
+            $gx_TSM["MENU"] = $this->templates["login"]->blocks["MenuAdmin"]->output;
         }
         $task_user=GetVar("task_user", "");
         if (!$task_user){
@@ -143,7 +148,8 @@ class CSite {
             case "logout":
                 $gx_session->killsession();
                 header("Location: index.php");
-                return $gx_TSM["CONTENT"] = $this->templates["admin_login"]->EmptyVars();
+                $this->loadTemplates('login', 'admin');
+                return $gx_TSM["CONTENT"] = $this->templates["login"]->EmptyVars();
                 break;
 
 

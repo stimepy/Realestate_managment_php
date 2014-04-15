@@ -18,7 +18,7 @@ global $language;
 $language["tables"] = Array(
     "amenities" => SqlPre."amenities",
     "amenity_income_cost" => SqlPre."amenity_income_cost",
-    "expenses" => SqlPre."site_expenses",
+    "expenses" => SqlPre."expenses",
     "files" => SqlPre."files",
     "files_prop" => SqlPre."files_prop",
     "files_tenant" => SqlPre."files_tenant",
