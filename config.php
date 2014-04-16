@@ -61,7 +61,7 @@ unset($pos);
 global $_TSM, $site, $db;
 $_TSM= array();
 
-$files = array("CXMLParser_class.php", "CTemplate_class.php", "Clayout_class.php", "cconfig_class.php", "CHTML.php", "CDatabase_class.php", "CVars_class.php", "CMenu_class.php", "CSQLAdmin_class.php", "CForms_class.php",  "CSite_Class.php", "CSessions_class.php");
+$files = array("CUsers_class.php", "CXMLParser_class.php", "CTemplate_class.php", "Clayout_class.php", "cconfig_class.php", "CHTML.php", "CDatabase_class.php", "CVars_class.php", "CMenu_class.php", "CSQLAdmin_class.php", "CForms_class.php",  "CSite_Class.php", "CSessions_class.php");
 
 
 /* load the rest of the files that are needed. */

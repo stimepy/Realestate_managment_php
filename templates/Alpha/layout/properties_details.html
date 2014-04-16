@@ -1,0 +1,705 @@
+<body><br>
+<font size="1">
+    <table class="xdebug-error xe-notice" dir="ltr" border="1" cellspacing="0" cellpadding="1">
+    <tbody><tr><th align="left" bgcolor="#f57900" colspan="5"><span style="background-color: #cc0000; color: #fce94f; font-size: x-large;">( ! )</span> Notice: Undefined variable: type in D:\xampp\htdocs\old\lib\database.php on line <i>66</i></th></tr>
+    <tr><th align="left" bgcolor="#e9b96e" colspan="5">Call Stack</th></tr>
+    <tr><th align="center" bgcolor="#eeeeec">#</th><th align="left" bgcolor="#eeeeec">Time</th><th align="left" bgcolor="#eeeeec">Memory</th><th align="left" bgcolor="#eeeeec">Function</th><th align="left" bgcolor="#eeeeec">Location</th></tr>
+    <tr><td bgcolor="#eeeeec" align="center">1</td><td bgcolor="#eeeeec" align="center">0.0003</td><td bgcolor="#eeeeec" align="right">136104</td><td bgcolor="#eeeeec">{main}(  )</td><td title="D:\xampp\htdocs\old\index.php" bgcolor="#eeeeec">..\index.php<b>:</b>0</td></tr>
+    <tr><td bgcolor="#eeeeec" align="center">2</td><td bgcolor="#eeeeec" align="center">0.0117</td><td bgcolor="#eeeeec" align="right">886896</td><td bgcolor="#eeeeec">CSite-&gt;CSite(  )</td><td title="D:\xampp\htdocs\old\index.php" bgcolor="#eeeeec">..\index.php<b>:</b>6</td></tr>
+    <tr><td bgcolor="#eeeeec" align="center">3</td><td bgcolor="#eeeeec" align="center">0.0147</td><td bgcolor="#eeeeec" align="right">912520</td><td bgcolor="#eeeeec">CDatabase-&gt;CDatabase(  )</td><td title="D:\xampp\htdocs\old\lib\new.php" bgcolor="#eeeeec">..\new.php<b>:</b>78</td></tr>
+    </tbody></table></font>
+
+
+
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Properties Expenses</title>
+<link href="templates/admin/admin.css" type="text/css" rel="stylesheet">
+<style>
+
+    body {
+        background-color: #EDEDED;
+        margin-top: 0px;
+        margin-bottom:0;
+    }
+
+    .body {
+        background-color: #FFFFFF;
+        border: #B9B9B9;
+        border-style: solid;
+        border-width: 0px 1px 1px 1px;
+    }
+
+    .topmenu {
+        font-family: arial;
+        font-size: 9pt;
+        font-weight: bold;
+        color: #EFEFEF;
+    }
+
+    td.layouttop {
+        height:23;
+        padding:0;
+        background-image: url(images/layout_header.gif);
+    }
+
+
+
+    td.layoutcaption {
+        font-family:verdana;
+        font-size:11px;
+        vertical-align: middle;
+        text-align:left;
+    }
+
+
+    a.link_menu {
+        font-family:verdana;
+        font-size: 11px;
+        color: black;
+        text-decoration:none;
+    }
+
+    a.link_menu:HOVER {
+        font-family:verdana;
+        font-size: 11px;
+        color: black;
+        text-decoration:underline;
+    }
+
+    td.layoutmenu{
+        width: 183;
+        vertical-align: top;
+        background-image: url(images/layout_left.gif);
+    }
+
+    td.caption {
+        font-family: arial;
+        font-size: 12px;
+        font-weight: bold;
+        color: #000000;
+        background-color: #DDDDDD ;
+        height: 25;
+    }
+
+</style>
+
+
+<script src="templates/admin/admin.js"></script>
+<table border="0" cellspacing="0" cellpadding="0" height="100%" align="center">
+<tbody><tr>
+<td class="body">
+
+<table width="780" border="0" cellspacing="0" cellpadding="0" height="100%">
+<tbody><tr>
+    <td colspan="2" class="layouttop">
+        <table width="100%" cellspacing="0" cellpadding="0">
+            <tbody><tr>
+                <td align="center" width="30"><img src="images/layout_icon.gif"></td>
+                <td class="layoutcaption">Properties Expenses - Administration Area</td>
+                <td align="right"><a href="index.php?sub=logout"><img border="0" src="images/layout_logout.gif"></a></td>
+            </tr>
+            </tbody></table>
+    </td>
+</tr>
+<tr>
+    <td height="9" background="images/layout_middle_right.gif"></td>
+    <td background="images/layout_middle_left.gif"></td>
+</tr>
+<tr>
+<td class="layoutmenu">
+
+    <table border="0" cellspacing="2">
+        <tbody><tr>
+            <td><img src="images/layout_link.gif"></td>
+            <td><a class="link_menu" href="index.php?sub=properties">Properties</a></td>
+        </tr>
+        </tbody></table>
+    <table border="0" cellspacing="2">
+        <tbody><tr>
+            <td><img src="images/layout_link.gif"></td>
+            <td><a class="link_menu" href="index.php?sub=users">Users Management</a></td>
+        </tr>
+        </tbody></table>
+
+
+</td>
+<td valign="top" align="center"><img src="images/dot.gif">
+<table width="100%" height="100%">
+<tbody><tr>
+<td valign="top" align="center">
+<br>
+<script> draw_box("580",1,"Class Details");</script><table cellpadding="0" cellspacing="0" width="580">	<tbody><tr>		<td height="1" colspan="3" bgcolor="#9DBEE6"><img src="images/dot.gif"></td>	</tr>	<tr>		<td width="1" bgcolor="#9DBEE6"><img src="images/dot.gif"></td>		<td height="23" style="padding-left:10px;padding-top:7px;font-family:verdana;color:white;font-weight:bold;" background="images/forms_caption.gif">&nbsp;Class Details </td>		<td width="1" bgcolor="#9DBEE6"><img src="images/dot.gif"></td>	</tr>	<tr>		<td width="1" bgcolor="#9DBEE6"><img src="images/dot.gif"></td>		<td bgcolor="#F8F8F8">
+
+<form action="index.php?sub=classes&amp;action=store" method="get" name="edit" enctype="">
+
+
+
+
+<table border="0" width="100%" cellpadding="3" cellspacing="0" class="template-mbox" align="center">
+
+    <tbody><tr>
+        <td align="left" class="caption"><b>&nbsp;</b></td>
+        <td align="right" class="caption">
+            <table cellspacing="0" cellpadding="0">
+                <tbody><tr align="right">
+                    <td><script>draw_button("return" , "index.php?sub=properties" , "");</script><a href="index.php?sub=properties" onclick=""><img src="images/buttons/button_return.gif" border="0"></a></td><td width="2"><img src="" width="2" height="0"></td><td><script>draw_button("edit" , "index.php?sub=properties&action=edit&prop_id=1" , "");</script><a href="index.php?sub=properties&amp;action=edit&amp;prop_id=1" onclick=""><img src="images/buttons/button_edit.gif" border="0"></a></td><td width="2"><img src="" width="2" height="0"></td>
+                </tr>
+                </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+
+
+
+
+<input type="hidden" name="prop_id" value="1">
+
+<input type="hidden" name="sub" value="properties">
+
+<input type="hidden" name="action" value="details">
+
+<table border="0" width="100%" cellpadding="3" cellspacing="0" class="template-mbox" align="center">
+    <tbody><tr>
+        <td height="23" width="150" class="border-tr" align="right">Address:</td>
+        <td class="border-t">
+            <table cellspacing="0" cellpadding="0">
+                <tbody><tr>
+                    <td></td><td>
+                    <div style="overflow:auto;"><b>555 West Market Street</b>&nbsp;</div>
+                </td><td></td>
+                </tr>
+                </tbody></table>
+        </td>
+    </tr>
+
+    </tbody></table>
+
+
+<table border="0" width="100%" cellpadding="3" cellspacing="0" class="template-mbox" align="center">
+    <tbody><tr>
+        <td height="23" width="150" class="border-tr" align="right">City:</td>
+        <td class="border-t">
+            <table cellspacing="0" cellpadding="0">
+                <tbody><tr>
+                    <td></td><td>
+                    <div style="overflow:auto;"><b>Nocity</b>&nbsp;</div>
+                </td><td></td>
+                </tr>
+                </tbody></table>
+        </td>
+    </tr>
+
+    </tbody></table>
+
+
+<table border="0" width="100%" cellpadding="3" cellspacing="0" class="template-mbox" align="center">
+    <tbody><tr>
+        <td height="23" width="150" class="border-tr" align="right">State:</td>
+        <td class="border-t">
+            <table cellspacing="0" cellpadding="0">
+                <tbody><tr>
+                    <td></td><td>
+                    <div style="overflow:auto;"><b>CA</b>&nbsp;</div>
+                </td><td></td>
+                </tr>
+                </tbody></table>
+        </td>
+    </tr>
+
+    </tbody></table>
+
+
+<table border="0" width="100%" cellpadding="3" cellspacing="0" class="template-mbox" align="center">
+    <tbody><tr>
+        <td height="23" width="150" class="border-tr" align="right">Zip:</td>
+        <td class="border-t">
+            <table cellspacing="0" cellpadding="0">
+                <tbody><tr>
+                    <td></td><td>
+                    <div style="overflow:auto;"><b>90212</b>&nbsp;</div>
+                </td><td></td>
+                </tr>
+                </tbody></table>
+        </td>
+    </tr>
+
+    </tbody></table>
+
+
+<table border="0" width="100%" cellpadding="3" cellspacing="0" class="template-mbox" align="center">
+    <tbody><tr>
+        <td height="23" width="150" class="border-tr" align="right">Description:</td>
+        <td class="border-t">
+            <table cellspacing="0" cellpadding="0">
+                <tbody><tr>
+                    <td></td><td>
+                    <div style="overflow:auto;"><b>3 bedroom 2 bath rental unit. 2 stall garage is not for use by renters.</b>&nbsp;</div>
+                </td><td></td>
+                </tr>
+                </tbody></table>
+        </td>
+    </tr>
+
+    </tbody></table>
+
+
+<table border="0" width="100%" cellpadding="3" cellspacing="0" class="template-mbox" align="center">
+    <tbody><tr>
+        <td colspan="2" align="left" class="caption">
+            Leasing Details
+        </td>
+    </tr>
+
+    </tbody></table>
+
+
+<table border="0" width="100%" cellpadding="3" cellspacing="0" class="template-mbox" align="center">
+    <tbody><tr>
+        <td height="23" width="150" class="border-tr" align="right">Leased Amount:</td>
+        <td class="border-t">
+            <table cellspacing="0" cellpadding="0">
+                <tbody><tr>
+                    <td>$</td><td>
+                    <div style="overflow:auto;"><b>1,450.00</b>&nbsp;</div>
+                </td><td></td>
+                </tr>
+                </tbody></table>
+        </td>
+    </tr>
+
+    </tbody></table>
+
+
+<table border="0" width="100%" cellpadding="3" cellspacing="0" class="template-mbox" align="center">
+    <tbody><tr>
+        <td height="23" width="150" class="border-tr" align="right">Start Date:</td>
+        <td class="border-t">
+            <table cellspacing="0" cellpadding="0">
+                <tbody><tr>
+                    <td></td><td>
+                    <div style="overflow:auto;"><b>11.26.2004</b>&nbsp;</div>
+                </td><td></td>
+                </tr>
+                </tbody></table>
+        </td>
+    </tr>
+
+    </tbody></table>
+
+
+<table border="0" width="100%" cellpadding="3" cellspacing="0" class="template-mbox" align="center">
+    <tbody><tr>
+        <td height="23" width="150" class="border-tr" align="right">End Date:</td>
+        <td class="border-t">
+            <table cellspacing="0" cellpadding="0">
+                <tbody><tr>
+                    <td></td><td>
+                    <div style="overflow:auto;"><b>11.26.2005</b>&nbsp;</div>
+                </td><td></td>
+                </tr>
+                </tbody></table>
+        </td>
+    </tr>
+
+    </tbody></table>
+
+
+<table border="0" width="100%" cellpadding="3" cellspacing="0" class="template-mbox" align="center">
+    <tbody><tr>
+        <td height="23" width="150" class="border-tr" align="right">Name:</td>
+        <td class="border-t">
+            <table cellspacing="0" cellpadding="0">
+                <tbody><tr>
+                    <td></td><td>
+                    <div style="overflow:auto;"><b>Sally Irent</b>&nbsp;</div>
+                </td><td></td>
+                </tr>
+                </tbody></table>
+        </td>
+    </tr>
+
+    </tbody></table>
+
+
+<table border="0" width="100%" cellpadding="3" cellspacing="0" class="template-mbox" align="center">
+    <tbody><tr>
+        <td height="23" width="150" class="border-tr" align="right">Address:</td>
+        <td class="border-t">
+            <table cellspacing="0" cellpadding="0">
+                <tbody><tr>
+                    <td></td><td>
+                    <div style="overflow:auto;"><b>555 West Market Street</b>&nbsp;</div>
+                </td><td></td>
+                </tr>
+                </tbody></table>
+        </td>
+    </tr>
+
+    </tbody></table>
+
+
+<table border="0" width="100%" cellpadding="3" cellspacing="0" class="template-mbox" align="center">
+    <tbody><tr>
+        <td height="23" width="150" class="border-tr" align="right">City:</td>
+        <td class="border-t">
+            <table cellspacing="0" cellpadding="0">
+                <tbody><tr>
+                    <td></td><td>
+                    <div style="overflow:auto;"><b>Nocity</b>&nbsp;</div>
+                </td><td></td>
+                </tr>
+                </tbody></table>
+        </td>
+    </tr>
+
+    </tbody></table>
+
+
+<table border="0" width="100%" cellpadding="3" cellspacing="0" class="template-mbox" align="center">
+    <tbody><tr>
+        <td height="23" width="150" class="border-tr" align="right">State:</td>
+        <td class="border-t">
+            <table cellspacing="0" cellpadding="0">
+                <tbody><tr>
+                    <td></td><td>
+                    <div style="overflow:auto;"><b>CA</b>&nbsp;</div>
+                </td><td></td>
+                </tr>
+                </tbody></table>
+        </td>
+    </tr>
+
+    </tbody></table>
+
+
+<table border="0" width="100%" cellpadding="3" cellspacing="0" class="template-mbox" align="center">
+    <tbody><tr>
+        <td height="23" width="150" class="border-tr" align="right">Zip:</td>
+        <td class="border-t">
+            <table cellspacing="0" cellpadding="0">
+                <tbody><tr>
+                    <td></td><td>
+                    <div style="overflow:auto;"><b>90212</b>&nbsp;</div>
+                </td><td></td>
+                </tr>
+                </tbody></table>
+        </td>
+    </tr>
+
+    </tbody></table>
+
+
+<table border="0" width="100%" cellpadding="3" cellspacing="0" class="template-mbox" align="center">
+    <tbody><tr>
+        <td height="23" width="150" class="border-tr" align="right">Phone:</td>
+        <td class="border-t">
+            <table cellspacing="0" cellpadding="0">
+                <tbody><tr>
+                    <td></td><td>
+                    <div style="overflow:auto;"><b></b>&nbsp;</div>
+                </td><td></td>
+                </tr>
+                </tbody></table>
+        </td>
+    </tr>
+
+    </tbody></table>
+
+
+<table border="0" width="100%" cellpadding="3" cellspacing="0" class="template-mbox" align="center">
+    <tbody><tr>
+        <td height="23" width="150" class="border-tr" align="right">Email:</td>
+        <td class="border-t">
+            <table cellspacing="0" cellpadding="0">
+                <tbody><tr>
+                    <td></td><td>
+                    <div style="overflow:auto;"><b>sally.irent@example.com</b>&nbsp;</div>
+                </td><td></td>
+                </tr>
+                </tbody></table>
+        </td>
+    </tr>
+
+    </tbody></table>
+
+
+<table border="0" width="100%" cellpadding="3" cellspacing="0" class="template-mbox" align="center">
+    <tbody><tr>
+        <td colspan="2" align="left" class="caption">
+            Search Expenses
+        </td>
+    </tr>
+
+    </tbody></table>
+
+
+<table border="0" width="100%" cellpadding="3" cellspacing="0" class="template-mbox" align="center">
+    <tbody><tr>
+        <td height="23" width="150" class="border-tr" align="right">Select Month:</td>
+        <td class="border-t">
+            <table cellspacing="0" cellpadding="0">
+                <tbody><tr>
+                    <td></td><td>
+                    <select name="date_month" style="width: {WIDTH}">
+
+                        <option value="{VALUE}" {selected}="">{NAME}</option>
+
+                        <option value="{VALUE}" {selected}="">{NAME}</option>
+
+                        <option value="{VALUE}" {selected}="">{NAME}</option>
+
+                        <option value="{VALUE}" {selected}="">{NAME}</option>
+
+                        <option value="{VALUE}" {selected}="">{NAME}</option>
+
+                        <option value="{VALUE}" {selected}="">{NAME}</option>
+
+                        <option value="{VALUE}" {selected}="">{NAME}</option>
+
+                        <option value="{VALUE}" {selected}="">{NAME}</option>
+
+                        <option value="{VALUE}" {selected}="">{NAME}</option>
+
+                        <option value="{VALUE}" {selected}="">{NAME}</option>
+
+                        <option value="{VALUE}" {selected}="">{NAME}</option>
+
+                        <option value="{VALUE}" {selected}="">{NAME}</option>
+
+                        <option value="{VALUE}" {selected}="">{NAME}</option>
+
+                    </select>
+
+                    <select name="date_year" style="width: {WIDTH}">
+
+                        <option value="{VALUE}" {selected}="">{NAME}</option>
+
+                        <option value="{VALUE}" {selected}="">{NAME}</option>
+
+                        <option value="{VALUE}" {selected}="">{NAME}</option>
+
+                        <option value="{VALUE}" {selected}="">{NAME}</option>
+
+                        <option value="{VALUE}" {selected}="">{NAME}</option>
+
+                        <option value="{VALUE}" {selected}="">{NAME}</option>
+
+                        <option value="{VALUE}" {selected}="">{NAME}</option>
+
+                        <option value="{VALUE}" {selected}="">{NAME}</option>
+
+                    </select>
+                </td><td></td>
+                </tr>
+                </tbody></table>
+        </td>
+    </tr>
+
+    </tbody></table>
+
+
+<table border="0" width="100%" cellpadding="3" cellspacing="0" class="template-mbox" align="center">
+    <tbody><tr>
+        <td height="23" width="150" class="border-tr" align="right">:</td>
+        <td class="border-t">
+            <table cellspacing="0" cellpadding="0">
+                <tbody><tr>
+                    <td></td><td>
+                    <script>draw_button("search" , "javascript:document.forms[0].submit();" , "{ONCLICK}");</script><a href="javascript:document.forms[0].submit();" onclick="{ONCLICK}"><img src="images/buttons/button_search.gif" border="0"></a>
+                </td><td></td>
+                </tr>
+                </tbody></table>
+        </td>
+    </tr>
+
+    </tbody></table>
+
+
+
+
+<table border="0" width="100%" cellpadding="3" cellspacing="0" class="template-mbox" align="center">
+    <tbody><tr>
+        <td colspan="100" class="caption">
+            <table width="100%" cellspacing="0" cellpadding="0">
+                <tbody><tr>
+                    <td align="left" width="0"><b>Property Expenses</b></td>
+                    <td align="left"></td>
+                    <td align="right">
+                        <table cellspacing="0" cellpadding="0">
+                            <tbody><tr>
+                                <td><script>draw_button("addnew" , "index.php?sub=expenses&action=add&expense_prop=1" , "");</script><a href="index.php?sub=expenses&amp;action=add&amp;expense_prop=1" onclick=""><img src="images/buttons/button_addnew.gif" border="0"></a></td><td width="2"><img src="" width="2" height="0"></td>
+                            </tr>
+                            </tbody></table>
+                    </td>
+                </tr>
+                </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+<table border="0" width="100%" cellpadding="3" cellspacing="0" class="template-mbox" align="center">
+
+    <tbody><tr>
+
+        <td class="border-t" align="center"><img src="" width="0" height="0"><b>No</b></td>
+
+        <td class="border-t" align="center"><img src="" width="0" height="0"><b>Name</b></td>
+
+        <td class="border-t" align="center"><img src="" width="0" height="0"><b>Date</b></td>
+
+        <td class="border-t" align="center"><img src="" width="0" height="0"><b>Cost</b></td>
+
+        <td class="border-t" align="center"><img src="" width="0" height="0"><b>&nbsp;</b></td>
+
+    </tr>
+
+
+    <tr>
+
+        <td class="border-tr" width="30" align="center">1.</td>
+
+        <td class="border-tr" width="" align="left">Cleaning</td>
+
+        <td class="border-tr" width="100" align="center">12.04.2004</td>
+
+        <td class="border-tr" width="100" align="right">$39.00</td>
+
+        <td class="border-t" width="1" align="center">
+            <table cellspacing="0" cellpadding="0">
+                <tbody><tr>
+                    <td><script>draw_button("delete" , "javascript:if(confirm('Are%20you%20sure%20you%20want%20to%20delete%20this%20record%20?'))%20window.location='index.php?sub=expenses&action=delete&expense_id=1&returnURL=%252Fold%252Findex.php%253Fsub%253Dproperties%2526action%253Ddetails%2526prop_id%253D1'" , "");</script><a href="javascript:if(confirm('Are%20you%20sure%20you%20want%20to%20delete%20this%20record%20?'))%20window.location='index.php?sub=expenses&action=delete&expense_id=1&returnURL=%252Fold%252Findex.php%253Fsub%253Dproperties%2526action%253Ddetails%2526prop_id%253D1'" onclick=""><img src="images/buttons/button_delete.gif" border="0"></a></td><td width="2"><img src="" width="2" height="0"></td><td><script>draw_button("details" , "index.php?sub=expenses&action=det&expense_id=1&prop_id=1" , "");</script><a href="index.php?sub=expenses&amp;action=det&amp;expense_id=1&amp;prop_id=1" onclick=""><img src="images/buttons/button_details.gif" border="0"></a></td><td width="2"><img src="" width="2" height="0"></td>
+                </tr>
+                </tbody></table>
+        </td>
+
+    </tr>
+
+    <tr>
+
+        <td class="border-tr" width="30" align="center">2.</td>
+
+        <td class="border-tr" width="" align="left">Dishwasher</td>
+
+        <td class="border-tr" width="100" align="center">12.02.2004</td>
+
+        <td class="border-tr" width="100" align="right">$89.00</td>
+
+        <td class="border-t" width="1" align="center">
+            <table cellspacing="0" cellpadding="0">
+                <tbody><tr>
+                    <td><script>draw_button("delete" , "javascript:if(confirm('Are%20you%20sure%20you%20want%20to%20delete%20this%20record%20?'))%20window.location='index.php?sub=expenses&action=delete&expense_id=3&returnURL=%252Fold%252Findex.php%253Fsub%253Dproperties%2526action%253Ddetails%2526prop_id%253D1'" , "");</script><a href="javascript:if(confirm('Are%20you%20sure%20you%20want%20to%20delete%20this%20record%20?'))%20window.location='index.php?sub=expenses&action=delete&expense_id=3&returnURL=%252Fold%252Findex.php%253Fsub%253Dproperties%2526action%253Ddetails%2526prop_id%253D1'" onclick=""><img src="images/buttons/button_delete.gif" border="0"></a></td><td width="2"><img src="" width="2" height="0"></td><td><script>draw_button("details" , "index.php?sub=expenses&action=det&expense_id=3&prop_id=1" , "");</script><a href="index.php?sub=expenses&amp;action=det&amp;expense_id=3&amp;prop_id=1" onclick=""><img src="images/buttons/button_details.gif" border="0"></a></td><td width="2"><img src="" width="2" height="0"></td>
+                </tr>
+                </tbody></table>
+        </td>
+
+    </tr>
+
+    <tr>
+
+        <td class="border-tr" width="30" align="center">3.</td>
+
+        <td class="border-tr" width="" align="left">Leaf Removal</td>
+
+        <td class="border-tr" width="100" align="center">11.01.2004</td>
+
+        <td class="border-tr" width="100" align="right">$48.00</td>
+
+        <td class="border-t" width="1" align="center">
+            <table cellspacing="0" cellpadding="0">
+                <tbody><tr>
+                    <td><script>draw_button("delete" , "javascript:if(confirm('Are%20you%20sure%20you%20want%20to%20delete%20this%20record%20?'))%20window.location='index.php?sub=expenses&action=delete&expense_id=2&returnURL=%252Fold%252Findex.php%253Fsub%253Dproperties%2526action%253Ddetails%2526prop_id%253D1'" , "");</script><a href="javascript:if(confirm('Are%20you%20sure%20you%20want%20to%20delete%20this%20record%20?'))%20window.location='index.php?sub=expenses&action=delete&expense_id=2&returnURL=%252Fold%252Findex.php%253Fsub%253Dproperties%2526action%253Ddetails%2526prop_id%253D1'" onclick=""><img src="images/buttons/button_delete.gif" border="0"></a></td><td width="2"><img src="" width="2" height="0"></td><td><script>draw_button("details" , "index.php?sub=expenses&action=det&expense_id=2&prop_id=1" , "");</script><a href="index.php?sub=expenses&amp;action=det&amp;expense_id=2&amp;prop_id=1" onclick=""><img src="images/buttons/button_details.gif" border="0"></a></td><td width="2"><img src="" width="2" height="0"></td>
+                </tr>
+                </tbody></table>
+        </td>
+
+    </tr>
+
+
+    </tbody></table>
+
+
+
+
+
+<table border="0" width="100%" cellpadding="3" cellspacing="0" class="template-mbox" align="center">
+    <tbody><tr>
+        <td colspan="2" align="left" class="caption">
+            Financial Status
+        </td>
+    </tr>
+
+    </tbody></table>
+
+
+<table border="0" width="100%" cellpadding="3" cellspacing="0" class="template-mbox" align="center">
+    <tbody><tr>
+        <td height="23" width="150" class="border-tr" align="right">Expenses Total:</td>
+        <td class="border-t">
+            <table cellspacing="0" cellpadding="0">
+                <tbody><tr>
+                    <td>$</td><td>
+                    <div style="overflow:auto;"><b>176.00</b>&nbsp;</div>
+                </td><td></td>
+                </tr>
+                </tbody></table>
+        </td>
+    </tr>
+
+    </tbody></table>
+
+
+<table border="0" width="100%" cellpadding="3" cellspacing="0" class="template-mbox" align="center">
+    <tbody><tr>
+        <td height="23" width="150" class="border-tr" align="right">Leased Amount:</td>
+        <td class="border-t">
+            <table cellspacing="0" cellpadding="0">
+                <tbody><tr>
+                    <td>$</td><td>
+                    <div style="overflow:auto;"><b>1,450.00</b>&nbsp;</div>
+                </td><td></td>
+                </tr>
+                </tbody></table>
+        </td>
+    </tr>
+
+    </tbody></table>
+
+
+
+
+<table border="0" width="100%" cellpadding="3" cellspacing="0" class="template-mbox" align="center">
+    <tbody><tr>
+        <td colspan="2" class="border-t" align="center"><br>
+            <table height="100%" cellspacing="0" cellpadding="0">
+                <tbody><tr>
+                    <td><script>draw_button("return" , "index.php?sub=properties" , "");</script><a href="index.php?sub=properties" onclick=""><img src="images/buttons/button_return.gif" border="0"></a></td><td width="2"><img src="" width="2" height="0"></td><td><script>draw_button("edit" , "index.php?sub=properties&action=edit&prop_id=1" , "");</script><a href="index.php?sub=properties&amp;action=edit&amp;prop_id=1" onclick=""><img src="images/buttons/button_edit.gif" border="0"></a></td><td width="2"><img src="" width="2" height="0"></td>
+                </tr>
+                </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+
+
+
+</form>
+
+<script> draw_box("580",2,"Class Details");</script>		</td>		<td width="1" bgcolor="#9DBEE6"><img src="images/dot.gif"></td>	</tr>	<tr>		<td height="1" width="1" bgcolor="#9DBEE6"><img src="images/dot.gif"></td>		<td colspan="2" height="1" bgcolor="#9DBEE6"><img src="images/dot.gif"></td>	</tr></tbody></table>
+
+</td>
+</tr>
+<tr>
+    <td height="20" align="right" style="font-size:9px;">© <a target="_blank" href="http://propertymanagement-software.org">property management software</a></td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+</tbody></table>
+
+</body>

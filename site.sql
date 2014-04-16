@@ -292,15 +292,3 @@ CREATE TABLE IF NOT EXISTS `cpm_vars` (
 
 
 -- --------------------------------------------------------
-
---
--- Table structure for table `session`
---
-
-CREATE TABLE IF NOT EXISTS `cpm_session` (
-  `session_id` varchar(32) NOT NULL DEFAULT '',
-  `session_expire` int(10) unsigned NOT NULL DEFAULT '0',
-  `session_datestamp` int(10) unsigned NOT NULL DEFAULT '0',
-  `session_ip` varchar(200) NOT NULL DEFAULT '',
-  `session_data` text NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;

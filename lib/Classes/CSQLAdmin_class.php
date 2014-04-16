@@ -29,7 +29,7 @@ class CSQLAdmin {
      * @param $tables
      * @param string $extra
      */
-    public function __constructor($section , $templates , $db , $tables , $extra = "") {
+    public function __constructor($section , $templates ,  $extra = "") {
 		global $_CONF;
 
 		if (!$_GET["page"]){
@@ -44,8 +44,6 @@ class CSQLAdmin {
 		else
 			$this->templates = $templates;
 		
-		$this->db = $db;
-		$this->tables = $tables;
 		//extra variables to be passed to cform
 		$this->extra = $extra;
 

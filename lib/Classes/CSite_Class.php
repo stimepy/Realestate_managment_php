@@ -30,7 +30,7 @@ class CSite {
      * @access public
      */
     public function __construct($xml , $admin = false) {
-        global $gx_CONF, $gx_config, $gx_session, $gx_db;
+        global $gx_CONF, $gx_config, $gx_session, $gx_db, $gx_users;
 
         //loading the config
         $gx_config = new CConfig($xml);
@@ -50,6 +50,8 @@ class CSite {
         $this->vars = new CVars($gx_db , $gx_CONF["tables"]["vars"]);
 
         $base->vars = &$this->vars;
+
+        $gx_users = new CUsers();
     }
 
     /**
@@ -68,7 +70,7 @@ class CSite {
                }
            }
            else{
-                $this->templates[$template] = new CTemplate($gx_config->config["paths"]["templatepath"]. $my_path . $gx_config["forms"][$template]);
+               $this->templates[$template] = new CTemplate($gx_config->config["paths"]["templatepath"]. $my_path . $gx_config->config["forms"][$template]);
            }
         }
         else{
@@ -103,11 +105,13 @@ class CSite {
      * @description Configuration is done, run the site.
      */
     function Run() {
-        global $gx_session, $gx_TSM;
+        global $gx_session, $gx_TSM, $gx_users;
         $gx_TSM = [];
         $gx_TSM["TITLE"] = "In devlopment";
+        print_r($_SESSION);
 
-        if($gx_session->getLoginStatus()){
+        $gx_users->UserLogin();
+        if($gx_users->checkloggedin()){
             $this->DoEvents();
         }
         else{
@@ -125,26 +129,22 @@ class CSite {
     }
 
     private function DoEvents() {
-        global $_CONF, $gx_config , $gx_TSM, $gx_db, $gx_session;
+        global $_CONF, $gx_config , $gx_TSM, $gx_db, $gx_session, $gx_users;
        //load the layout.
         $this->loadTemplates('layout', 'admin');
-        $event->$this;
+
 
         //set the menu as appropraite
-        if ($gx_session->user_info["user_level"] == 0) {
+        if ($gx_users->user_info["user_level"] == 0) {
             $this->loadTemplates('login', 'admin');
             $gx_TSM["MENU"] = $this->templates["login"]->blocks["MenuAdmin"]->output;
-        }
-        $task_user=GetVar("task_user", "");
-        if (!$task_user){
-            $task_user = $gx_session["user"];
         }
 
         //if($gx_session->user_info["user_level"] == 1) {
             //$_CONF["forms"]["adminpath"] = $_CONF["forms"]["userpath"];
         //}
-
-        switch (GetVar("sub", "")){
+        $sub = GetVar("sub", "");
+        switch ($sub){
             case "logout":
                 $gx_session->killsession();
                 header("Location: index.php");
@@ -156,16 +156,16 @@ class CSite {
             case "expenses":
                 //todo make more appropriate expenses
             case "properties":
-
-                if (($_GET["sub"] == "properties") && ($_GET["action"] == "details")) {
-                    die("i'm on it");
+                $action = GetVar('action', '');
+                if (($sub == "properties") && ($action == "details")) {
+                    die("i'm on it2");
                     $task = new CSQLAdmin("expenses", $_CONF["forms"]["admintemplate"],$event->db,$event->tables , $extra);
                     $extra["details"]["fields"]["button"] = $task->DoEvents();
                 }
 
-                $data = new CSQLAdmin($_GET["sub"], $_CONF["forms"]["admintemplate"],$event->db,$event->tables,$extra);
+                $data = new CSQLAdmin($sub, $gx_config->config["path"]["template"].$gx_config->config["forms"]["template"],'','',$extra);
 
-                if (($_GET["sub"] == "properties") && ($_GET["action"] == "details")) {
+                if (($sub == "properties") && ($action == "details")) {
                     $expense = $event->db->QuerySelectLimit($event->tables[expenses],'sum(expense_cost)', "expense_prop ='{$_GET[prop_id]}' " .
                         ($_GET[date_year] ? " AND expense_date_year ={$_GET[date_year]} " : '') .
                         ($_GET[date_month] ? " AND expense_date_month ={$_GET[date_month]} " : ''));
@@ -213,6 +213,10 @@ class CSite {
                 break;
         }
     }
+
+
+
+
 
 }
 ?>
