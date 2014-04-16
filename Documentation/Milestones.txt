@@ -1,0 +1,10 @@
+Name of project will be: Capital Property Management System
+Milestone 1: To create templates that will replace the current system.  due date: 6/30/2014
+Milestone 2: re-implement original items into templetes    Due date:  7/30/2014
+Milestone 3: integrate more advanced tenant information and tracking of rental units with in a property, also User levels.  Due Date: 9/30/2014
+Milestone 4: integrate Rent Management  due date:  10/30/2014
+Milestone 5: intergrate costs management  due date 11/30/2014
+Milestone 6: integrate NOI, and other financial information for easier accounting  due date 2/15/2015
+Milestone 7: BI of rental properties   due date 4/15/2015
+Milestone 9: Integrate Analysis of possible buy properties    due date: ?
+Milestone 10: ??
