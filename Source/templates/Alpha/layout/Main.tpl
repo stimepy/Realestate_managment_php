@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Responsiva</title>
+
+    <title>{{ title }} }}</title>
+    {%  %}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width; initial-scale=1">
     <link rel="stylesheet" type="text/css" href="css/style.css">
@@ -13,22 +15,22 @@
 <body>
 
 <!-- Div Wrapper Element Starts Here -->
-    <div id="Wrapper">
+<div id="Wrapper">
     <!-- Header Element Starts Here -->
-        <header id="header">
+    <header id="header">
         <!-- Hgroup Element Starts Here -->
-            <hgroup id="title">
-                <div id="logo"></div>
-                <h2>
-                    A <small>Responsive</small> web template!
-                </h2>
-            </hgroup>
+        <hgroup id="title">
+            <div id="logo"></div>
+            <h2>
+                A <small>Responsive</small> web template!
+            </h2>
+        </hgroup>
         <!-- Hgroup Element Ends Here -->
 
         <!-- Nav Element Starts Here -->
-            <nav class="navigation"> <a href="#">Home</a> <a href="#">Tutorials</a> <a href="#">Inspiration</a> <a href="#">Freebies</a> <a href="#">RSS Feed of all articles</a> <a href="#">JOIN US on TWITTER</a> <a href="#">JOIN US on FACEBOOK</a> <a href="#">Contact Us</a>
-            </nav>
-        </header>
+        <nav class="navigation"> <a href="#">Home</a> <a href="#">Tutorials</a> <a href="#">Inspiration</a> <a href="#">Freebies</a> <a href="#">RSS Feed of all articles</a> <a href="#">JOIN US on TWITTER</a> <a href="#">JOIN US on FACEBOOK</a> <a href="#">Contact Us</a>
+        </nav>
+    </header>
     <!-- Header Element Ends Here -->
 
     <!-- Div wrapper2 starts here -->
@@ -57,24 +59,24 @@
         <!-- Another Sidebar Element Ends Here -->
         <!-- Article Element Starts Here -->
         <article id="contents">
-        <!-- Article's Header Element Starts Here -->
-        <header>
-        <h1><a href="#">How to make your website Readable [Tips]</a></h1>
-        </header>
-        <!-- Article's Header Element Ends Here -->
-        <img src="images/featured_Image.jpg" alt="">
-        <p>An important aspect of font selection while designing a website, for one reason or another, I didn’t take in consideration is the readability of the “fonts”: “now” that you have the possibility to choose the font you want for your website, you have to be careful not to base the choice only on the aesthetic ( excited for the new CSS3), since the ability to set a certain font doesn’t necessarily mean that it’s the right choice, simply because some fonts are more readable than others [...]<br>
-        <br>
-        <a href="#">Read more</a>]</p>
-        <!-- Article's Header Element Starts Here -->
-        <header>
-            <h1><a href="#">Gliding Divs Using jParallax Plugin [Tutorial]</a></h1>
-        </header>
-        <!-- Article's Header Element Ends Here -->
-        <img src="images/glding_divs.jpg"  alt="">
+            <!-- Article's Header Element Starts Here -->
+            <header>
+                <h1><a href="#">How to make your website Readable [Tips]</a></h1>
+            </header>
+            <!-- Article's Header Element Ends Here -->
+            <img src="images/featured_Image.jpg" alt="">
+            <p>An important aspect of font selection while designing a website, for one reason or another, I didn’t take in consideration is the readability of the “fonts”: “now” that you have the possibility to choose the font you want for your website, you have to be careful not to base the choice only on the aesthetic ( excited for the new CSS3), since the ability to set a certain font doesn’t necessarily mean that it’s the right choice, simply because some fonts are more readable than others [...]<br>
+                <br>
+                <a href="#">Read more</a>]</p>
+            <!-- Article's Header Element Starts Here -->
+            <header>
+                <h1><a href="#">Gliding Divs Using jParallax Plugin [Tutorial]</a></h1>
+            </header>
+            <!-- Article's Header Element Ends Here -->
+            <img src="images/glding_divs.jpg"  alt="">
             <p>jParallax turns a selected element into a ‘window’, or viewport, and all its children into absolutely positioned layers that can be seen through the viewport. These layers move in response to the mouse, and, depending on their dimensions (and options for layer initialisation), they move by different amounts, in a parallaxy kind of way [...]<br>
-        <br>
-            <a href="#">Read more</a>]</p>
+                <br>
+                <a href="#">Read more</a>]</p>
         </article>
         <!-- Article Element Ends Here -->
     </div>

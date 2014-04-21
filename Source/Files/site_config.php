@@ -9,6 +9,7 @@
 if(!defined('PMC_INIT')){
     die('Your not suppose to be in here! - Ibid');
 }
+
 global $global_config, $config;
 
 $global_config = Array (
