@@ -21,56 +21,33 @@ DEFINE('DBDELETE', "delete");
  * Class CDatabase
  */
 class CDatabase{
-     /**
-     * database type
-      * @var string
-      * @access private
-     */
-     var $type;
+     private $conn_id;
+     private $current_db;
+     public $num_queries;
+     private $results;
 
-     /**
-     * database connection id
-      * @var resource
-      * @access private
+    /**
+     * @description: initializes module and connects to the database
+     * @param $server
+     * @param null $login
+     * @param null $password
+     * @param null $defualt
+     *
      */
-     var $conn_id;
-
-     /**
-     * name of the current selected database
-      * @var string
-      * @access private
-     */
-     var $current_db;
-
-     /**
-     * number of queries per session
-     * @var int
-     * @access private
-     */
-     var $num_queries;
-
-     /**
-     * specifies if there were any modifications to the database [write queries]
-     * @var bool
-     * @access private
-     */
-     var $modif = FALSE;
-
-    var $results;
-    var $rowcount;
-
-     /**
-     * initializes module and connects to the database
-     * @param array $connect_params connection parameters
-     * @return void
-     * @acces public
-     * @see Connect
-     */
-     public function __construct($connect_params = "") {
-      $this->name = "database";
-      $this->type = '';//$type;
-      if ($connect_params != "")
-       $this->Connect($connect_params);
+    public function __construct($server, $login=NULL, $password=NULL, $defualt=NULL) {
+         if(is_array($server)){
+             $params = $server;
+             unset($server); //unset incase $server is not set.
+             extract($params, EXTR_OVERWRITE);// makes $server, $login, $password, default, and password
+         }
+         //verifies these have been set, if not, defaults them.
+         if(!isset($server,$login, $password, $default)){
+             $server = (isset($server))? $server : 'localhost';
+             $login = (isset($login))? $login : 'username';
+             $password = (isset($password))? $password : '';
+             $default = (isset($default))? $default : 'propertymanagement';
+         }
+         $this->Connect($server, $login, $password, $default);
      }
 
      /**
@@ -79,30 +56,12 @@ class CDatabase{
      * @return void
      * @access private
      */
-    private function Connect($connect_params = "") {
-        extract($connect_params);// makes $server, $login, $password, default, and password
-        //verifies these have been set, if not, defaults them.
-        if(!isset($server,$login, $password, $default)){
-            $server = (isset($server))? $server : 'localhost';
-            $login = (isset($login))? $login : 'username';
-            $password = (isset($password))? $password : '';
-            $default = (isset($default))? $default : 'propertymanagement';
-        }
-
+    private function Connect($server, $login, $password, $default) {
         $this->conn_id = mysqli_connect($server, $login, $password, $default);
-        //$this->conn_id = mysql_connect($server,$login,$password,TRUE) or die("CDatabase::Connect() error " . mysql_error($this->conn_id));
         //error handling!
-        if(version_compare(phpversion(), '5.3.0', '<=')){
-            if ($this->conn_id->connect_error) {
-                die('Connect Error (' . $this->conn_id->connect_errno . ') '
-                    . $$this->conn_id->connect_error);
-            }
-        }
-        else{
-            if (mysqli_connect_error()) {
-                die('Connect Error (' . mysqli_connect_errno() . ') '
-                    . mysqli_connect_error());
-            }
+        if ($this->conn_id->connect_error) {
+            die('Connect Error (' . $this->conn_id->connect_errno . ') '
+                . $$this->conn_id->connect_error);
         }
 
         $this ->current_db = $default;
@@ -115,7 +74,6 @@ class CDatabase{
      * @access public
      */
      public function Dbclose() {
-        //mysql_close($this->conn_id);
          $this->conn_id->close();
      }
 
@@ -162,9 +120,9 @@ class CDatabase{
         if($this->conn_id->errno){
             die('Sql error: '.$query . ' :: '.$this->conn_id->error);
         }
-        if ($modify == true){
+    /*    if ($modify == true){
             $this->modif = TRUE;
-        }
+        }*/
         return true;
     }
 
@@ -222,14 +180,6 @@ class CDatabase{
     }
 
      /**
-     * depecrated
-     */
-    function QFetchArray($query) {
-      //return $this->FetchArray($this->Query($query));
-     }
-
-
-     /**
      * returns the number of rows from a table based on a certain [optional]
      * where clause
      *
@@ -246,29 +196,6 @@ class CDatabase{
          $results=$this->fetch('row', MYSQLI_NUM);
          $this->clearResults();
          return $results[0];
-     }
-
-     /**
-     * Deprecated as of 4/9/2014
-      * replaced by fetch()
-     */
-     private function FetchRowArray($result,$return_type = 0,$key = "") {
-      //$ret_val = array();
-      //$i = 0;
-
-      // dont panic. its just ternary operators in action :]
-      //while ($row = (($return_type == DB_RT_ARRAY) ? $this->FetchArray($result) : $this->FetchObject($result)))
-      // $ret_val[(($key == "") ? $i++ : (($return_type == DB_RT_ARRAY) ? $row["$key"] : $row->$key))] = $row;
-
-      // see if any rows were fetched and return accordingly
-      //return (count($ret_val) != 0) ? $ret_val : NULL;
-     }
-
-     /**
-     * depreciated as of 4/19/2014
-     */
-     private function QFetchRowArray($query,$return_type = 0,$key = "") {
-      //return $this->FetchRowArray($this->Query($query),$return_type,$key);
      }
 
      /**
@@ -323,19 +250,9 @@ class CDatabase{
      * @return array w/ fetched rows or NULL
      * @access public
      */
-    public function QuerySelectLimit($table,$fields, $where_clause="", $start=-1,$count=-1, $pm = TRUE,$order_by = "",$order_dir = "ASC") {
-        //This next 5 lines are all related to limit clause
-        // check if $count is empty just to be safe
-        if($count !=-1 && $start != -1){
-            $count = ($count == "") ? 0 : $count;
-            // recompute $start if page modifier set
-            $_start = ($pm == TRUE) ? ((($start == 0) ? 1 : $start) * $count - $count) : $start;
-            $limit_clause = ($start >= 0) ? "LIMIT $_start,$count" : "";
-        }
-        else{
-            $limit_clause = "";
-        }
+    public function QuerySelect($table,$fields, $where_clause="", $start=-1,$count=-1, $order_by = "",$order_dir = "ASC") {
 
+        $limit_clause = $this->defineLimit($start, $count);
         // setup order clause
         $order_clause = ($order_by != "") ? "ORDER BY $order_by " . (in_array($order_dir,array("ASC","DESC")) ? "$order_dir " : "") : "";
         // setup where clause
@@ -356,6 +273,30 @@ class CDatabase{
         return false;
     }
 
+
+    /**
+     * @param int $start
+     * @param int $countof
+     * @return string
+     */
+    private function defineLimit($start,$countof){
+        $limit = '';
+         if($countof !=-1 && $start != -1){
+            $countof = ($countof == "") ? 0 : $countof;
+            // recompute $start if page modifier set
+            $limit = ($start >= 0) ? "LIMIT $start,$countof" : "";
+        }
+        return $limit;
+    }
+
+
+    /**
+     * @param $table
+     * @param $options
+     * @param $type
+     * @return bool
+     * remove ASAP
+     */
     public function UndefQuery($table, $options, $type){
        if(!isset($type)){
            return false;
@@ -459,16 +400,6 @@ class CDatabase{
         return $this->callQuery($query);
     }
 
-     /**
-     * Depecrated as of 4/9/2014
-     */
-     function QueryUpdateByID($table,$fields) {
-      //$id = $fields["id"];
-      //unset($fields["id"]);
-
-      //$this->QueryUpdate($table,$fields,"`id` = '$id'");
-     }
-
     /**
      * @description Frees the result set from the query.
      * @return bool
@@ -489,6 +420,14 @@ class CDatabase{
         $this->callQuery($query);
         $results = $this->fetch('array');
         return $results;
+    }
+
+    public function escapesctring($myString){
+        if(isset($myString)){
+            //error
+            return;
+        }
+        return $this->conn_id->real_escape_string($myString);
     }
 }
 ?>
