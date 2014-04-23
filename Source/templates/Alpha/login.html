@@ -57,65 +57,43 @@
         <!-- Another Sidebar Element Ends Here -->
         <!-- Article Element Starts Here -->
         <article id="contents">
-            <form method=post action="index.php" onsubmit="" name=login>
+            <form id="cpmlogin" method=post action="index.php?action=login" onsubmit="" name=login>
             <table cellpadding="0" cellspacing="0" style="width:540;">
-                        <tr>
-                            <br><br>
-                                    <td class="box_title">Login</td>
-                                </tr>
-                                <tr>
-                                    <td class="box_content" style="padding-left:20px;">
-                                        Enter the username and password for site administrator.
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align:center;">
-                                        <table>
-                                            <tr>
-                                                <td class="box_content">USERNAME:</td>
-                                                <td class="box_content">
-                                                    <input type="text" class="login_input" name="user" /></td>
-                                                <td>
-                                                    <img width=20 height=1 src="images/dot.gif"></td>
-                                                <td class="box_content">
-                                                    <a href="javascript:document.forms[0].submit();" onclick="">
-                                                        <img src="images/buttons/button_login.gif" border="0" >
-                                                    </a>
-                                                    <!--<script> draw_button("login","javascript:document.forms[0].submit();","");</script>-->
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="box_content">PASSWORD:</td>
-                                                <td class="box_content"><input class="login_input" type="password" name="pass"></td>
-                                                <td><img width=20 height=1 src="images/dot.gif"></td>
-                                                <td class="box_content">
-                                                    <a href="javascript:document.forms[0].reset();">
-                                                        <img src="images/buttons/button_cancel.gif" border="0" >
-                                                    </a>
-                                                    <input type="hidden" value="go" name="login" />
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                            </table>
-                            <!-- LOGIN FORM -->
-
-                        </form>
-                    </td>
-                    <td style="width:1; background-color:#9DBEE6;">
-                        <img src="images/dot.gif">
+                <tr>
+                    <td class="box_title">Login</td>
+                </tr>
+                <tr>
+                    <td class="box_content" style="padding-left:20px;">
+                        Enter the username and password for site administrator.
                     </td>
                 </tr>
                 <tr>
-                    <td style ="height:1;width:1;background-color:#9DBEE6;">
-                        <img src="images/dot.gif">
+                    <td class="box_content">
+                        USERNAME: &nbsp;
+                        <input type="text" class="login_input" name="user" />
                     </td>
-                    <td colspan=2 style="height:1; background-color:#9DBEE6;" >
-                        <img src="images/dot.gif">
+                </tr>
+                <tr>
+                     <td class="box_content">
+                         PASSWORD: &nbsp;
+                        <input class="login_input" type="password" name="pass">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="box_content">
+                         <button type="submit" form="cpmlogin">Login</button>
+                         <input type="hidden" value="go" name="login" />
+                         <input type="hidden" value="index.php" name="fail" />
+                     </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="index.html">Forgot Pasword?</a>
                     </td>
                 </tr>
             </table>
+        </form>
+
         </article>
         <!-- Article Element Ends Here -->
     </div>
