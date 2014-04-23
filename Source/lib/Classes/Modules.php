@@ -7,12 +7,26 @@
  */
 
 class Modules {
-
+    private $myMods;
     public function __construct(){
-        global $gx_library, $gx_config;
-        $gx_library->FindNamedFiles($file_array, $gx_config->config['modulepath'],,array('plugin.php','install.php')$depth =1 );
-        for(i=0;i<sizeof($file_array); i++){}
-        names[i]=strchr($file_array[i], '/');
+        global $gx_library, $gx_config, $gx_db;
+
+        $this->myMods=$gx_db->QuerySelect($gx_config->language['tables']['modules'], 'mod_path, mod_name, mod_installed, mod_id');
+
+    }
+
+    private function findmods(){
+        global $gx_config, $gx_db;
+        $dir = @opendir($gx_config->config['modulepath']);
+        while(false !== ($file = readdir($dir))){
+            if($file != '.' && $file != '..'){
+                if(is_dir($file) && !in_array($file, $this->myMods)){
+                    $gx_db->
+                }
+
+            }
+        closedir($dir);
+        }
     }
 
 } 

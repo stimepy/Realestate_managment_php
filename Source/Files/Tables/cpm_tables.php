@@ -31,5 +31,6 @@ $language["tables"] = Array(
     "tenants" => SqlPre."tenants",
     "users" => SqlPre."users",
     "vars" => SqlPre."vars",
+    "module" => SqlPre."modules"
 );
 
