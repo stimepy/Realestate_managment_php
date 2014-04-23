@@ -281,12 +281,12 @@ INSERT INTO `cpm_users` (`user_id`, `user_name`, `user_email`, `user_login`, `us
 
 create table `cpm_modules`(
   `mod_id` int(11) NOT NULL AUTO_INCREMENT,
-  `mod_name` varchar(100) NOT NULL DEFAULT 'Mod',
-  `mod_path` varchar(200) NOT NULL DEFAULT './moules/..',
-  `mod_version` varchar(100) NOT NULL DEFAULT '1.0.0',
-  `mod_website` varchar(100) NOT NULL DEFAULT '',
-  `mod_active` tinyint(1) NOT NULL DEFAULT '',
-  `mod_installed` tinyint(1) NOT NULL DEFAULT '',
+  `mod_name` varchar(100) DEFAULT 'Mod',
+  `mod_path` varchar(200) DEFAULT './modules/..',
+  `mod_version` varchar(100) DEFAULT '1.0.0',
+  `mod_website` varchar(100) DEFAULT '',
+  `mod_active` tinyint(1) DEFAULT '',
+  `mod_installed` tinyint(1) DEFAULT '',
   `mod_user_restricted` text,
   PRIMARY KEY (`mod_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;

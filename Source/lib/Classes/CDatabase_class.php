@@ -326,27 +326,22 @@ class CDatabase{
      * @access public
      */
     public function QueryInsert($table,$fields) {
-        // first get the tables fields
-        $table_fields = $this->GetTableFields($table);
-
-        if (count($fields) == 0) {
-        $names[] = "id";
-        $values[] = "''";
-        } else
+        if(is_array($fields)){
         // prepare field names and values
-        foreach ($fields as $field => $value)
-        // check for valid fields
-        if (in_array($field,$table_fields)) {
-             $names[] = "`$field`";
-             $values[] = is_numeric($value) ? $value : "'" . addslashes($value) . "'";
+            foreach ($fields as $field => $value){
+            // check for valid fields
+                     $values[] = "`$field`";
+                     $items[] = is_numeric($value) ? $value : $this->escapesctring($value);
+            }
+            $query = "INSERT INTO `$table`(".implode(',',$values).") VALUES(".implode(',',$items).")";
         }
-
-        // build field names and values
-        $names = implode(",",$names);
-        $values = implode(",",$values);
-
-        // perform query
-        $query = "INSERT INTO `$table` ($names) VALUES($values)";
+        else{
+            foreach($fields as $field){
+                $items[] =is_numeric($field) ? $field : $this->escapesctring($field);
+            }
+            $query = "INSERT INTO `$table` VALUES(".implode(',',$items).")";
+        }
+       // perform query
         $this->callQuery($query,'',false,true);
 
         return $this->InsertID();
@@ -427,7 +422,8 @@ class CDatabase{
             //error
             return;
         }
-        return $this->conn_id->real_escape_string($myString);
+        return "'".$this->conn_id->real_escape_string($myString)."'";
+
     }
 }
 ?>

@@ -11,17 +11,17 @@ class Modules {
     public function __construct(){
         global $gx_library, $gx_config, $gx_db;
 
-        $this->myMods=$gx_db->QuerySelect($gx_config->language['tables']['modules'], 'mod_path, mod_name, mod_installed, mod_id');
+        $this->myMods=$gx_db->QuerySelect($gx_config->language['tables']['modules'], 'mod_path,mod_id,mod_name,mod_active');
 
     }
 
-    private function findmods(){
-        global $gx_config, $gx_db;
+    public function finduninstalledmods(){
+        global $gx_config,  $gx_db;
         $dir = @opendir($gx_config->config['modulepath']);
         while(false !== ($file = readdir($dir))){
             if($file != '.' && $file != '..'){
                 if(is_dir($file) && !in_array($file, $this->myMods)){
-                    $gx_db->
+                    //todo later!
                 }
 
             }
