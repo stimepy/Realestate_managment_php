@@ -46,18 +46,8 @@ class CConfig {
      * @return \CConfig
      * @access public
      */
-	public function __construct($file_name = "") {
+	public function __construct() {
         global $gx_library;
-        //todo, remove old config system.
-        $this->parser = new CXMLParser('config');
-		if ($file_name != ""){
-			$this->Load($file_name);
-        }
-
-        /**
-         * New config
-         */
-
         //load configuration files etc.
         $this->LoadConfigFiles("./Files/");
         global $global_config, $config, $language;

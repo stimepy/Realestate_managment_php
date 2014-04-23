@@ -33,7 +33,7 @@ class CSite {
         global $gx_CONF, $gx_config, $gx_session, $gx_db, $gx_users;
 
         //loading the config
-        $gx_config = new CConfig($xml);
+        $gx_config = new CConfig();
 
         //todo remove
         $gx_CONF = $gx_config->vars["config"];
