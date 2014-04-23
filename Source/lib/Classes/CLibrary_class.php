@@ -141,6 +141,51 @@ class CLibrary {
             closedir($dir);
         }
     }
+    public function FindNamedFiles(&$fileNamePath, $path, $named_files, $nocheck="", $max=-1, $depth = 0 ){
+        if(($depth == $max)){
+            return;
+        }
+        if(is_dir($path)){
+            //List out all language files
+            $dir = @opendir($path);
+            while(false !== ($file = readdir($dir))){
+                if($file != '.' && $file != '..'){
+                    if(is_dir($path.$file)){
+                        if(!$this->DirNoGo($file, $nocheck)){
+                            $this->Findloadablefiles($fileArray, $path.$file."/", $max, ++$depth);
+                            $depth--;
+                        }
+                    }
+                    else{
+                        if(is_array($named_files)){
+                            for($i=0; $i<sizeof($named_files); $i++){
+                                if(strcasecmp ( $named_files[i] , $file ) == 0){
+                                    $fileNamePath[] = $path.$file;
+                                }
+                            }
+                        }
+                        elseif(strcasecmp ( $named_files[i] , $file ) == 0){
+                            $fileNamePath[] = $path.$file;
+                        }
+                    }
+                }
+            }
+            closedir($dir);
+        }
+    }
 
+    private function DirNoGo($to, $nono){
+        if(is_array($nono)){
+            for($i=0; $i<sizeof($nono); $i++){
+                if(strcasecmp ( $nono[i] , $to ) == 0 ){
+                    return true;
+                }
+            }
+        }
+        elseif(strcasecmp( $nono , $to ) == 0){
+            return true;
+        }
+        return false;
+    }
 }
 ?>
