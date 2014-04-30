@@ -17,17 +17,25 @@ if(!defined('PMC_INIT')){
 class CTemplate {
     private $loader;
     private $envir;
-    private $envir_vars = Array();
-    private $template = Array();
+    private $envir_vars;
+    private $template;
+    private $rendered;
 
+    /**
+     * Basic constructor.  Loads twig and
+     * todo cache
+     *
+     */
     public function __construct(){
         global $gx_config, $gx_library;
 
         $gx_library->loadLibraryFile($gx_config->config['libpath'].$gx_config->config['class'] , 'Autoloader.php');
         Twig_Autoloader::register();
-        //require_once '/path/to/vendor/autoload.php';
         $this->loader = new Twig_Loader_String();
         $this->envir = new Twig_Environment($this->loader);
+        $this->envir_vars = array();
+        $this->template = array();
+        $this->rendered = array();
     }
 
     public function AddTemplate($template, $name=NULL){
@@ -61,10 +69,36 @@ class CTemplate {
         return true;
     }
 
-    public function RenderTemplates(){
+    public function RenderTemplate($tid, $display = false){
+       $this->rendered[$tid] = $this->template[$tid]->render($this->envir_vars[$tid]);
+       if($display){
+            return $this->DisplayTemplate($tid);
+       }
+       return true;
+    }
+
+    public function RenderTemplatesMulti($atid, $nexttidrender = true, $displaylast = false){
+        $multi = 0;
+        if(!is_array($atid)){
+            //todo error!
+            return false;
+        }
+        $tid_size = sizeof($atid);
+        foreach($atid as $key => $value){
+            $result = $this->RenderTemplate($value);
+            if($nexttidrender){
+                $nexttid=(isset($atid[$i+1]) && is_array($atid[$i+1]) )? $atid[$i+1][0] : false;
+                if($nexttid != false){
+                    $this->AddVariables($nexttid, $this->rendered[$atid[i][0]],$atid[i][1]);
+                }
+            }
+        }
 
     }
 
+    public function DisplayTemplate($tid){
+        echo $this->rendered[$tid];
+    }
 
 }
 
