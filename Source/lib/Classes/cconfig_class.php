@@ -18,35 +18,11 @@ class CConfig {
     public $global_config;
     public $config;
     public $language;
-    /**
-	* current depth in xml tree
-	* @var int
-	* @access private
-	*/
-	var $depth = 0;
-
-	/**
-	* depth tags parser helper
-	* @var array
-	* @access private
-	*/
-	var $tags = array();
-
-	/**
-	* config tree
-	* @var array
-	* @access public
-	*/
-	public $vars = array();
-    private $parser;
 
     /**
-     * @description creates the xml parser and optionally loads a config file
-     * @param string $file_name config file name to load
-     * @return \CConfig
-     * @access public
+     * Basic constructor, loads base configs
      */
-	public function __construct() {
+    public function __construct() {
         global $gx_library;
         //load configuration files etc.
         $this->LoadConfigFiles("./Files/");
@@ -62,24 +38,11 @@ class CConfig {
 	}
 
 
-
-	/**
-	* @description load the config file and parse it
-	* @param string $file_name	config filename to load
-	* @return void
-	* @access public
-	*/
-	public function Load($file_name) {
-        global $gx_library;
-        $this->vars = $gx_library->loadXMLFile($file_name, $this->vars, $this->parser, 'config');
-
-        //$this->Parse(str_replace("&","[amp]",GetFileContents($file_name)));
-        $this->file_names=$file_name;
-
-	}
-
-
-
+    /**
+     * Loads the config file, as stated by the file path
+     * @param string $path
+     * @param -1 $maxdepth
+     */
     private function LoadConfigFiles($path, $maxdepth=-1){
         global $gx_library;
         $gx_library->Findloadablefiles($fileArray, $path, $maxdepth);
@@ -88,8 +51,8 @@ class CConfig {
 
     /**
      * @description allows modules that have seperate language to load their language to $gx_config->language
-     * @param $path
-     * @param $maxdepth
+     * @param string $path
+     * @param -1 $maxdepth
      * @return bool
      */
     public function LoadMoreLanguage($path, $maxdepth=-1){
