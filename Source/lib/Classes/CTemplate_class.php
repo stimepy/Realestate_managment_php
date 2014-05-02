@@ -22,6 +22,7 @@ class CTemplate {
     private $envir_vars;
     private $template;
     private $rendered;
+    private $display_ready;
 
     /**
      * Basic constructor.  Loads twig and
@@ -38,6 +39,7 @@ class CTemplate {
         $this->envir_vars = array();
         $this->template = array();
         $this->rendered = array();
+        $this->display_ready='';
     }
 
     /**
@@ -94,10 +96,11 @@ class CTemplate {
      * @param false bool $display
      * @return bool|void
      */
-    public function RenderTemplate($tid, $display = false){
+    public function RenderTemplate($tid, $display = false, $display_type = TEMPLATE_SHOW){
        $this->rendered[$tid] = $this->template[$tid]->render($this->envir_vars[$tid]);
+        $this->envir_vars[$tid] = NULL;
        if($display){
-            return $this->DisplayTemplate($tid);
+            return $this->DisplayTemplate($tid, $display_type);
        }
        return true;
     }
@@ -114,7 +117,7 @@ class CTemplate {
      * @param bool $displaylast
      * @return bool
      */
-    public function RenderTemplatesMulti($atid, $nexttidrender = true, $displaylast = false){
+    public function RenderTemplatesMulti($atid, $nexttidrender = true, $displaylast = false, $display_type = TEMPLATE_SHOW){
         $multi = 0;
         if(!is_array($atid)){
             //todo error!
@@ -140,7 +143,7 @@ class CTemplate {
             $count++;
         }
         if($displaylast){
-            $this->DisplayTemplate($curtid);
+            $this->DisplayTemplate($curtid, $display_type);
         }
         return true;
     }
@@ -149,11 +152,39 @@ class CTemplate {
      * Will display the rendered template(s)
      * @param string $tid
      */
-    public function DisplayTemplate($tid){
-        echo $this->rendered[$tid];
+    public function DisplayTemplate($tid, $display_type = TEMPLATE_SHOW){
+        switch($display_type){
+            case TEMPLATE_SHOW:
+                $this->display_ready .= $this->rendered[$tid];
+                echo $this->display_ready;
+                break;
+            case TEMPLATE_HOLD:
+                $this->display_ready .= $this->rendered[$tid];
+                break;
+        }
     }
 
 }// end Ctemplate class
 
+
+function CreateHeader(){
+    global $gx_template;
+    $tid = $gx_template->AddTemplate('Main_head.tpl');
+    //todo create menus, title, etc.  not manually!
+    $gx_template->AddVariables($tid, 'Capital Property Management',  'title' );
+    $gx_template->AddVariables($tid, ['url' => 'index.php?mod=properties', 'link_name' => 'Properties' ],  'buttons' );
+
+    $gx_template->RenderTemplate($tid, $display = true, $display_type = TEMPLATE_HOLD);
+}
+
+function CreateFooter(){
+    global $gx_template;
+    $tid = $gx_template->AddTemplate('Main_Footer.tpl');
+    //todo create menus, title, etc.  not manually!
+    $gx_template->AddVariables($tid, 'Capital Property Management',  'website' );
+    $gx_template->AddVariables($tid, ['link' => 'index.php?mod=properties', 'title' => 'Properties' ],  'footlinks' );
+
+    $gx_template->RenderTemplate($tid, $display = true);
+}
 
 ?>
