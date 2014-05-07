@@ -11,13 +11,13 @@
         <tr>
             <td class="box_content">
                 USERNAME: &nbsp;
-                <input type="text" class="login_input" name="user" />
+                <input type="text" name="user" />
             </td>
         </tr>
         <tr>
             <td class="box_content">
                 PASSWORD: &nbsp;
-                <input class="login_input" type="password" name="pass">
+                <input type="password" name="pass">
             </td>
         </tr>
         <tr>
@@ -30,7 +30,7 @@
         </tr>
         <tr>
             <td>
-                <a href="index.html">Forgot Pasword?</a>
+                <a href="index.html?a=fpf">Forgot Pasword?</a>
             </td>
         </tr>
     </table>

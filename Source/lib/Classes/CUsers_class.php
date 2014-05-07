@@ -18,7 +18,7 @@ class CUsers {
     private $loggedin = false;
 
     public function __construct(){
-
+        $this->UserLogin();
     }
 
    public function UserLogin(){
@@ -26,12 +26,12 @@ class CUsers {
 
         if($gx_session->CheckSession()){
 
-            $sub = GetVar('login', '');
-            if ($sub == 'go'){
+            $sub = GetVar('cpm_login', '');
+            if ($sub == 'login'){
                 //Do some more here...
                 $login_name = GetVar('user', '');
                 //todo encerypt password.
-                $password = GetVar('pass', '');
+                $password = GetVar('password', '');
 
                 //authentication
                 $user = $gx_db->QuerySelectLimit($gx_config->language['tables']['users'],"user_id, user_name, user_email, user_login, user_level, user_number, user_class, user_super","`user_login` = '{$login_name}' AND `user_password` = '{$password}'");
@@ -42,7 +42,7 @@ class CUsers {
                     $gx_session->SetSessionItem("info", $user);
                     //redirecing to view sites
                     header("Location: ". $gx_config->global_config['default_location']);
-                    exit;
+                    exit(0);
                 }
                 else{
                     $this->loggedin = false;
@@ -53,7 +53,6 @@ class CUsers {
                 $this->user_info = $gx_session->GetSessionItem('user_info');
             }
             else{
-                echo 'here';
                 $this->loggedin = false;
             }
         }
@@ -61,6 +60,16 @@ class CUsers {
 
     public function checkloggedin(){
         return $this->loggedin;
+    }
+
+    public function gologin(){
+        global $gx_template;
+        CreateHeader();
+        $tid = $gx_template->AddTemplate('Main_Content.tpl');
+        $gx_template->AddVariable($tid,$gx_template->RenderTemplate($gx_template->AddTemplate('Login.tpl'), true, TEMPLATE_RETURN) ,'content');
+        $gx_template->RenderTemplate($tid, true, TEMPLATE_HOLD);
+        CreateFooter();
+        exit;
     }
 
 } 

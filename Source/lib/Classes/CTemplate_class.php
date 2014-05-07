@@ -161,6 +161,8 @@ class CTemplate {
             case TEMPLATE_HOLD:
                 $this->display_ready .= $this->rendered[$tid];
                 break;
+            case TEMPLATE_RETURN:
+                return $this->rendered[$tid];
         }
     }
 

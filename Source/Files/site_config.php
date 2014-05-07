@@ -57,5 +57,6 @@ $config = Array(
 define("SqlPre", "CPM_");
 define("TEMPLATE_HOLD", 1);
 define("TEMPLATE_SHOW", 0);
+define("TEMPLATE_RETURN", 2);
 
 ?>
