@@ -1,6 +1,6 @@
 <!-- Article Element Starts Here -->
 <article id="contents">
-    {{ content }}
+    {{ content | raw }}
 </article>
 <!-- Article Element Ends Here -->
 </div>

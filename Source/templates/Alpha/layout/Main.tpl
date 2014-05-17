@@ -59,24 +59,43 @@
         <!-- Another Sidebar Element Ends Here -->
         <!-- Article Element Starts Here -->
         <article id="contents">
-            <!-- Article's Header Element Starts Here -->
-            <header>
-                <h1><a href="#">How to make your website Readable [Tips]</a></h1>
-            </header>
-            <!-- Article's Header Element Ends Here -->
-            <img src="images/featured_Image.jpg" alt="">
-            <p>An important aspect of font selection while designing a website, for one reason or another, I didn’t take in consideration is the readability of the “fonts”: “now” that you have the possibility to choose the font you want for your website, you have to be careful not to base the choice only on the aesthetic ( excited for the new CSS3), since the ability to set a certain font doesn’t necessarily mean that it’s the right choice, simply because some fonts are more readable than others [...]<br>
-                <br>
-                <a href="#">Read more</a>]</p>
-            <!-- Article's Header Element Starts Here -->
-            <header>
-                <h1><a href="#">Gliding Divs Using jParallax Plugin [Tutorial]</a></h1>
-            </header>
-            <!-- Article's Header Element Ends Here -->
-            <img src="images/glding_divs.jpg"  alt="">
-            <p>jParallax turns a selected element into a ‘window’, or viewport, and all its children into absolutely positioned layers that can be seen through the viewport. These layers move in response to the mouse, and, depending on their dimensions (and options for layer initialisation), they move by different amounts, in a parallaxy kind of way [...]<br>
-                <br>
-                <a href="#">Read more</a>]</p>
+
+            <table style="width:540;" cellpadding="0" cellspacing="0">
+                <tbody><tr>
+                    <td class="box_title">User Login</td>
+                </tr>
+                <tr>
+                    <td class="box_content" style="padding-left:20px;">
+                        Enter the username and password for site administrator.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="box_content">
+                        USERNAME: &nbsp;
+                        <input name="user" value="" type="text">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="box_content">
+                        PASSWORD: &nbsp;
+                        <input name="pass" type="password">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="box_content">
+                        <button type="submit" form="cpmlogin">Login</button>
+                        <input value="login" name="cpm_login" type="hidden">
+                        <input value="notsure" name="cpm_fail" type="hidden">
+                        <input value="here" name="cpm_redir" type="hidden">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="index.html?a=fpf">Forgot Pasword?</a>
+                    </td>
+                </tr>
+                </tbody></table>
+
         </article>
         <!-- Article Element Ends Here -->
     </div>

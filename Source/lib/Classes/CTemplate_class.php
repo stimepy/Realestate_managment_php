@@ -31,10 +31,9 @@ class CTemplate {
      */
     public function __construct(){
         global $gx_config, $gx_library;
-
-        $gx_library->loadLibraryFile($gx_config->config['libpath'].$gx_config->config['class'] , 'Autoloader.php');
+        $gx_library->loadLibraryFile($gx_config->config['paths']['libpath'].$gx_config->config['paths']['class']."Twig/" , 'Autoloader.php');
         Twig_Autoloader::register();
-        $this->loader = new Twig_Loader_String();
+        $this->loader = new Twig_Loader_Filesystem('templates/alpha/layout');
         $this->envir = new Twig_Environment($this->loader);
         $this->envir_vars = array();
         $this->template = array();
@@ -50,9 +49,9 @@ class CTemplate {
      */
     public function AddTemplate($template, $name=NULL){
         if(!isset($name)){
-            $name = 'Tid'.sizeof($this->template)+1;
+            $name = 'Tid'.(sizeof($this->template)+1);
         }
-        $this->templates[$name] = $this->envir->loadTemplate($template);
+        $this->template[$name] = $this->envir->loadTemplate($template);
         return $name;
     }
 
@@ -71,8 +70,10 @@ class CTemplate {
             }
             $var = [$name => $var];
         }
-        if(is_array($this->envir_vars[$tid])){
-            $this->envir_vars[$tid] = array_merge($this->envir_vars[$tid][0],$var);
+
+        if(isset($this->envir_vars[$tid]) && is_array($this->envir_vars[$tid])){
+            $this->envir_vars[$tid] = array_merge($this->envir_vars[$tid],$var);
+
         }
         else{
             $this->envir_vars[$tid] = $var;
@@ -97,9 +98,11 @@ class CTemplate {
      * @return bool|void
      */
     public function RenderTemplate($tid, $display = false, $display_type = TEMPLATE_SHOW){
-       $this->rendered[$tid] = $this->template[$tid]->render($this->envir_vars[$tid]);
+        //print_r($this->envir_vars[$tid]);
+        $this->rendered[$tid] = $this->template[$tid]->render($this->envir_vars[$tid]);
         $this->envir_vars[$tid] = NULL;
        if($display){
+
             return $this->DisplayTemplate($tid, $display_type);
        }
        return true;
@@ -173,8 +176,9 @@ function CreateHeader(){
     global $gx_template;
     $tid = $gx_template->AddTemplate('Main_head.tpl');
     //todo create menus, title, etc.  not manually!
+
     $gx_template->AddVariables($tid, 'Capital Property Management',  'title' );
-    $gx_template->AddVariables($tid, ['url' => 'index.php?mod=properties', 'link_name' => 'Properties' ],  'buttons' );
+    $gx_template->AddVariables($tid,['style'=>'style.css', 'buttons' => [['url'=>'index.php?mod=properties' ,'link_name'=>'Properties']]] );
 
     $gx_template->RenderTemplate($tid, $display = true, $display_type = TEMPLATE_HOLD);
 }
@@ -184,7 +188,7 @@ function CreateFooter(){
     $tid = $gx_template->AddTemplate('Main_Footer.tpl');
     //todo create menus, title, etc.  not manually!
     $gx_template->AddVariables($tid, 'Capital Property Management',  'website' );
-    $gx_template->AddVariables($tid, ['link' => 'index.php?mod=properties', 'title' => 'Properties' ],  'footlinks' );
+   //$gx_template->AddVariables($tid, [['link' => 'index.php?mod=properties'], 'title' => 'Properties' ],  'footlinks' );
 
     $gx_template->RenderTemplate($tid, $display = true);
 }

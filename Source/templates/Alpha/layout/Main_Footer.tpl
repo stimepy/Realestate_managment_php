@@ -3,9 +3,7 @@
 <footer id="copyrights">
     <p><small>&copy; 2012 <a href="#">{{ website }}</a></small></p>
     <p>
-        {% for links as footlinks %}
-        <a href="{{ links.link }}">{{ links.title }}</a>
-        {% endfor %}
+
     </p>
     <address>
         Website Template by <a target="_blank" href="http://www.dzyngiri.com/">Dzyngiri</a>

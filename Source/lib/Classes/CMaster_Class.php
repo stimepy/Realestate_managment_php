@@ -26,7 +26,7 @@ class CMaster {
      * @access public
      */
     public function __construct() {
-        global $gx_config, $gx_session, $gx_users;
+        global $gx_config, $gx_session, $gx_users, $gx_template;
 
         //loading the config
         $gx_config = new CConfig();
@@ -35,6 +35,8 @@ class CMaster {
         //determine login status....
         $gx_session = new CSession();
         $gx_users = new CUsers();
+
+        $gx_template = new CTemplate();
     }
 
     /**

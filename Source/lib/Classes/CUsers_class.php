@@ -62,11 +62,14 @@ class CUsers {
         return $this->loggedin;
     }
 
-    public function gologin(){
+    public function GoLogin(){
         global $gx_template;
         CreateHeader();
         $tid = $gx_template->AddTemplate('Main_Content.tpl');
-        $gx_template->AddVariable($tid,$gx_template->RenderTemplate($gx_template->AddTemplate('Login.tpl'), true, TEMPLATE_RETURN) ,'content');
+        $tid2 = $gx_template->AddTemplate('Login.tpl');
+        $gx_template->AddVariables($tid2,array('username'=>GetVar('username', ''), 'fail'=>'notsure', 'redirect'=>'here'));
+        $temp = $gx_template->RenderTemplate($tid2, true, TEMPLATE_RETURN);
+        $gx_template->AddVariables($tid,$temp,'content');
         $gx_template->RenderTemplate($tid, true, TEMPLATE_HOLD);
         CreateFooter();
         exit;

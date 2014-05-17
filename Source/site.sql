@@ -7,7 +7,7 @@
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
-
+use pm;
 --
 -- Database: `pm`
 -- 
@@ -17,11 +17,6 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- 
 -- Table structure for table `site_expenses`
 -- 
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
 
 
 --
@@ -285,8 +280,8 @@ create table `cpm_modules`(
   `mod_path` varchar(200) DEFAULT './modules/..',
   `mod_version` varchar(100) DEFAULT '1.0.0',
   `mod_website` varchar(100) DEFAULT '',
-  `mod_active` tinyint(1) DEFAULT '',
-  `mod_installed` tinyint(1) DEFAULT '',
+  `mod_active` tinyint(1) DEFAULT 0,
+  `mod_installed` tinyint(1) DEFAULT 0,
   `mod_user_restricted` text,
   PRIMARY KEY (`mod_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;

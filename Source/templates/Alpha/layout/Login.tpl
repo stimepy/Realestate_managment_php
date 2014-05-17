@@ -11,7 +11,7 @@
         <tr>
             <td class="box_content">
                 USERNAME: &nbsp;
-                <input type="text" name="user" />
+                <input type="text" name="user" value="{{ username }}"/>
             </td>
         </tr>
         <tr>
