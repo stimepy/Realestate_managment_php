@@ -67,7 +67,7 @@ $files = array("CUsers_class.php", "CTemplate_class.php", "cconfig_class.php", "
 /* load the rest of the files that are needed. */
 $gx_library->loadLibraryFile("./lib/Classes/",$files,$required = true);
 
-$gx_library->loadLibraryFile("./lib/","mail.php",$required = false);
+$gx_library->loadLibraryFile("./lib/",["mail.php", 'Template_func.php'],$required = false);
 
 
 

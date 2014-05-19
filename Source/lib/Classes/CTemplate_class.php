@@ -172,25 +172,5 @@ class CTemplate {
 }// end Ctemplate class
 
 
-function CreateHeader(){
-    global $gx_template;
-    $tid = $gx_template->AddTemplate('Main_head.tpl');
-    //todo create menus, title, etc.  not manually!
-
-    $gx_template->AddVariables($tid, 'Capital Property Management',  'title' );
-    $gx_template->AddVariables($tid,['style'=>'style.css', 'buttons' => [['url'=>'index.php?mod=properties' ,'link_name'=>'Properties']]] );
-
-    $gx_template->RenderTemplate($tid, $display = true, $display_type = TEMPLATE_HOLD);
-}
-
-function CreateFooter(){
-    global $gx_template;
-    $tid = $gx_template->AddTemplate('Main_Footer.tpl');
-    //todo create menus, title, etc.  not manually!
-    $gx_template->AddVariables($tid, 'Capital Property Management',  'website' );
-   //$gx_template->AddVariables($tid, [['link' => 'index.php?mod=properties'], 'title' => 'Properties' ],  'footlinks' );
-
-    $gx_template->RenderTemplate($tid, $display = true);
-}
 
 ?>
