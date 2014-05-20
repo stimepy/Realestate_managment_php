@@ -38,7 +38,7 @@ function AddSideMenu(){
     global $gx_template;
     $tid = $gx_template->AddTemplate('Main_menu.tpl');
     //todo create menus, title, etc.  not manually!
-    $gx_template->AddVariables($tid, ['sidbars'=>[['menu_title'=>'Navigation', 'item'=>[['link'=>'#', 'name'=>'Thing you Do!']] ] ]] );
+    $gx_template->AddVariables($tid, ['sidbars'=>[['menu_title'=>'Navigation', 'items'=>[['link'=>'#', 'name'=>'Thing you Do!']] ]] ] );
     $gx_template->RenderTemplate($tid, $display = true, $display_type = TEMPLATE_HOLD);
 
 }
