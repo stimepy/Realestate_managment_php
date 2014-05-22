@@ -4,11 +4,7 @@
 require "config.php";
 
 $site = new CMaster("./site.xml",true);
-global $gx_user, $gx_template;
-
-if(!$gx_users->checkloggedin()){
-    $gx_users->GoLogin();
-}
-$site->Run();
+print_r($_SERVER);
+$site->action();
 
 ?>

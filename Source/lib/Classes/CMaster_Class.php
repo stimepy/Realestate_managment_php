@@ -17,9 +17,6 @@ if(!defined('PMC_INIT')){
  *
  */
 class CMaster {
-    var $templates;
-    var $vars;
-    var $table;
 
     /**
      * @description set up the website configurations, settings, etc.
@@ -57,25 +54,12 @@ class CMaster {
     /**
      * @description Configuration is done, run the site.
      */
-    function Run() {
+    function Action() {
         global $gx_session, $gx_TSM, $gx_users;
+        if(!$gx_users->checkloggedin()){
+            $gx_users->GoLogin();
+        }
 
-        $gx_users->UserLogin();
-        if($gx_users->checkloggedin()){
-            $this->DoEvents();
-        }
-        else{
-            $this->loadTemplates(array('login', 'layout'), 'admin');
-            $gx_TSM["AREA"]= "Login";
-            $gx_TSM["MENU"] = $this->templates["login"]->blocks["MenuAdmin"]->output;
-            $gx_TSM["CONTENT"] = $this->templates["login"]->blocks["Login"]->output;
-
-        }
-        //$gx_library->loadLibraryFile(_LIBPATH,"pb_events.php");
-        //
-        if (is_object($this->templates["layout"])) {
-            echo $this->templates["layout"]->Replace($gx_TSM);
-        }
     }
 
 
