@@ -25,7 +25,6 @@ class CUsers {
         global $gx_config, $gx_db, $gx_session;
 
         if($gx_session->CheckSession()){
-
             $sub = GetVar('cpm_login', '');
             if ($sub == 'login'){
                 //Do some more here...
@@ -34,7 +33,7 @@ class CUsers {
                 $password = GetVar('password', '');
 
                 //authentication
-                $user = $gx_db->QuerySelectLimit($gx_config->language['tables']['users'],"user_id, user_name, user_email, user_login, user_level, user_number, user_class, user_super","`user_login` = '{$login_name}' AND `user_password` = '{$password}'");
+                $user = $gx_db->QuerySelectLimit($gx_config->language['tables']['users'],"user_id, user_name, user_email, user_login, user_level, user_number, user_class, user_super","lower(`user_login`) = lower('{$login_name}') AND `user_password` = '{$password}'");
 
                 if (isset($user) && $user != false) {
                     $gx_session->SetSessionItem("user_login",true);

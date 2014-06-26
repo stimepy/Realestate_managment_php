@@ -2,7 +2,7 @@
 /**
  * Capital Property Management System
  *
- * File: CSite_class.php
+ * File: CMaster_class.php
  * Author: Kris Sherrerd
  * Copyright: 2014 by Kris Sherrerd
  * Version 0.2
@@ -59,7 +59,22 @@ class CMaster {
         if(!$gx_users->checkloggedin()){
             $gx_users->GoLogin();
         }
+        //first figure out if we are doing a core action, or a module action
+        $site = GetVar('core', false);
+        $module = GetVar('mod', false);
+        if(!$site && ! $module){
+            //display a nice menu template.
+        }
+        elseif($site && $module){
+            //Can't be both, ban the ip, and user
+        }
 
+        if($site){
+            //find out hte action and make it happen
+        }
+        elseif($module){
+            //get the module and pass control.
+        }
     }
 
 

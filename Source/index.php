@@ -4,7 +4,7 @@
 require "config.php";
 
 $site = new CMaster("./site.xml",true);
-print_r($_SERVER);
+
 $site->action();
 
 ?>
