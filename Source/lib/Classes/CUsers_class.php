@@ -74,4 +74,8 @@ class CUsers {
         exit;
     }
 
+    public function isAdmin(){
+        $admin=$gx_session->('admin');
+        
+    }
 } 

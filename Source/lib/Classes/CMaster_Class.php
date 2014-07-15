@@ -22,7 +22,7 @@ class CMaster {
      * @description set up the website configurations, settings, etc.
      * @access public
      */
-    public function __construct() {
+    public function __construct(item) {
         global $gx_config, $gx_session, $gx_users, $gx_template;
 
         //loading the config
@@ -31,7 +31,7 @@ class CMaster {
 
         //determine login status....
         $gx_session = new CSession();
-        $gx_users = new CUsers();
+        $gx_users = new CUsers(item);
 
         $gx_template = new CTemplate();
     }
@@ -59,6 +59,7 @@ class CMaster {
         if(!$gx_users->checkloggedin()){
             $gx_users->GoLogin();
         }
+
         //first figure out if we are doing a core action, or a module action
         $site = GetVar('core', false);
         $module = GetVar('mod', false);

@@ -34,10 +34,8 @@ $config = Array(
         "buttonpath" => "./image/button/",
         "class" => "Classes/",
         "admin" => "admin/",
-        "user" => "user/",
-        "expenses" => "expenses/",
-        "properties" => "properties/",
         "users" => "users/",
+
     ),
 
 
