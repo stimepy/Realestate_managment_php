@@ -13,22 +13,27 @@ use pm;
 -- 
 
 -- --------------------------------------------------------
-
--- 
--- Table structure for table `site_expenses`
--- 
-
-
 --
 -- Table structure for table `site_amenities`
 --
 
-CREATE TABLE IF NOT EXISTS `cpm_amenities` (
+CREATE TABLE IF NOT EXISTS `cpm_prop_amenities` (
   `am_id` int(10) NOT NULL AUTO_INCREMENT,
   `description` varchar(255) DEFAULT NULL,
   `income` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`am_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+
+
+CREATE TABLE IF NOT EXISTS `cpm_prop_amenities_unitprop` (
+  `am_propunit_id` int(11) NOT NULL AUTO_INCREMENT,
+  `am_id` int(10) NOT NULL,
+  `prop_id` int(11) DEFAULT NULL,
+  `unit_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`am_propunit_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
 
 -- --------------------------------------------------------
 
@@ -78,14 +83,29 @@ INSERT INTO `cpm_expenses` (`expense_id`, `expense_prop`, `expense_name`, `expen
 -- Table structure for table `site_files`
 --
 
-CREATE TABLE IF NOT EXISTS `cpm_files` (
+CREATE TABLE IF NOT EXISTS `cpm_core_files` (
   `file_num_id` int(10) NOT NULL AUTO_INCREMENT,
-  `file_upload` blob,
+  `file_name` varchar(255) NOT NULL default 'File Name',
   `file_type` varchar(20) DEFAULT NULL,
-  `file_link` text,
+  `file_created` date,
+  `file_updated` date,
+  `file_removed` date,
   PRIMARY KEY (`file_num_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
+
+create table cmp_core_file_uploaded(
+  `file_upload_id` int(10) NOT NULL AUTO_INCREMENT,
+  `file_num_id` int(10) NOT NULL,
+  `file_upload` blob,
+  `file_size` decimal (10,2)
+)ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+ create table cmp_core_file_link(
+   `file_link_id` int(10) NOT NULL AUTO_INCREMENT,
+   `file_num_id` int(10) NOT NULL,
+   `file_link` text
+ )ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 -- --------------------------------------------------------
 
 --
@@ -107,7 +127,7 @@ CREATE TABLE IF NOT EXISTS `cpm_lease_violation` (
 -- Table structure for table `site_property`
 --
 
-CREATE TABLE IF NOT EXISTS `cpm_property` (
+CREATE TABLE IF NOT EXISTS `cpm_prop_property` (
   `prop_id` int(11) NOT NULL AUTO_INCREMENT,
   `prop_address` text NOT NULL,
   `prop_city` varchar(200) NOT NULL DEFAULT '',
@@ -115,26 +135,18 @@ CREATE TABLE IF NOT EXISTS `cpm_property` (
   `prop_zip` varchar(20) NOT NULL DEFAULT '',
   `prop_description` text NOT NULL,
   `prop_leased_amount` varchar(100) NOT NULL DEFAULT '',
-  `leased_date_start` int(11) NOT NULL DEFAULT '0',
-  `leased_date_end` int(11) NOT NULL DEFAULT '0',
-  `leased_to_name` varchar(100) NOT NULL DEFAULT '',
-  `leased_to_address` text NOT NULL,
-  `leased_to_city` varchar(200) NOT NULL DEFAULT '',
-  `leased_to_state` char(2) NOT NULL DEFAULT '',
-  `leased_to_zip` varchar(20) NOT NULL DEFAULT '',
-  `lease_to_phone` varchar(30) NOT NULL DEFAULT '',
-  `leased_to_email` varchar(200) NOT NULL DEFAULT '' COMMENT 'test',
   `prop_value` decimal(10,2),
+  `prop_value_owed` decimal(10,2),
+  `prop_value_sold` decimal(10,2),
+  `prop_value_annual_taxes` decimal(10,2),
+  `prop_insurance_cost` decimal(10,2),
+  `prop_insurance_company` varchar(255),
+  `prop_num_units` int(11),
+  `created_date` date,
+  `updated_date` date,
   PRIMARY KEY (`prop_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
---
--- Dumping data for table `site_property`
---
-
-INSERT INTO `cpm_property` (`prop_id`, `prop_address`, `prop_city`, `prop_state`, `prop_zip`, `prop_description`, `prop_leased_amount`, `leased_date_start`, `leased_date_end`, `leased_to_name`, `leased_to_address`, `leased_to_city`, `leased_to_state`, `leased_to_zip`, `lease_to_phone`, `leased_to_email`) VALUES
-  (1, '555 West Market Street', 'Nocity', 'CA', '90212', '3 bedroom 2 bath rental unit. 2 stall garage is not for use by renters.', '1450', 1101445200, 1132981200, 'Sally Irent', '555 West Market Street', 'Nocity', 'CA', '90212', '', 'sally.irent@example.com'),
-  (2, '512 18th Street', 'Whatcity', 'CA', '90222', '2 Bedroom Townhouse. Rents well.', '1300', 1102222800, 1102222800, 'John Doe', '1980 4th Street', 'NoCity', 'CA', '90222', '', 'no@example.com');
 
 -- --------------------------------------------------------
 
@@ -142,7 +154,7 @@ INSERT INTO `cpm_property` (`prop_id`, `prop_address`, `prop_city`, `prop_state`
 -- Table structure for table `site_prop_files`
 --
 
-CREATE TABLE IF NOT EXISTS `cpm_files_prop` (
+CREATE TABLE IF NOT EXISTS `cpm_prop_files` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `prop_id` int(11) NOT NULL,
   `unit_id` int(11) DEFAULT NULL,
@@ -252,16 +264,12 @@ CREATE TABLE IF NOT EXISTS `cpm_tenant_site_history` (
 -- Table structure for table `site_users`
 --
 
-CREATE TABLE IF NOT EXISTS `cpm_users` (
+CREATE TABLE IF NOT EXISTS `cpm_core_users` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_name` varchar(100) NOT NULL DEFAULT '',
   `user_email` varchar(200) NOT NULL DEFAULT '',
   `user_login` varchar(100) NOT NULL DEFAULT '',
   `user_password` varchar(100) NOT NULL DEFAULT '',
-  `user_level` int(1) NOT NULL DEFAULT '0',
-  `user_number` varchar(100) NOT NULL DEFAULT '',
-  `user_class` int(11) NOT NULL DEFAULT '0',
-  `user_super` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`user_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
@@ -269,12 +277,12 @@ CREATE TABLE IF NOT EXISTS `cpm_users` (
 -- Dumping data for table `site_users`
 --
 
-INSERT INTO `cpm_users` (`user_id`, `user_name`, `user_email`, `user_login`, `user_password`, `user_level`, `user_number`, `user_class`, `user_super`) VALUES
-  (1, 'Admin', 'admin@example.com', 'admin', 'test', 0, '2134243', 0, 1);
+INSERT INTO `cpm_core_users` (`user_id`, `user_name`, `user_email`, `user_login`, `user_password`) VALUES
+  (1, 'Admin', 'admin@example.com', 'admin', 'test');
 
 -- --------------------------------------------------------
 
-create table `cpm_modules`(
+create table `cpm_core_modules`(
   `mod_id` int(11) NOT NULL AUTO_INCREMENT,
   `mod_name` varchar(100) DEFAULT 'Mod',
   `mod_path` varchar(200) DEFAULT './modules/..',
@@ -286,3 +294,23 @@ create table `cpm_modules`(
   PRIMARY KEY (`mod_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
+
+create table `cpm_core_roles`(
+  `role_id` int(11) NOT NULL AUTO_INCREMENT,
+  `role_name` varchar(100) DEFAULT 'foo',
+  `role_description` varchar(255) DEFAULT 'for the foo',
+  primary key(`role_id`)
+)ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+
+INSERT INTO `cpm_core_roles` (`role_id`, `role_name`, `role_description`) VALUES
+  (1, 'Administrator', 'super user');
+
+create table `cpm_core_user_roles`(
+  `role_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL
+)ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+
+INSERT INTO `cpm_core_roles` (`role_id`, `user_id`) VALUES
+  (1, 1);

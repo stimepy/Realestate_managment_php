@@ -36,4 +36,18 @@ class Modules {
         }
     }
 
+    /**
+     * @description: Takes a string of the module and sees if it can find that module in the installed modules
+     * @param string $module
+     * @return bool
+     */
+    public function isInstalled($module){
+        foreach($this->myMods as $mod){
+            if($mod['mod_name'] == $module && $mod['mod_installed']){
+                return true;
+            }
+        }
+        return false;
+    }
+
 } 

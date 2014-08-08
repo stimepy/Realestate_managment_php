@@ -55,7 +55,7 @@ class CMaster {
      * @description Configuration is done, run the site.
      */
     function Action() {
-        global $gx_session, $gx_TSM, $gx_users;
+        global $gx_session, $gx_users, $gx_module;
         if(!$gx_users->checkloggedin()){
             $gx_users->GoLogin();
         }
@@ -74,7 +74,7 @@ class CMaster {
             //find out hte action and make it happen
         }
         elseif($module){
-            //get the module and pass control.
+            $gx_module = new Modules();
         }
     }
 

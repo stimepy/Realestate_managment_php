@@ -58,8 +58,8 @@ $_SERVER['PHP_SELF'] = (($pos = strpos(strtolower($_SERVER['PHP_SELF']), ".php")
 unset($pos);
 
 
-global $_TSM, $site, $db;
-$_TSM= array();
+global  $site;
+
 
 $files = array("CUsers_class.php", "CTemplate_class.php", "cconfig_class.php", "CDatabase_class.php",  "CMaster_Class.php", "CSessions_class.php", "Modules_Class.php");
 
