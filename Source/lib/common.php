@@ -1,7 +1,7 @@
 <?php
 /**
  * File description: Class file
- * Class: CXMLParser
+ * Class: common
  * Modified by Kris Sherrerd
  * Last updated: 4/10/2014
  * Changes Copyright 2014 by Kris Sherrerd
