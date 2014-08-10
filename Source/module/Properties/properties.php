@@ -11,3 +11,25 @@
 if(!defined('PMC_INIT')){
     die('Your not suppose to be in here! - Ibid');
 }
+
+$place = GetVar('prop', '')
+
+switch($place){
+    default:
+        propertyOverview();
+        break;
+}
+
+
+function propertyOverview(){
+    global $gx_db, $gx_config, $gx_user;
+
+    if(!$gx_users->permission('properties')){
+
+    }
+
+}
+
+
+
+?>

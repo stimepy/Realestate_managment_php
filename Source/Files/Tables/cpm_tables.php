@@ -16,21 +16,15 @@ if(!defined('PMC_INIT')){
 global $language;
 
 $language["tables"] = Array(
-    "amenities" => SqlPre."amenities",
-    "amenity_income_cost" => SqlPre."amenity_income_cost",
-    "expenses" => SqlPre."expenses",
-    "files" => SqlPre."files",
-    "files_prop" => SqlPre."files_prop",
-    "files_tenant" => SqlPre."files_tenant",
-    "lease_violation => lease_violation",
-    "prop_unit" => SqlPre."prop_unit",
-    "properties" => SqlPre."property",
-    "rent_due" => SqlPre."rent_due",
-    "session" => SqlPre."session",
-    "tenant_site_history" => SqlPre."tenant_site_history",
-    "tenants" => SqlPre."tenants",
-    "users" => SqlPre."users",
-    "vars" => SqlPre."vars",
-    "module" => SqlPre."modules"
+    //core tables
+    "user_role" => SqlPre."cpm_core_user_roles",
+    "roles" => SqlPre."cpm_core_roles",
+    "module" => SqlPre."cpm_core_modules",
+    "users" => SqlPre."cpm_core_users",
+    "files" => SqlPre."cpm_core_files",
+    "files_uploaded" => SqlPre."cmp_core_file_uploaded",
+    "files_link" => SqlPre."cmp_core_file_link",
+    "expenses" => SqlPre."cpm_core_expenses",
+
 );
 
