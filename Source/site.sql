@@ -1,10 +1,3 @@
--- phpMyAdmin SQL Dump
--- version 3.5.2
-
---  Generation Time: Apr 15, 2014 at 03:26 AM
--- Server version: 5.5.25a
--- PHP Version: 5.4.4
-
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 use pm;
@@ -219,6 +212,13 @@ create table `cpm_core_user_roles`(
 INSERT INTO `cpm_core_roles` (`role_id`, `user_id`) VALUES
   (1, 1);
 
+
+
+create table `cpm_core_user_roles_module`(
+  `user_id` int(11) NOT NULL comment 'user id (connect cpm_core_users)'
+  `module_id` int(11) NOT NULL comment 'module id (connect cpm_core_modules)'
+  `module_disallow` text comment 'with in a module limits where they can go.'
+)ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 -- tenents for rent

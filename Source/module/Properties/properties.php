@@ -11,6 +11,11 @@
 if(!defined('PMC_INIT')){
     die('Your not suppose to be in here! - Ibid');
 }
+if(!$gx_users->permission('properties')){
+    //redirect to an error page
+}
+
+
 
 $place = GetVar('prop', '')
 
@@ -24,7 +29,7 @@ switch($place){
 function propertyOverview(){
     global $gx_db, $gx_config, $gx_user;
 
-    if(!$gx_users->permission('properties')){
+    if(!){
 
     }
 

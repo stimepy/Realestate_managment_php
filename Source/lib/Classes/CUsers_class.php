@@ -75,7 +75,9 @@ class CUsers {
     }
 
     public function isAdmin(){
+        global $gx_session;
         $admin=$gx_session->('admin');
-        
     }
+
+    public userpermissions
 } 
