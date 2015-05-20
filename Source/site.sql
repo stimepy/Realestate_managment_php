@@ -11,14 +11,14 @@ use pm;
 CREATE TABLE IF NOT EXISTS `cpm_prop_property` (
   `prop_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'property id',
   `prop_address` text NOT NULL COMMENT 'property address',
-  `prop_city` varchar(200) NOT NULL DEFAULT '' COMMENT 'property city',
-  `prop_state` char(2) NOT NULL DEFAULT '' COMMENT 'property state',
-  `prop_zip` varchar(20) NOT NULL DEFAULT '' COMMENT 'property zip',
+  `prop_city` varchar(200)  COMMENT 'property city',
+  `prop_state` char(2)  COMMENT 'property state',
+  `prop_zip` varchar(20) COMMENT 'property zip',
   `prop_country` varchar(20) NOT NULL DEFAULT 'USA' COMMENT 'property country',
   `prop_description` text NOT NULL COMMENT 'property description',
   `prop_value` decimal(10,2) COMMENT 'property value per last check',
-  `prop_value_owed` decimal(10,2)   `prop_value` decimal(10,2) COMMENT 'Loan amount left to pay',
-  'loan_payment' decimal(10,2) default 0.00 comment 'How much is payed per monthly basis',
+  `prop_value_owed` decimal(10,2) COMMENT 'Loan amount left to pay',
+  `loan_payment` decimal(10,2) default 0.00 comment 'How much is payed per monthly basis',
   `prop_value_sold` decimal(10,2) COMMENT 'Amount property sold for if sold',
   `prop_annual_taxes` decimal(10,2) COMMENT 'property taxes',
   `prop_insurance_cost` decimal(10,2) COMMENT 'property insurance cost',
@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `cpm_prop_property` (
   `created_date` date COMMENT 'Create date',
   `updated_date` date COMMENT 'update date',
   PRIMARY KEY (`prop_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM   AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE IF NOT EXISTS `cpm_prop_amenities` (
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `cpm_prop_amenities` (
   `created_date` date COMMENT 'Create date',
   `updated_date` date COMMENT 'update date',
    PRIMARY KEY (`am_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE IF NOT EXISTS `cpm_prop_amenities_unitprop` (
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `cpm_prop_amenities_unitprop` (
   `created_date` date COMMENT 'Create date',
   `updated_date` date COMMENT 'update date',
   PRIMARY KEY (`am_propunit_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  AUTO_INCREMENT=1 ;
 
 
 
@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `cpm_prop_amenity_income_cost` (
   `created_date` date COMMENT 'Create date',
   `updated_date` date COMMENT 'update date',
   PRIMARY KEY (`am_ic_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+) ENGINE=MyISAM  AUTO_INCREMENT=1;
 
 
 
@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS `cpm_prop_files` (
   `unit_id` int(11) DEFAULT NULL COMMENT 'Unit file is tied to (cpm_prop_unit)',
   `file_num_id` int(10) NOT NULL COMMENT 'File I am connecting to (cpm_core_files)',
   PRIMARY KEY (`prop_file_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  AUTO_INCREMENT=1 ;
 
 
 
@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS `cpm_prop_unit` (
   `created_date` date COMMENT 'Create date',
   `updated_date` date COMMENT 'update date',
   PRIMARY KEY (`unit_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -97,7 +97,7 @@ CREATE TABLE IF NOT EXISTS `cpm_core_files` (
   `file_updated` date COMMENT 'update date',
   `file_removed` date COMMENT 'Remove date',
   PRIMARY KEY (`file_num_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  AUTO_INCREMENT=1 ;
 
 
 
@@ -108,7 +108,7 @@ create table cmp_core_file_uploaded(
   `file_upload` blob COMMENT 'File data',
   `file_size` decimal (10,2) COMMENT 'file size',
   PRIMARY KEY (`file_upload_id`)
-)ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+)ENGINE=MyISAM  AUTO_INCREMENT=1 ;
 
 
 
@@ -116,8 +116,8 @@ create table cmp_core_file_link(
   `file_link_id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'Unique identifier with file link',
   `file_num_id` int(10) NOT NULL COMMENT 'connects to what file id (cpm_core_files)',
   `file_link` text comment 'actual file link',
-  PRIMARY KEY (`file_upload_id`)
-)ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  PRIMARY KEY (`file_link_id`)
+)ENGINE=MyISAM  AUTO_INCREMENT=1 ;
 
 
 
@@ -130,7 +130,7 @@ CREATE TABLE IF NOT EXISTS `cpm_core_expenses` (
   `created_date` date COMMENT 'Create date',
   `updated_date` date COMMENT 'update date',
   PRIMARY KEY (`expense_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+) ENGINE=MyISAM   AUTO_INCREMENT=1;
 
 
 CREATE TABLE IF NOT EXISTS `cpm_core_income` (
@@ -142,7 +142,7 @@ CREATE TABLE IF NOT EXISTS `cpm_core_income` (
   `created_date` date COMMENT 'Create date',
   `updated_date` date COMMENT 'update date',
   PRIMARY KEY (`income_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+) ENGINE=MyISAM   AUTO_INCREMENT=1;
 
 
 CREATE TABLE IF NOT EXISTS `cpm_core_categories` (
@@ -153,7 +153,7 @@ CREATE TABLE IF NOT EXISTS `cpm_core_categories` (
   `created_date` date COMMENT 'Create date',
   `updated_date` date COMMENT 'update date',
   PRIMARY KEY (`cat_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+) ENGINE=MyISAM   AUTO_INCREMENT=1;
 
 
 CREATE TABLE IF NOT EXISTS `cpm_core_users` (
@@ -165,7 +165,7 @@ CREATE TABLE IF NOT EXISTS `cpm_core_users` (
   `created_date` date COMMENT 'Create date',
   `updated_date` date COMMENT 'update date',
   PRIMARY KEY (`user_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2;
+) ENGINE=MyISAM   AUTO_INCREMENT=2;
 
 
 INSERT INTO `cpm_core_users` (`user_id`, `user_name`, `user_email`, `user_login`, `user_password`) VALUES
@@ -184,18 +184,18 @@ create table `cpm_core_modules`(
   `created_date` date COMMENT 'Create date',
   `updated_date` date COMMENT 'update date',
   PRIMARY KEY (`mod_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM   AUTO_INCREMENT=2 ;
 
 
 
 create table `cpm_core_roles`(
   `role_id` int(11) NOT NULL AUTO_INCREMENT comment 'User role id',
   `role_name` varchar(100) DEFAULT 'foo' comment 'User role readable name',
-  `role_description` text DEFAULT 'for the foo' comment 'User role long description',
+  `role_description` text comment 'User role long description',
   `created_date` date COMMENT 'Create date',
   `updated_date` date COMMENT 'update date',
   primary key(`role_id`)
-)ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+)ENGINE=MyISAM   AUTO_INCREMENT=2 ;
 
 
 INSERT INTO `cpm_core_roles` (`role_id`, `role_name`, `role_description`) VALUES
@@ -206,19 +206,19 @@ INSERT INTO `cpm_core_roles` (`role_id`, `role_name`, `role_description`) VALUES
 create table `cpm_core_user_roles`(
   `role_id` int(11) NOT NULL comment 'role id (connects cpm_core_roles)',
   `user_id` int(11) NOT NULL comment 'user id (connect cpm_core_users)'
-)ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+)ENGINE=MyISAM   AUTO_INCREMENT=2 ;
 
 
-INSERT INTO `cpm_core_roles` (`role_id`, `user_id`) VALUES
+INSERT INTO `cpm_core_user_roles` (`role_id`, `user_id`) VALUES
   (1, 1);
 
 
 
 create table `cpm_core_user_roles_module`(
-  `user_id` int(11) NOT NULL comment 'user id (connect cpm_core_users)'
-  `module_id` int(11) NOT NULL comment 'module id (connect cpm_core_modules)'
+  `user_id` int(11) NOT NULL comment 'user id (connect cpm_core_users)',
+  `module_id` int(11) NOT NULL comment 'module id (connect cpm_core_modules)',
   `module_disallow` text comment 'with in a module limits where they can go.'
-)ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+)ENGINE=MyISAM  ;
 
 -- --------------------------------------------------------
 -- tenents for rent
@@ -232,7 +232,7 @@ CREATE TABLE IF NOT EXISTS `cpm_tent_lease_violation` (
   `created_date` date COMMENT 'Create date',
   `updated_date` date COMMENT 'update date',
   PRIMARY KEY (`vio_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  AUTO_INCREMENT=1 ;
 
 
 
@@ -247,7 +247,7 @@ CREATE TABLE IF NOT EXISTS `cpm_tent_rent` (
   `due_date` date NOT NULL,
   `date_payed` date DEFAULT NULL,
   PRIMARY KEY (`rent_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  AUTO_INCREMENT=1 ;
 
 
 
@@ -280,7 +280,7 @@ CREATE TABLE IF NOT EXISTS `cpm_tent tenants` (
   `created_date` date COMMENT 'Create date',
   `updated_date` date COMMENT 'update date',
   PRIMARY KEY (`tenant_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  AUTO_INCREMENT=1 ;
 
 
 
@@ -289,7 +289,7 @@ CREATE TABLE IF NOT EXISTS `cpm_tent_files_tenant` (
   `tenant_id` int(10) NOT NULL,
   `file_num_id` int(10) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  AUTO_INCREMENT=1 ;
 
 
 
@@ -301,4 +301,4 @@ CREATE TABLE IF NOT EXISTS `cpm_tent_site_history` (
   `lease_id` int(10) NOT NULL COMMENT 'Lease agreement for tenant',
   `screening_report_id` int(10) DEFAULT NULL COMMENT 'May have a returning tenant, want to keep this info',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  AUTO_INCREMENT=1 ;

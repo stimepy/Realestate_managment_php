@@ -5,6 +5,6 @@ require "config.php";
 
 $site = new CMaster("./site.xml",true);
 
-$site->action();
+$site-findAction();
 
 ?>

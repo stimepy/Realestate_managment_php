@@ -13,7 +13,7 @@ if(!defined('PMC_INIT')){
     die('Your not suppose to be in here! - Ibid');
 }
 /**
- * Class CSite
+ * Class CMaster
  *
  */
 class CMaster {
@@ -22,39 +22,32 @@ class CMaster {
      * @description set up the website configurations, settings, etc.
      * @access public
      */
-    public function __construct(item) {
-        global $gx_config, $gx_session, $gx_users, $gx_template;
+    public function __construct() {
+        global $gx_config, $gx_session, $gx_users, $gx_template, $gx_db;
 
         //loading the config
         $gx_config = new CConfig();
-        $this->loadDatabase();
 
-        //determine login status....
-        $gx_session = new CSession();
-        $gx_users = new CUsers(item);
-
-        $gx_template = new CTemplate();
-    }
-
-    /**
-     * Loads the database
-     */
-    private function loadDatabase(){
-        global $gx_config, $gx_db;
         //make a connection to db
         if (isset($gx_config->config["database"])) {
             $gx_db = new CDatabase($gx_config->config["database"]);
         }
         else{
-           //Error
+            //Error
         }
+
+        //determine login status....
+        $gx_session = new CSession();
+        $gx_users = new CUsers();
+
+        $gx_template = new CTemplate();
     }
 
 
     /**
      * @description Configuration is done, run the site.
      */
-    function Action() {
+    public function findAction() {
         global $gx_session, $gx_users, $gx_module;
         if(!$gx_users->checkloggedin()){
             $gx_users->GoLogin();
@@ -71,11 +64,28 @@ class CMaster {
         }
 
         if($site){
-            //find out hte action and make it happen
+            switch($site){
+                case "login":
+                default:
+                    $gx_users->GoLogin();
+                    break;
+                case "admin_loc":
+                    echo '<meta http-equiv="refresh" content="0; url=/admin/admin.php" />';
+                    exit;
+                    break;
+
+            }
         }
         elseif($module){
             $gx_module = new Modules();
+            if($gx_module->isInstalled($module)){
+                $gx_module->getModuleStart($module);
+            }
+            else{
+                //nope
+            }
         }
+
     }
 
 

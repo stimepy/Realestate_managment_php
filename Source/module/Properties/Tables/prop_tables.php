@@ -16,12 +16,12 @@ if(!defined('PMC_INIT')){
 global $language;
 
 $language["tables"] = Array(
-    'amenities' => SqlPre.'cpm_prop_amenities',
-    'am_unitprop' => SqlPre.'cpm_prop_amenities_unitprop',
-    'property' =>SqlPre.'cpm_prop_property',
-    'prop_files' => SqlPre.'cpm_prop_files',
-    'unit_files' => SqlPre.'cpm_prop_unit',
-    'amenity_income' => SqlPre.'cpm_prop_amenity_income_cost',
+    'amenities' => SqlPre.'prop_amenities',
+    'am_unitprop' => SqlPre.'prop_amenities_unitprop',
+    'property' =>SqlPre.'prop_property',
+    'prop_files' => SqlPre.'prop_files',
+    'unit_files' => SqlPre.'prop_unit',
+    'amenity_income' => SqlPre.'prop_amenity_income_cost',
 );
 
 ?>
