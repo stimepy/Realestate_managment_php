@@ -24,4 +24,5 @@ $language["tables"] = Array(
     'amenity_income' => SqlPre.'prop_amenity_income_cost',
 );
 
+
 ?>
