@@ -47,12 +47,12 @@ $config = Array(
         "server" => "localhost",
         "login" => "root",
         "password" => "",
-        "default" => "pm",
+        "default" => "pmc",
    ),
 
 );
 
-define("SqlPre", "cmp_");
+define("SqlPre", "cpm_");
 define("TEMPLATE_HOLD", 1);
 define("TEMPLATE_SHOW", 0);
 define("TEMPLATE_RETURN", 2);

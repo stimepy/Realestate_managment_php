@@ -3,8 +3,8 @@
 //define("PB_CRYPT_LINKS" , 1);
 require "config.php";
 
-$site = new CMaster("./site.xml",true);
+$site = new CMaster();
 
-$site-findAction();
+$site->findAction();
 
 ?>

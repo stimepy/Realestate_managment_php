@@ -33,7 +33,7 @@ class CUsers {
                 $password = GetVar('password', '');
 
                 //authentication
-                $user = $gx_db->QuerySelectLimit($gx_config->language['tables']['users'],"user_id, user_name, user_email, user_login, user_level, user_number, user_class, user_super","lower(`user_login`) = lower('{$login_name}') AND `user_password` = '{$password}'");
+                $user = $gx_db->selectRow($gx_config->language['tables']['users'],"user_id, user_name, user_email, user_login","lower(`user_login`) = lower('{$login_name}') AND `user_password` = '{$password}'");
 
                 if (isset($user) && $user != false) {
                     $gx_session->SetSessionItem("user_login",true);
@@ -76,8 +76,8 @@ class CUsers {
 
     public function isAdmin(){
         global $gx_session;
-        $admin=$gx_session->('admin');
+        $admin=$gx_session->GetSessionItem('admin');
     }
 
-    public userpermissions
+    //public userpermissions
 } 

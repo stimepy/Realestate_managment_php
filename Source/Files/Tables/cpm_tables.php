@@ -17,14 +17,14 @@ global $language;
 
 $language["tables"] = Array(
     //core tables
-    "user_role" => SqlPre."cpm_core_user_roles",
-    "roles" => SqlPre."cpm_core_roles",
-    "module" => SqlPre."cpm_core_modules",
-    "users" => SqlPre."cpm_core_users",
-    "files" => SqlPre."cpm_core_files",
-    "files_uploaded" => SqlPre."cmp_core_file_uploaded",
-    "files_link" => SqlPre."cmp_core_file_link",
-    "expenses" => SqlPre."cpm_core_expenses",
+    "user_role" => SqlPre."core_user_roles",
+    "roles" => SqlPre."core_roles",
+    "module" => SqlPre."core_modules",
+    "users" => SqlPre."core_users",
+    "files" => SqlPre."core_files",
+    "files_uploaded" => SqlPre."core_file_uploaded",
+    "files_link" => SqlPre."core_file_link",
+    "expenses" => SqlPre."core_expenses",
 
 );
 
