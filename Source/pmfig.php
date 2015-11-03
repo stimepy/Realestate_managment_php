@@ -1,7 +1,7 @@
 <?php
 /**
  * User: ksherrerd
- * Filename: config.php
+ * Filename: pmfig.php
  * last Modified: 4/10/14
  * Version: 1.1
  */
@@ -11,9 +11,9 @@ error_reporting(E_ALL);
 define("_LIBPATH","./lib/");
 //define("_CLASSPATH", "./lib/Classes/");
 /* load most common functions first*/
-require_once("./lib/Classes/CLibrary_class.php");
+require_once(_LIBPATH."Classes/CLibrary_class.php");
 $gx_library = new CLibrary();
-$gx_library->loadLibraryFile("./lib/","common.php");
+$gx_library->loadLibraryFile(_LIBPATH,"common.php");
 
 
 // Block common bad agents / queries / php issues.
@@ -33,9 +33,12 @@ $oblev_at_start = ob_get_level(); 	// preserve when destroying globals in step C
 //  Find out if register globals is enabled and destroy them if so
 // (DO NOT use the value of any variables before this point! They could have been set by the user)
 //
-$register_globals = true;
+
 if(function_exists('ini_get')) {
     $register_globals = ini_get('register_globals');
+}
+else{
+    $register_globals = true;
 }
 
 if($register_globals == true){
@@ -65,9 +68,9 @@ $files = array("CUsers_class.php", "CTemplate_class.php", "cconfig_class.php", "
 
 
 /* load the rest of the files that are needed. */
-$gx_library->loadLibraryFile("./lib/Classes/",$files,$required = true);
+$gx_library->loadLibraryFile(_LIBPATH."Classes/",$files,$required = true);
 
-$gx_library->loadLibraryFile("./lib/",["mail.php", 'Template_func.php'],$required = false);
+$gx_library->loadLibraryFile(_LIBPATH,["mail.php", 'Template_func.php'],$required = false);
 
 
 

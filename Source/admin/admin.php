@@ -6,6 +6,6 @@
  * Time: 9:50 PM
  */
 
-require "config.php";
+require "pmfig.php";
 
 $site = new CMaster("admin");

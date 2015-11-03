@@ -62,7 +62,7 @@ class properties implements plugin
                 "`updated_date` date COMMENT 'update date'",
                 "PRIMARY KEY (`am_propunit_id`)")
             , "prop_amenity_income_cost" => array("`am_ic_id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'Unique identifier'",
-                "`am_id` int(10) NOT NULL COMMENT 'Amenity id, connects to cpm_prop_amenities'",
+                "`am_propunit_id` int(10) NOT NULL COMMENT 'Amenity id, connects to prop_amenities_unitprop'",
                 "`cred_deb_id` int(11) not null comment 'Connects to income or expense core table based on bred_deb'",
                 "`creddeb` tinyint(1) COMMENT 'Credit or Debit (ie did it cost me or was did income come from it) 0 = credit/income, 1 = debit/expense'",
                 "`created_date` date COMMENT 'Create date'",
@@ -84,12 +84,18 @@ class properties implements plugin
                 "PRIMARY KEY (`unit_id`)")
             ,
         );
-        $gx_module->install_module('properties', $tables);
+        $properties = array('Name'=>'Properties',
+            'Version'=>'1.0 alpha',
+            'Website'=>'http://www.aodhome.com',
+            'Author'=>'Stimepy',
+            'Contact'=>'stimepy@aodhome.com'
+        );
+        $gx_module->install_module($properties, $tables);
 
     }
 
     function version(){
-        return '1.0 alpha';
+        return '';
     }
 }
 

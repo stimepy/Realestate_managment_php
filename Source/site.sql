@@ -1,5 +1,7 @@
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
+create database if NOT EXISTS pm;
+
 use pm;
 --
 -- Database: `pm`
@@ -55,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `cpm_prop_amenities_unitprop` (
 
 CREATE TABLE IF NOT EXISTS `cpm_prop_amenity_income_cost` (
   `am_ic_id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'Unique identifier',
-  `am_id` int(10) NOT NULL COMMENT 'Amenity id, connects to cpm_prop_amenities',
+  `am_propunit_id` int(10) NOT NULL COMMENT 'Amenity id, connects to cpm_prop_amenities_unitprop',
   `cred_deb_id` int(11) not null comment 'Connects to income or expense core table based on bred_deb',
   `creddeb` tinyint(1) COMMENT 'Credit or Debit (ie did it cost me or was did income come from it) 0 = credit/income, 1 = debit/expense',
   `created_date` date COMMENT 'Create date',
@@ -78,6 +80,7 @@ CREATE TABLE IF NOT EXISTS `cpm_prop_files` (
 CREATE TABLE IF NOT EXISTS `cpm_prop_unit` (
   `unit_id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'Unit id',
   `prop_id` int(10) NOT NULL COMMENT 'Property unit is tied to (cpm_prop_properties)',
+  `unit_address` varchar(255) Comment 'Address of Unit if different then street address.',
   `unit_description` text default null COMMENT 'Unit description',
   `num_bedrooms` tinyint(3) COMMENT '# of bedrooms',
   `num_bathrooms` decimal(3,1) COMMENT '# of bathrooms',
@@ -88,6 +91,41 @@ CREATE TABLE IF NOT EXISTS `cpm_prop_unit` (
 ) ENGINE=MyISAM  AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
+-- Repairs!
+
+create table cmp_repair_connector(
+  `repair_id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'repair id',
+  `unit_id` int(10) COMMENT 'Unit id if the repair is unit specific',
+  `prop_id` int(10) NOT NULL COMMENT 'Property id if the repair is for the whole property.'
+);
+
+create table cmp_repair_priority(
+  `repair_priority_id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'repair proprity id',
+  `priority_desc` varchar(255) NOT NULL AUTO_INCREMENT COMMENT 'priority description',
+  `priority_explntn` text NOT NULL AUTO_INCREMENT COMMENT 'priority explained',
+  `priority_order` int(10) COMMENT 'priority order'
+);
+
+insert into cmp_repair_priority (`priority_desc`, `priority_explntn`, `priority_order`)
+    values('Very Low', 'It\'s an issue but no biggy, take your time. 2 months Max', 1),
+    values('Low', 'Needs to be fixed but not right now. 1-2 weeks', 2),
+    values('Medium', 'It\'s a problem, and needs attention sooner rather then later. 1 week or less', 3),
+    values('High', 'I need this fixed as soon as you can.  1-3 days', 4),
+    values('Emergancy', 'It\'s a flood/fire/???? and needs attention NOW!  Contact Landlord' 5);
+
+Create table cmp_repair_category(
+  `repair_cat_id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'repair proprity id',
+  `cat_desc` varchar(255) NOT NULL COMMENT 'priority description'
+);
+
+Create table cmp_repair_files(
+
+)
+
+
+
+-- --------------------------------------------------------
+-- Core
 
 CREATE TABLE IF NOT EXISTS `cpm_core_files` (
   `file_num_id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'File id',
@@ -121,28 +159,15 @@ create table cmp_core_file_link(
 
 
 
-CREATE TABLE IF NOT EXISTS `cpm_core_expenses` (
-  `expense_id` int(11) NOT NULL AUTO_INCREMENT comment 'expense id',
-  `expense_cat` int(11) NOT NULL DEFAULT '0' comment 'expense category',
-  `expense_description` text NOT NULL comment 'expense description',
-  `expense_date_paid` int(11) NOT NULL DEFAULT '0' comment 'date expense was paid',
-  `expense_cost` decimal(12,2) NOT NULL comment 'how much was paid',
-  `created_date` date COMMENT 'Create date',
-  `updated_date` date COMMENT 'update date',
-  PRIMARY KEY (`expense_id`)
+CREATE TABLE IF NOT EXISTS `cpm_core_trasnactions` (
+  `trans_id` int(11) NOT NULL AUTO_INCREMENT comment 'transaction id',
+  `cat_id` int(11) NOT NULL DEFAULT '0' comment 'category',
+  `description` text NOT NULL comment 'description',
+  `trans_date` int(11) NOT NULL DEFAULT '0' comment 'date',
+  `total` decimal(12,2) NOT NULL comment 'how much',
+   PRIMARY KEY (`expense_id`)
 ) ENGINE=MyISAM   AUTO_INCREMENT=1;
 
-
-CREATE TABLE IF NOT EXISTS `cpm_core_income` (
-  `income_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Income id',
-  `income_cat` int(11) NOT NULL DEFAULT '0' COMMENT 'income category',
-  `income_description` text NOT NULL COMMENT 'income description',
-  `income_date_paid` int(11) NOT NULL DEFAULT '0' COMMENT 'date income was received',
-  `income_paid` decimal(12,2) NOT NULL COMMENT 'how much was received',
-  `created_date` date COMMENT 'Create date',
-  `updated_date` date COMMENT 'update date',
-  PRIMARY KEY (`income_id`)
-) ENGINE=MyISAM   AUTO_INCREMENT=1;
 
 
 CREATE TABLE IF NOT EXISTS `cpm_core_categories` (
@@ -179,8 +204,10 @@ create table `cpm_core_modules`(
   `mod_path` varchar(200) DEFAULT './modules/..' comment 'where located based on directory',
   `mod_version` varchar(100) DEFAULT '1.0.0' comment 'version',
   `mod_website` varchar(100) DEFAULT '' comment 'Support Website',
+  `mod_author` varchar(255) DEFAULT '' comment 'Author',
+  `mod_contact` varchar(100) DEFAULT '' comment 'contact',
   `mod_active` tinyint(1) DEFAULT 0 comment 'Is mod active (0= no, 1 = yes)',
-  `mod_installed` tinyint(1) DEFAULT 0 comment 'Is mod installed',
+  `mod_installed` tinyint(1) DEFAULT 0 comment 'Is mod installed (0= no, 1 = yes)',
   `created_date` date COMMENT 'Create date',
   `updated_date` date COMMENT 'update date',
   PRIMARY KEY (`mod_id`)
@@ -215,7 +242,7 @@ INSERT INTO `cpm_core_user_roles` (`role_id`, `user_id`) VALUES
 
 
 create table `cpm_core_user_roles_module`(
-  `user_id` int(11) NOT NULL comment 'user id (connect cpm_core_users)',
+  `role_id` int(11) NOT NULL comment 'user id (connect cpm_core_users)',
   `module_id` int(11) NOT NULL comment 'module id (connect cpm_core_modules)',
   `module_disallow` text comment 'with in a module limits where they can go.'
 )ENGINE=MyISAM  ;
@@ -302,3 +329,4 @@ CREATE TABLE IF NOT EXISTS `cpm_tent_site_history` (
   `screening_report_id` int(10) DEFAULT NULL COMMENT 'May have a returning tenant, want to keep this info',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  AUTO_INCREMENT=1 ;
+

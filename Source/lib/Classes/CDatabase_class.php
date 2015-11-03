@@ -425,5 +425,22 @@ class CDatabase{
         return "'".$this->conn_id->real_escape_string($myString)."'";
 
     }
+
+    public function createtable($table, $columns){
+        $build_tmp = '';
+        $tab_siz = sizeof($columns);
+        $build_tmp += "Create table {$table} ( ";
+        for($i=0;$i<$tab_siz;$i++){
+            $build_tmp += $columns[$i];
+            if(($i+1) != $tab_siz) {
+                $build_tmp += ", ";
+            }
+        }
+        $build_tmp += ";";
+        if($this->callQuery($build_tmp,'')){
+            return true;
+        }
+        return false;
+    }
 }
 ?>

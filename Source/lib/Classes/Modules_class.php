@@ -50,4 +50,20 @@ class Modules {
         return false;
     }
 
+    public function install_module($properties, $table_creation){
+        global $gx_db, $gx_config;
+
+        $tables_sql =array();
+        $build_tmp = '';
+
+        foreach($table_creation as $key => $value){
+            $result =createtable($key, $value);
+        }
+        if($result != false){
+            $gx_db->QueryInsert($gx_config['tables']['module'],$fields)
+        }
+
+
+
+    }
 } 

@@ -1,7 +1,7 @@
 <?php
 
 //define("PB_CRYPT_LINKS" , 1);
-require "config.php";
+require "pmfig.php";
 
 $site = new CMaster();
 

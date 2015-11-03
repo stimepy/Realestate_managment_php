@@ -8,7 +8,7 @@
 
 
 function test(){
-    include('./config.php');
+    include('./pmfig.php');
 
     $session = new CSession();
 
