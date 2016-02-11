@@ -12,12 +12,12 @@ if(!defined('PMC_INIT')){
     die('Your not suppose to be in here! - Ibid');
 }
 
-class properties implements plugin
+class properties_module implements plugin
 {
     function installed()
     {
         global $gx_module;
-        return $gx_module->isInstalled('Properties');
+        return $gx_module->isInstalled('properties');
 
     }
 
@@ -85,7 +85,7 @@ class properties implements plugin
             ,
         );
         $properties = array('Name'=>'Properties',
-            'Version'=>'1.0 alpha',
+            'Version'=>'0.0.1 alpha',
             'Website'=>'http://www.aodhome.com',
             'Author'=>'Stimepy',
             'Contact'=>'stimepy@aodhome.com'
