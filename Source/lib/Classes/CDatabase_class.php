@@ -259,7 +259,7 @@ class CDatabase{
         $where_clause = ($where_clause != "") ? "WHERE {$where_clause} " : "";
 
         // build query
-        $query = "SELECT $fields FROM `$table` {$where_clause}{$order_clause}{$limit_clause}";
+        $query = "SELECT {$fields} FROM `{$table}` {$where_clause}{$order_clause}{$limit_clause}";
         //Run query
         $this->callQuery($query);
         // fetch rows

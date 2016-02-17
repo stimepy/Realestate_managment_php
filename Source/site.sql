@@ -33,6 +33,24 @@ CREATE TABLE IF NOT EXISTS `cpm_prop_property` (
 ) ENGINE=MyISAM   AUTO_INCREMENT=1 ;
 
 
+
+CREATE TABLE IF NOT EXISTS `cpm_prop_loanpayments` (
+  `paymnt_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Payment',
+  `prop_id` int(11) NOT NULL COMMENT 'property id',
+  `paidto` Varchar(255) NOT NULL COMMENT 'property address',
+  `paidto_address` text NOT NULL COMMENT 'property address',
+  `paidto_city` varchar(200)  COMMENT 'property city',
+  `paidto_state` char(2)  COMMENT 'property state',
+  `paidto_zip` varchar(20) COMMENT 'property zip',
+  `paidto_country` varchar(20) NOT NULL DEFAULT 'USA' COMMENT 'property country',
+  `paid` decimal(10,2) COMMENT 'property value per last check',
+  `created_date` date COMMENT 'Create date',
+  `updated_date` date COMMENT 'update date',
+  PRIMARY KEY (`paymnt_id`)
+) ENGINE=MyISAM   AUTO_INCREMENT=1;
+
+
+
 CREATE TABLE IF NOT EXISTS `cpm_prop_amenities` (
   `am_id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'amenities id primary key',
   `description` varchar(255) DEFAULT NULL COMMENT 'Amenity description',
@@ -94,33 +112,42 @@ CREATE TABLE IF NOT EXISTS `cpm_prop_unit` (
 -- Repairs!
 
 create table cmp_repair_connector(
-  `repair_id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'repair id',
+  `repair_id` int(10) NOT NULL AUTO_INCREMENT primary key COMMENT 'repair id',
   `unit_id` int(10) COMMENT 'Unit id if the repair is unit specific',
-  `prop_id` int(10) NOT NULL COMMENT 'Property id if the repair is for the whole property.'
-);
+  `prop_id` int(10) NOT NULL COMMENT 'Property id if the repair is for the whole property.',
+  `repair_priority_id` int(10) NOT NULL COMMENT 'repair proprity id',
+  `repair_cat_id` int(10) NOT NULL COMMENT 'repair proprity id',
+  `repair_desc` LONGTEXT NOT NULL primary key COMMENT 'repair proprity id',
+  PRIMARY KEY (`repair_id`)
+)ENGINE=MyISAM  AUTO_INCREMENT=1;
 
 create table cmp_repair_priority(
-  `repair_priority_id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'repair proprity id',
-  `priority_desc` varchar(255) NOT NULL AUTO_INCREMENT COMMENT 'priority description',
-  `priority_explntn` text NOT NULL AUTO_INCREMENT COMMENT 'priority explained',
-  `priority_order` int(10) COMMENT 'priority order'
-);
+  `repair_priority_id` int(10) NOT NULL AUTO_INCREMENT primary key COMMENT 'repair proprity id',
+  `priority_desc` varchar(255) NOT NULL COMMENT 'priority description',
+  `priority_explntn` text NOT NULL COMMENT 'priority explained',
+  `priority_order` int(10) COMMENT 'priority order',
+  PRIMARY KEY (`repair_priority_id`)
+)ENGINE=MyISAM  AUTO_INCREMENT=1;
 
 insert into cmp_repair_priority (`priority_desc`, `priority_explntn`, `priority_order`)
     values('Very Low', 'It\'s an issue but no biggy, take your time. 2 months Max', 1),
-    values('Low', 'Needs to be fixed but not right now. 1-2 weeks', 2),
-    values('Medium', 'It\'s a problem, and needs attention sooner rather then later. 1 week or less', 3),
-    values('High', 'I need this fixed as soon as you can.  1-3 days', 4),
-    values('Emergancy', 'It\'s a flood/fire/???? and needs attention NOW!  Contact Landlord' 5);
+    ('Low', 'Needs to be fixed but not right now. 1-2 weeks', 2),
+    ('Medium', 'It\'s a problem, and needs attention sooner rather then later. 1 week or less', 3),
+    ('High', 'I need this fixed as soon as you can.  1-3 days', 4),
+    ('Emergancy', 'It\'s a flood/fire/???? and needs attention NOW!  Contact Landlord', 5);
 
 Create table cmp_repair_category(
-  `repair_cat_id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'repair proprity id',
+  `repair_cat_id` int(10) NOT NULL AUTO_INCREMENT primary key COMMENT 'repair proprity id',
   `cat_desc` varchar(255) NOT NULL COMMENT 'priority description'
-);
+)ENGINE=MyISAM  AUTO_INCREMENT=1 ;
 
-Create table cmp_repair_files(
+Create table cmp_repair_files (
+  `id`          INT(10) NOT NULL AUTO_INCREMENT,
+  `repair_id`   INT(10) NOT NULL,
+  `file_num_id` INT(10) NOT NULL,
+  PRIMARY KEY (`id`)
+)ENGINE=MyISAM  AUTO_INCREMENT=1 ;
 
-)
 
 
 
@@ -165,7 +192,7 @@ CREATE TABLE IF NOT EXISTS `cpm_core_trasnactions` (
   `description` text NOT NULL comment 'description',
   `trans_date` int(11) NOT NULL DEFAULT '0' comment 'date',
   `total` decimal(12,2) NOT NULL comment 'how much',
-   PRIMARY KEY (`expense_id`)
+   PRIMARY KEY (`trans_id`)
 ) ENGINE=MyISAM   AUTO_INCREMENT=1;
 
 
@@ -278,7 +305,7 @@ CREATE TABLE IF NOT EXISTS `cpm_tent_rent` (
 
 
 
-CREATE TABLE IF NOT EXISTS `cpm_tent tenants` (
+CREATE TABLE IF NOT EXISTS `cpm_tent_tenants` (
   `tenant_id` int(10) NOT NULL AUTO_INCREMENT,
   `cur_prop_id` int(11) NOT NULL,
   `cur_unit_id` int(10) NOT NULL,
