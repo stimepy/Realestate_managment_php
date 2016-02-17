@@ -1,2 +1,4 @@
 .idea/
 Documentation/Creating Web Page Twig.pdf
+Source/vendor/phpfastcache/
+composer.phar
