@@ -36,7 +36,8 @@ function propertyOverview(){
     left join (select cur_prop_id prop_id, sum(active) tntcnt from '. $gx_config->language['tables']['tent_tenants'] .')ten_cnt
     using(prop_id)';
 
-    $results = $gx_db->QuerySelect($table,$sqlselects);
+    $prop_results = $gx_db->QuerySelect($table,$sqlselects);
+
 }
 
 

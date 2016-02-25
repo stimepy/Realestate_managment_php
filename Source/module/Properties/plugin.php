@@ -95,7 +95,7 @@ class properties_module implements plugin
     }
 
     function version(){
-        return '';
+        return '0.01';
     }
 }
 

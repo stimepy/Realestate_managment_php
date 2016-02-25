@@ -60,7 +60,7 @@ class Modules {
             $result =createtable($key, $value);
         }
         if($result != false){
-            $gx_db->QueryInsert($gx_config['tables']['module'],$properties)
+            $gx_db->QueryInsert($gx_config['tables']['module'],$properties);
         }
 
 
