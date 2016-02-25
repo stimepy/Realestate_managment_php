@@ -43,7 +43,7 @@ function DoEvents($event) {
 		$_POST["task_user"] = $_SESSION["minibase"]["user"];
 
 	if($_SESSION["minibase"]["raw"]["user_level"] == 1) {
-		$_CONF["forms"]["adminpath"] = $_CONF["forms"]["userpath"];
+		$_CONF["oldforms"]["adminpath"] = $_CONF["oldforms"]["userpath"];
 	}
 
 	switch ($_GET["sub"]) {
@@ -58,11 +58,11 @@ function DoEvents($event) {
 		case "expenses":
 
 			if (($_GET["sub"] == "properties") && ($_GET["action"] == "details")) {
-				$task = new CSQLAdmin("expenses", $_CONF["forms"]["admintemplate"],$event->db,$event->tables , $extra);
+				$task = new CSQLAdmin("expenses", $_CONF["oldforms"]["admintemplate"],$event->db,$event->tables , $extra);
 				$extra["details"]["fields"]["button"] = $task->DoEvents();			
 			}
 
-			$data = new CSQLAdmin($_GET["sub"], $_CONF["forms"]["admintemplate"],$event->db,$event->tables,$extra);
+			$data = new CSQLAdmin($_GET["sub"], $_CONF["oldforms"]["admintemplate"],$event->db,$event->tables,$extra);
 
 			if (($_GET["sub"] == "properties") && ($_GET["action"] == "details")) {
                 $expense = $event->db->QuerySelectLimit($event->tables[expenses],'sum(expense_cost)', "expense_prop ='{$_GET[prop_id]}' " .
@@ -74,7 +74,7 @@ function DoEvents($event) {
                 $property = $event->db->QuerySelectLimit($event->tables[properties], '*', "prop_id='{$_GET[prop_id]}'");
 				//$property = $event->db->QFetchArray("SELECT * FROM {$event->tables[properties]} WHERE prop_id='{$_GET[prop_id]}'");
 
-				$data->forms["forms"]["details"]["fields"]["expense_total"]= array(
+				$data->forms["oldforms"]["details"]["fields"]["expense_total"]= array(
 															
 															"type" => "text",
 															"title" => "Expenses Total",
@@ -83,7 +83,7 @@ function DoEvents($event) {
 															"forcevalue" => $expense['sum(expense_cost)']
 															);
 
-				$data->forms["forms"]["details"]["fields"]["expense_income"]= array(
+				$data->forms["oldforms"]["details"]["fields"]["expense_income"]= array(
 															
 															"type" => "text",
 															"title" => "Leased Amount",
@@ -93,7 +93,7 @@ function DoEvents($event) {
 															);
 
 				if ($_GET["date_month"] && $_GET["date_year"])
-					$data->forms["forms"]["details"]["fields"]["expense_income2"]= array(
+					$data->forms["oldforms"]["details"]["fields"]["expense_income2"]= array(
 																
 																"type" => "text",
 																"title" => "Profit",
@@ -118,7 +118,7 @@ function DoEvents($event) {
 				$_POST["user_id"] = $_SESSION["minibase"]["raw"]["user_id"];
 			}
 			
-			$data = new CSQLAdmin($_GET["sub"], $_CONF["forms"]["admintemplate"],$event->db,$event->tables);
+			$data = new CSQLAdmin($_GET["sub"], $_CONF["oldforms"]["admintemplate"],$event->db,$event->tables);
 			return $data->DoEvents();
 		break;
 

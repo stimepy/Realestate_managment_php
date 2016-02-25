@@ -16,18 +16,19 @@ $global_config = Array (
     "default_location" => "index.php",
     "language" => "English",
     "version" => "0.0.01",
+    "theme" => "Alpha",
 	);
 
 
 $config = Array(
     /**
-     * Paths, forms.
+     * Paths, oldforms.
      */
     "paths" => Array(
         "root" => "./",
         "backpath" => "../",
-        "formspath" => "./forms/",
-        "templatepath" => "./templates/",
+        "formspath" => "./oldforms/",
+        "themepath" => "./themes/",
         "imagespath" => "./images/",
         "modulepath" => "./module/",
         "libpath"  => "./lib/",
@@ -35,6 +36,7 @@ $config = Array(
         "class" => "Classes/",
         "admin" => "admin/",
         "users" => "users/",
+        "vendor" => "./vendor/",
 
     ),
 

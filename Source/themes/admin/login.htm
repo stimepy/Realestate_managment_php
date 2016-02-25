@@ -1,0 +1,102 @@
+
+<!--S:Login-->
+			<!-- BOX -->
+            <table cellpadding="0" cellspacing="0" style="width:540;">
+                <tr>
+                    <td style ="height:1; background-color:#9DBEE6;"  colspan="3" >
+                        <img src="images/dot.gif">
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:1;  background-color:#9DBEE6;" >
+                        <img src="images/dot.gif">
+                    </td>
+                    <td style="height:23;padding-left:10px;padding-top:7px;font-family:verdana;color:white;font-weight:bold;   background-image:url('images/forms_caption.gif');">
+                        &nbsp; Login
+                    </td>
+                    <td style="width:1; background-color:#9DBEE6;">
+                        <img src="images/dot.gif">
+                    </td>
+                </tr>
+                <tr>
+                	<td style="width:1; background-color:#9DBEE6;">
+                        <img src="images/dot.gif">
+                    </td>
+                    <td style="background-color:#9DBEE6;">
+            <form method=post action="index.php" onsubmit="" name=login>
+			<br><br>
+						<!-- LOGIN FORM -->
+						<table style="height:150; text-align:center;" cellpadding=7 cellspacing=0 >
+							<tr>
+								<td class="box_title">Login</td>
+							</tr>
+							<tr>
+								<td class="box_content" style="padding-left:20px;">									
+									Enter the username and password for site administrator.
+								</td>
+							</tr>
+							<tr>
+								<td style="text-align:center;">
+									<table>
+										<tr>
+											<td class="box_content">USERNAME:</td>
+											<td class="box_content">
+                                                <input type="text" class="login_input" name="user" /></td>
+											<td>
+                                                <img width=20 height=1 src="images/dot.gif"></td>
+											<td class="box_content">
+                                                <a href="javascript:document.forms[0].submit();" onclick="">
+                                                    <img src="images/buttons/button_login.gif" border="0" >
+                                                </a>
+                                                <!--<script> draw_button("login","javascript:document.oldforms[0].submit();","");</script>-->
+											</td>
+										</tr>
+										<tr>
+											<td class="box_content">PASSWORD:</td>
+											<td class="box_content"><input class="login_input" type="password" name="pass"></td>
+											<td><img width=20 height=1 src="images/dot.gif"></td>
+											<td class="box_content">
+                                                <a href="javascript:document.forms[0].reset();">
+                                                    <img src="images/buttons/button_cancel.gif" border="0" >
+                                                </a>
+                                                <input type="hidden" value="go" name="login" />
+											</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</table>
+						<!-- LOGIN FORM -->
+
+			</form>
+                </td>
+                <td style="width:1; background-color:#9DBEE6;">
+                    <img src="images/dot.gif">
+                </td>
+            </tr>
+            <tr>
+                <td style ="height:1;width:1;background-color:#9DBEE6;">
+                    <img src="images/dot.gif">
+                </td>
+                <td colspan=2 style="height:1; background-color:#9DBEE6;" >
+                    <img src="images/dot.gif">
+                </td>
+            </tr>
+            </table>
+<!--E:Login-->
+
+<!--S:MenuAdmin-->
+								<table style="border:0;"  cellspacing="2">
+									<tr>
+										<td><img src="images/layout_link.gif"></td>
+										<td><a class="link_menu" href="index.php?sub=properties">Properties</a></td>
+									</tr>
+								</table>
+								<table style="border:0;" cellspacing="2">
+									<tr>
+										<td><img src="images/layout_link.gif"></td>
+										<td><a class="link_menu" href="index.php?sub=users">Users Management</a></td>
+									</tr>
+								</table>
+
+<!--E:MenuAdmin-->

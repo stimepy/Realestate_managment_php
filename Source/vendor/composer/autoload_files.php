@@ -6,5 +6,5 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    $vendorDir . '/phpfastcache/phpfastcache/phpfastcache.php',
+    'ea450d5a56bc6bffbb070afb8893fd6e' => $vendorDir . '/phpfastcache/phpfastcache/phpfastcache.php',
 );

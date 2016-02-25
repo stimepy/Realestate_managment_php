@@ -31,9 +31,10 @@ class CTemplate {
      */
     public function __construct(){
         global $gx_config, $gx_library;
-        $gx_library->loadLibraryFile($gx_config->config['paths']['libpath'].$gx_config->config['paths']['class']."Twig/" , 'Autoloader.php');
-        Twig_Autoloader::register();
-        $this->loader = new Twig_Loader_Filesystem('templates/alpha/layout');
+        $theme = $gx_config['config']['theme']; //todo: set up for db to overwrite this.
+
+        $gx_library->loadLibraryFile($gx_config->config['paths']['vendor'], 'Autoloader.php');
+        $this->loader = new Twig_Loader_Filesystem($gx_config['paths']['themepath'].$theme);
         $this->envir = new Twig_Environment($this->loader);
         $this->envir_vars = array();
         $this->template = array();
@@ -51,7 +52,7 @@ class CTemplate {
         if(!isset($name)){
             $name = 'Tid'.(sizeof($this->template)+1);
         }
-        $this->template[$name] = $this->envir->loadTemplate($template);
+        $this->template[$name] = $template; // $this->envir->loadTemplate($template);
         return $name;
     }
 
