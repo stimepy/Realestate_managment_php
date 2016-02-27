@@ -12,15 +12,17 @@ if(!defined('PMC_INIT')){
 }
 
 
+/**
+ *
+ */
 function CreateHeader(){
     global $gx_template;
-    $tid = $gx_template->AddTemplate('Main_head.tpl');
+    $tid = $gx_template->AddInitTemplate('Main_head.tpl');
     //todo  title, nav buttoms etc.  not manually!
 
     $gx_template->AddVariables($tid, 'Capital Property Management',  'title' );
     $gx_template->AddVariables($tid,['style'=>'style.css', 'buttons' => [['url'=>'index.php?mod=properties' ,'link_name'=>'Properties']]] );
-
-    $gx_template->RenderTemplate($tid, $display = true, $display_type = TEMPLATE_HOLD);
+  //  $gx_template->RenderTemplate($tid, $display = flase, $display_type = TEMPLATE_HOLD);
     AddSideMenu();
 }
 
@@ -31,7 +33,7 @@ function CreateFooter(){
     $gx_template->AddVariables($tid, 'Capital Property Management',  'website' );
     //$gx_template->AddVariables($tid, [['link' => 'index.php?mod=properties'], 'title' => 'Properties' ],  'footlinks' );
 
-    $gx_template->RenderTemplate($tid, $display = true);
+    $gx_template->RenderTemplate($gx_template->getTemplate(), $display = true);
 }
 
 function AddSideMenu(){
@@ -39,7 +41,7 @@ function AddSideMenu(){
     $tid = $gx_template->AddTemplate('Main_menu.tpl');
     //todo create menus, title, etc.  not manually!
     $gx_template->AddVariables($tid, ['sidbars'=>[['menu_title'=>'Navigation', 'items'=>[['link'=>'#', 'name'=>'Thing you Do!']] ]] ] );
-    $gx_template->RenderTemplate($tid, $display = true, $display_type = TEMPLATE_HOLD);
+//     $gx_template->RenderTemplate($tid, $display = true, $display_type = TEMPLATE_HOLD);
 
 }
 

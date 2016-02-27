@@ -23,6 +23,7 @@ class CTemplate {
     private $template;
     private $rendered;
     private $display_ready;
+    private $templace_interator = 0;
 
     /**
      * Basic constructor.  Loads twig and
@@ -54,6 +55,19 @@ class CTemplate {
         }
         $this->template[$name] = $template; // $this->envir->loadTemplate($template);
         return $name;
+    }
+
+    /**
+     *  Get a template, and returns it
+     * @param string $template
+     * @param null string $name
+     * @return string
+     */
+    public function getTemplate($name){
+        if(isset($name)){
+            return $this->template[$name]; // $this->envir->loadTemplate($template)
+        }
+        return $this->template[$this->templace_interator++]; // $this->envir->loadTemplate($template)
     }
 
     /**

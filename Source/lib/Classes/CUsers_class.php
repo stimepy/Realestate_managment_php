@@ -50,6 +50,7 @@ class CUsers {
             else if($gx_session->GetSessionItem('user_login') == true){
                 $this->loggedin = $gx_session->GetSessionItem('user_login');
                 $this->user_info = $gx_session->GetSessionItem('user_info');
+                $this->loggedin = true;
             }
             else{
                 $this->loggedin = false;
@@ -63,15 +64,17 @@ class CUsers {
 
     public function GoLogin(){
         global $gx_template;
+
         CreateHeader();
-        $tid = $gx_template->AddTemplate('Main_Content.tpl');
-        $tid2 = $gx_template->AddTemplate('Login.tpl');
-        $gx_template->AddVariables($tid2,array('username'=>GetVar('username', ''), 'fail'=>'notsure', 'redirect'=>'here'));
-        $temp = $gx_template->RenderTemplate($tid2, true, TEMPLATE_RETURN);
+
+     //   $tid = $gx_template->AddInitTemplate('Main_Content.tpl');
+        $gx_template->AddTemplate('Login.tpl');
+        $gx_template->AddVariables($tid,array('username'=>GetVar('username', ''), 'fail'=>'notsure', 'redirect'=>'here'));
+        $temp = $gx_template->RenderTemplate($tid, true, TEMPLATE_RETURN);
         $gx_template->AddVariables($tid,$temp,'content');
         $gx_template->RenderTemplate($tid, true, TEMPLATE_HOLD);
         CreateFooter();
-        exit;
+        exit(0);
     }
 
     public function isAdmin(){

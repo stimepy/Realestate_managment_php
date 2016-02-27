@@ -49,9 +49,12 @@ class CMaster {
      */
     public function findAction() {
         global $gx_session, $gx_users, $gx_module;
+
         if(!$gx_users->checkloggedin()){
+
             $gx_users->GoLogin();
         }
+
 
         //first figure out if we are doing a core action, or a module action
         $site = GetVar('core', false);
