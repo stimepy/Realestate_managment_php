@@ -24,6 +24,7 @@ class CTemplate {
     private $rendered;
     private $display_ready;
     private $templace_interator = 0;
+    private $mystart_template;
 
     /**
      * Basic constructor.  Loads twig and
@@ -54,6 +55,9 @@ class CTemplate {
             $name = 'Tid'.(sizeof($this->template)+1);
         }
         $this->template[$name] = $template; // $this->envir->loadTemplate($template);
+        if(sizeof($this->template)==1){
+            $this->mystart_template = $name;
+        }
         return $name;
     }
 
@@ -87,8 +91,7 @@ class CTemplate {
         }
 
         if(isset($this->envir_vars[$tid]) && is_array($this->envir_vars[$tid])){
-            $this->envir_vars[$tid] = array_merge($this->envir_vars[$tid],$var);
-
+           $this->envir_vars[$tid] = array_merge($this->envir_vars[$tid], $var);
         }
         else{
             $this->envir_vars[$tid] = $var;
@@ -107,6 +110,7 @@ class CTemplate {
     }
 
     /**
+     * Deprecated
      * Renders the template, does not display by default
      * @param $tid
      * @param false bool $display
@@ -123,50 +127,7 @@ class CTemplate {
        return true;
     }
 
-    /**
-     * Takes an array in the format of array(array(tid,name)[array(tidb,name),...],tid)
-     * Will render each of your templates, will ALSO render a template then take that
-     * rendered template as a piece of content to put into a variable to be rendered.
-     *  ie. You render tid, and using name set name as the variable to be rendered by template of
-     *  tidb
-     * if you choose to display will use the last tid as the ultimate renderer.
-     * @param array $atid
-     * @param bool $nexttidrender
-     * @param bool $displaylast
-     * @return bool
-     */
-    public function RenderTemplatesMulti($atid, $nexttidrender = true, $displaylast = false, $display_type = TEMPLATE_SHOW){
-        $multi = 0;
-        if(!is_array($atid)){
-            //todo error!
-            return false;
-        }
-        $curtid = '';
-        $count = 1;
-        foreach($atid as $value){
-            if(is_array($value)){
-                $curtid = $value[0];
-                $curname = $value[1];
-            }
-            else{
-                $curtid = $value;
-            }
-            $this->RenderTemplate($curtid);
-            if($nexttidrender){
-                $nexttid=(isset($atid[$count]) && is_array($atid[$count]) )? $atid[$count][0] : false;
-                if($nexttid != false){
-                    $this->AddVariables($nexttid, $this->rendered[$curtid],$curname);
-                }
-            }
-            $count++;
-        }
-        if($displaylast){
-            $this->DisplayTemplate($curtid, $display_type);
-        }
-        return true;
-    }
-
-    /**
+     /**
      * Will display the rendered template(s)
      * @param string $tid
      */
