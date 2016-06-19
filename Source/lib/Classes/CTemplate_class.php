@@ -17,7 +17,7 @@ if(!defined('PMC_INIT')){
  * Using twig, creates and renders the templates.
  */
 class CTemplate {
-    private $loader;
+    private $template_path;
     private $envir;
     private $envir_vars;
     private $template;
@@ -35,9 +35,9 @@ class CTemplate {
         global $gx_config, $gx_library;
         $theme = $gx_config['config']['theme']; //todo: set up for db to overwrite this.
 
-        $gx_library->loadLibraryFile($gx_config->config['paths']['vendor'], 'Autoloader.php');
-        $this->loader = new Twig_Loader_Filesystem($gx_config['paths']['themepath'].$theme);
-        $this->envir = new Twig_Environment($this->loader);
+        //$gx_library->loadLibraryFile($gx_config->config['paths']['vendor'], 'Autoloader.php');
+        $this->template_path = $gx_config['paths']['themepath'].$theme;
+       // $this->envir = new Twig_Environment($this->loader);
         $this->envir_vars = array();
         $this->template = array();
         $this->rendered = array();
